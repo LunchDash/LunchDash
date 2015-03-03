@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LunchDash</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_restaurant_search">RestaurantSearchActivity</string>
+    <string name="hint_restaurant_search">Search for...</string>
+</resources>
