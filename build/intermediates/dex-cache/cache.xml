@@ -9,6 +9,13 @@
         <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-80cc5eb0c41746e4fbb315aad6b444e26923863d.jar" />
     </item>
     <item
+        jar="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-ea53ddf8f755320d43e247e88df9cbdf53e64572.jar" />
+    </item>
+    <item
         jar="C:\Users\L33t\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.4.0\f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2\picasso-2.4.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -23,13 +30,6 @@
         <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\classes-dddeca873a9454fd652bbf812137392fcb512c65.jar" />
     </item>
     <item
-        jar="C:\Users\L33t\.gradle\caches\modules-2\files-2.1\org.scribe\scribe\1.3.6\b726b1e6f6c77177fe3cf968c92c9211da446b4\scribe-1.3.6.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="0b726b1e6f6c77177fe3cf968c92c9211da446b4">
-        <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\scribe-1.3.6-678e143b3674eeb1e119683421f460c85028187a.jar" />
-    </item>
-    <item
         jar="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -37,11 +37,11 @@
         <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\classes-d87501b4b915a0308abafcd31048724c447f2001.jar" />
     </item>
     <item
-        jar="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="C:\Users\L33t\.gradle\caches\modules-2\files-2.1\org.scribe\scribe\1.3.6\b726b1e6f6c77177fe3cf968c92c9211da446b4\scribe-1.3.6.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-ea53ddf8f755320d43e247e88df9cbdf53e64572.jar" />
+        sha1="0b726b1e6f6c77177fe3cf968c92c9211da446b4">
+        <dex dex="C:\Users\L33t\AndroidStudioProjects\LunchDash\app\build\intermediates\pre-dexed\debug\scribe-1.3.6-678e143b3674eeb1e119683421f460c85028187a.jar" />
     </item>
 
 </items>

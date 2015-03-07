@@ -6,12 +6,12 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/lvRestaurants"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -29,23 +29,23 @@
             android:hint="@string/hint_restaurant_search"
             android:layout_weight="0.7" />
 
-        <!--
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="New Button"
-                    android:id="@+id/button"
-                    android:layout_weight="0.3" />
-        -->
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ib_filter"
+            android:src="@drawable/ic_filter"
+            android:layout_weight="0.15"
+            android:onClick="onFilterClick" />
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/ib_search"
             android:src="@android:drawable/ic_menu_search"
-            android:layout_weight="0.3"
+            android:layout_weight="0.15"
             android:onClick="onRestaurantSearch" />
 
 
     </LinearLayout>
+
 </RelativeLayout>

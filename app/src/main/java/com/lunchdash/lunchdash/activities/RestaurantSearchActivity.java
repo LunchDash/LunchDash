@@ -2,6 +2,7 @@ package com.lunchdash.lunchdash.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import com.lunchdash.lunchdash.APIs.Keys;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.adapters.RestaurantsArrayAdapter;
+import com.lunchdash.lunchdash.fragments.FilterDialog;
 import com.lunchdash.lunchdash.models.Restaurant;
 
 import org.json.JSONException;
@@ -57,8 +59,12 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         adapterRestaurants.addAll(restaurants);
         adapterRestaurants.notifyDataSetChanged();
         lvRestaurants.smoothScrollToPosition(0);
+    }
 
-
+    public void onFilterClick(View v) {
+        FragmentManager fm = getSupportFragmentManager();
+        FilterDialog fd = FilterDialog.newInstance();
+        fd.show(fm, "fragment_filter_options");
     }
 
 
