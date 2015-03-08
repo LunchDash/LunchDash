@@ -1,5 +1,7 @@
 package com.lunchdash.lunchdash.APIs;
 
+import android.util.Log;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
@@ -24,10 +26,47 @@ public class YelpAPI {
         this.accessToken = new Token(token, tokenSecret);
     }
 
-    public String searchForRestaurants(String term, String location) {
+    public String searchForRestaurants(String term, String latitude, String longitude, String sortBy, String maxDistance) {
         OAuthRequest request = createOAuthRequest(SEARCH_PATH);
         request.addQuerystringParameter("term", term);
-        request.addQuerystringParameter("location", location);
+
+        String ll = latitude + "," + longitude;
+        request.addQuerystringParameter("ll", ll); //Specify location by "Geographic Coordinate" aka latitude longitude
+
+        String sortParam = null;
+        switch (sortBy) {
+            case "Best Match":
+                sortParam = "0";
+                break;
+            case "Distance":
+                sortParam = "1";
+                break;
+            case "Rating":
+                sortParam = "2";
+                break;
+        }
+        request.addQuerystringParameter("sort", sortParam);
+
+        String maxDistanceParam = "";
+        switch (maxDistance) {
+            case "2 blocks": // 1 block is approximated to about 200 meters
+                maxDistanceParam = "400";
+                break;
+            case "6 blocks":
+                maxDistanceParam = "1200";
+            case "1 mile":
+                maxDistanceParam = "1609";
+                break;
+            case "5 miles":
+                maxDistanceParam = "8046";
+                break;
+            default:
+                maxDistanceParam = "40000"; // ~24.8548 miles
+        }
+        request.addQuerystringParameter("radius_filter", maxDistanceParam);
+
+        Log.d("DEBUG", "Querying... term=" + term + " latitude=" + latitude + " longitude=" + longitude + " sortBy=" + sortParam + " maxDistance=" + maxDistanceParam);
+
         return sendRequestAndGetResponse(request);
     }
 

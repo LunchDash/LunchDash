@@ -29,6 +29,9 @@ public class Restaurant {
     private String snippetImageUrl;
     private String snippetText;
     private double distance;
+    private double latitude;
+
+    private double longitude;
 
     private String[][] categories; //Array that contains 2 item arrays that have name/alias eg: [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
 
@@ -60,6 +63,8 @@ public class Restaurant {
 
             restaurant.zipcode = location.getString("postal_code");
             restaurant.state = location.getString("state_code");
+            restaurant.latitude = location.getJSONObject("coordinate").getDouble("latitude");
+            restaurant.longitude = location.getJSONObject("coordinate").getDouble("longitude");
             restaurant.mobileUrl = jo.getString("mobile_url");
             restaurant.name = jo.getString("name");
             restaurant.ratingImgUrl = jo.getString("rating_img_url");
@@ -189,6 +194,14 @@ public class Restaurant {
 
     public double getDistance() {
         return distance;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
     }
 
 }

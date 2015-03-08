@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -46,9 +47,18 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     public void onRestaurantSearch(View v) {
         EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
         String searchTerm = etRestaurantSearch.getText().toString();
+
+        //METHOD TO GRAB CURRENT LAT/LONG
+        String latitude = "37.525773";
+        String longitude = "-122.286674";
+        SharedPreferences filters = getSharedPreferences("settings", 0);
+        String sortBy = filters.getString("sortBy", "Best Match");
+        String maxDistance = filters.getString("maxDistance", "Best Match");
+
         if (searchTerm.equals("")) return;
         try {
-            restaurants = new ConnectToYelp().execute(searchTerm, "San Francisco, CA").get();
+            //term, latitude, longitude, sortBy, maxDistance
+            restaurants = new ConnectToYelp().execute(searchTerm, latitude, longitude, sortBy, maxDistance).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -93,7 +103,14 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     private class ConnectToYelp extends AsyncTask<String, Void, ArrayList<Restaurant>> {
         @Override
         protected ArrayList<Restaurant> doInBackground(String... params) {
-            String jsonResults = yapi.searchForRestaurants(params[0], params[1]);
+
+            String term = params[0];
+            String latitude = params[1];
+            String longitude = params[2];
+            String sortBy = params[3];
+            String maxDistance = params[4];
+
+            String jsonResults = yapi.searchForRestaurants(term, latitude, longitude, sortBy, maxDistance);
             ArrayList<Restaurant> results = null;
             try {
                 results = Restaurant.fromJSONArray((new JSONObject(jsonResults)).getJSONArray("businesses"));
