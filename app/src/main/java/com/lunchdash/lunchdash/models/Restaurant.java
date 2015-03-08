@@ -32,6 +32,12 @@ public class Restaurant {
 
     private String[][] categories; //Array that contains 2 item arrays that have name/alias eg: [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
 
+    private boolean selected=false;
+    //toggle selected
+    public void toggleSelected() {
+        this.selected = !this.selected;
+    }
+
     public static Restaurant fromJSON(JSONObject jo) {
         Restaurant restaurant = new Restaurant();
         try {
@@ -190,5 +196,14 @@ public class Restaurant {
     public double getDistance() {
         return distance;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 
 }
