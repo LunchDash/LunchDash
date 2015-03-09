@@ -1,4 +1,4 @@
-package com.lunchdash.lunchdash.fragements;
+package com.lunchdash.lunchdash.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
