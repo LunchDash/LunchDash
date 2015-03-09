@@ -30,17 +30,11 @@ public class Restaurant {
     private String snippetText;
     private double distance;
     private double latitude;
-
     private double longitude;
 
     private String[][] categories; //Array that contains 2 item arrays that have name/alias eg: [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
 
     private boolean selected = false;
-
-    //toggle selected
-    public void toggleSelected() {
-        this.selected = !this.selected;
-    }
 
     public static Restaurant fromJSON(JSONObject jo) {
         Restaurant restaurant = new Restaurant();
@@ -203,5 +197,14 @@ public class Restaurant {
 
     public double getLatitude() {
         return latitude;
+    }
+
+    //Set selected
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 }

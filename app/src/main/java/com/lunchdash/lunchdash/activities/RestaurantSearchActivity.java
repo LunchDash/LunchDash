@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -56,9 +57,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         adapterRestaurants = new RestaurantsArrayAdapter(this, restaurants);
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);
-
-       // tvSelectedRestaurantCount = (TextView) findViewById(R.id.tvSelectedRestaurantCount);
-      //  setupListViewListener();
     }
 
     @Override
@@ -96,6 +94,11 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
+        for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants.
+            restaurants.get(i).setSelected(false);
+        }
+
         adapterRestaurants.notifyDataSetChanged();
         adapterRestaurants.clear();
         adapterRestaurants.addAll(restaurants);
@@ -182,34 +185,24 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         }
     }
 
- /*   private void setupListViewListener() {
-        lvRestaurants.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    public void onFinishedClick(View v) {
 
-        lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                restaurants.get(position).toggleSelected();
-
-                tvSelectedRestaurantCount.setText(lvRestaurants.getCheckedItemCount() + " Selected");
-
-                //Toast.makeText(view.getContext(), restaurants.get(position).getName() + restaurants.get(position).isSelected()
-                //        , Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    public void onClickDoneButton(View v) {
+        List<String> selectedRestaurants = new LinkedList();
         for (int i = 0; i < restaurants.size(); i++) {
-            if (!restaurants.get(i).isSelected()) {
-                adapterRestaurants.remove(restaurants.get(i));
+            Restaurant restaurant = restaurants.get(i);
+            if (restaurant.isSelected()) {
+                selectedRestaurants.add(restaurant.getId()); //If the checkbox is selected, add the restaurant id to the list.
             }
         }
 
-        // TBD
-        // Will call WaitActivity, & return to the shorter list here
+        if (selectedRestaurants.size() < 1) {
+            Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //TODO: Pass the values to the Wait activity.
+
         Intent i = new Intent(this, WaitActivity.class);
         startActivity(i);
-    }*/
-
+    }
 }

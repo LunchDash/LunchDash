@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,14 +18,15 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
-
+    int position = 0;
 
     public RestaurantsArrayAdapter(Context context, List<Restaurant> restaurants) {
         super(context, android.R.layout.simple_list_item_1);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        this.position = position;
         Restaurant restaurant = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_restaurant, parent, false);
@@ -38,6 +41,9 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
 
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
         ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
+
+        CheckBox cbSelected = (CheckBox) convertView.findViewById(R.id.cbSelected);
+        cbSelected.setChecked(false); //Force selected to false (in case it was selected last search)
 
         //Fill info
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
@@ -56,19 +62,22 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
                 }
             }
             tvCategories.setText(categories);
-        } catch(NullPointerException e){
-            Log.d("APPDEBUG","Restaurant found without a category!");
+        } catch (NullPointerException e) {
+            Log.d("APPDEBUG", "Restaurant found without a category!");
             tvCategories.setText("");
         }
 
         //Concat all the lines of the Display Address
         String[] addressArray = restaurant.getDisplayAddress();
         String address = "";
-        for (int i = 0; i < addressArray.length; i++) {
-            address += addressArray[i];
-            if (i != addressArray.length - 1) { //If it's not the last item, add a space.
-                address += " ";
+        try {
+            for (int i = 0; i < addressArray.length; i++) {
+                address += addressArray[i];
+                if (i != addressArray.length - 1) { //If it's not the last item, add a space.
+                    address += " ";
+                }
             }
+        } catch (NullPointerException e) {
         }
         tvAddress.setText(address);
 
@@ -76,6 +85,14 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         Picasso.with(getContext()).load(restaurant.getImageURL()).into(ivImage);
         ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         Picasso.with(getContext()).load(restaurant.getRatingImgUrl()).into(ivRating);
+
+        cbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Restaurant restaurant = getItem(position);
+                restaurant.setSelected(isChecked);
+            }
+        });
 
         return convertView;
     }
