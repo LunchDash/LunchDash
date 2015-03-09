@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -10,8 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,6 +43,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
     GoogleApiClient gApiClient;
     String latitude;
     String longitude;
+    TextView tvSelectedRestaurantCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,9 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         adapterRestaurants = new RestaurantsArrayAdapter(this, restaurants);
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);
+
+       // tvSelectedRestaurantCount = (TextView) findViewById(R.id.tvSelectedRestaurantCount);
+      //  setupListViewListener();
     }
 
     @Override
@@ -71,7 +79,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
     }
 
     public void onRestaurantSearch(View v) {
@@ -93,6 +100,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         adapterRestaurants.clear();
         adapterRestaurants.addAll(restaurants);
         adapterRestaurants.notifyDataSetChanged();
+
         lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
     }
 
@@ -123,6 +131,10 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
             return true;
         }*/
 
+        Toast.makeText(this,
+                String.valueOf(lvRestaurants.getCheckedItemCount()),
+                Toast.LENGTH_LONG).show();
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -149,7 +161,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
 
     }
 
-
     private class ConnectToYelp extends AsyncTask<String, Void, ArrayList<Restaurant>> {
         @Override
         protected ArrayList<Restaurant> doInBackground(String... params) {
@@ -170,4 +181,35 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
             return results;
         }
     }
+
+ /*   private void setupListViewListener() {
+        lvRestaurants.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                restaurants.get(position).toggleSelected();
+
+                tvSelectedRestaurantCount.setText(lvRestaurants.getCheckedItemCount() + " Selected");
+
+                //Toast.makeText(view.getContext(), restaurants.get(position).getName() + restaurants.get(position).isSelected()
+                //        , Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void onClickDoneButton(View v) {
+        for (int i = 0; i < restaurants.size(); i++) {
+            if (!restaurants.get(i).isSelected()) {
+                adapterRestaurants.remove(restaurants.get(i));
+            }
+        }
+
+        // TBD
+        // Will call WaitActivity, & return to the shorter list here
+        Intent i = new Intent(this, WaitActivity.class);
+        startActivity(i);
+    }*/
+
 }

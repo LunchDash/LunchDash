@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -12,6 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout" />
+
 
     <LinearLayout
         android:orientation="horizontal"
@@ -37,6 +39,7 @@
             android:layout_weight="0.15"
             android:onClick="onFilterClick" />
 
+
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -45,6 +48,36 @@
             android:layout_weight="0.15"
             android:onClick="onRestaurantSearch" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+
+        <TextView
+            android:layout_width="275dp"
+            android:layout_height="50dp"
+            android:id="@+id/tvSelectedRestaurantCount"
+            android:layout_weight="0.7"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:id="@+id/btnDo"
+            android:layout_width="113dp"
+            android:onClick="onClickDoneButton"
+            android:layout_alignTop="@+id/etSelected"
+            android:layout_toRightOf="@+id/etSelected"
+            android:layout_toEndOf="@+id/etSelected" />
 
     </LinearLayout>
 
