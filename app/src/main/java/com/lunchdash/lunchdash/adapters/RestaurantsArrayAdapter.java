@@ -1,6 +1,7 @@
 package com.lunchdash.lunchdash.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_restaurant, parent, false);
         }
 
+        TextView tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
         TextView tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
         TextView tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
@@ -38,19 +40,27 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
         //Fill info
+        String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
+        tvDistance.setText(distanceString);
         tvRestName.setText(restaurant.getName());
         tvReviews.setText(restaurant.getReviewCount() + " reviews");
 
         //Concat all the Categories
-        String[][] categoryArray = restaurant.getCategories();
-        String categories = "";
-        for (int i = 0; i < categoryArray.length; i++) {
-            categories += categoryArray[i][0];
-            if (i != categoryArray.length - 1) { //If it's not the last item, add a comma.
-                categories += ", ";
+        try {
+            String[][] categoryArray = restaurant.getCategories();
+            String categories = "";
+            for (int i = 0; i < categoryArray.length; i++) {
+                categories += categoryArray[i][0];
+                if (i != categoryArray.length - 1) { //If it's not the last item, add a comma.
+                    categories += ", ";
+                }
             }
+            tvCategories.setText(categories);
+        } catch(NullPointerException e){
+            Log.d("APPDEBUG","Restaurant found without a category!");
+            tvCategories.setText("");
         }
-        tvCategories.setText(categories);
+
         //Concat all the lines of the Display Address
         String[] addressArray = restaurant.getDisplayAddress();
         String address = "";
@@ -69,4 +79,11 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
 
         return convertView;
     }
+
+    public String metersToMiles(double meters) {
+        double miles = meters * 0.000621371;
+        miles = (double) Math.round(miles * 10) / 10;
+        return miles + "";
+    }
+
 }

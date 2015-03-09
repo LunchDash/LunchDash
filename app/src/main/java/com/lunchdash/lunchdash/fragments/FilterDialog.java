@@ -17,8 +17,6 @@ import com.lunchdash.lunchdash.R;
 public class FilterDialog extends DialogFragment {
     private Spinner spinSortBy;
     private Spinner spinMaxDistance;
-    private Button btnOk;
-    private Button btnCancel;
 
     public FilterDialog() {
     }
@@ -33,8 +31,8 @@ public class FilterDialog extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_filter_options, container);
         spinSortBy = (Spinner) v.findViewById(R.id.spinSortBy);
         spinMaxDistance = (Spinner) v.findViewById(R.id.spinMaxDistance);
-        btnOk = (Button) v.findViewById(R.id.btnOk);
-        btnCancel = (Button) v.findViewById(R.id.btnCancel);
+        Button btnOk = (Button) v.findViewById(R.id.btnOk);
+        Button btnCancel = (Button) v.findViewById(R.id.btnCancel);
 
         ArrayAdapter<CharSequence> spinSortByAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.spinnerSortBy, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> spinMaxDistanceAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.spinnerMaxDistance, android.R.layout.simple_spinner_item);

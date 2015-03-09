@@ -74,14 +74,8 @@ public class Restaurant {
             restaurant.reviewCount = jo.getInt("review_count");
             restaurant.snippetImageUrl = jo.getString("snippet_image_url");
             restaurant.snippetText = jo.getString("snippet_text");
-
-            try {
-                restaurant.distance = jo.getDouble("distance"); //Won't be there unless we specified longitude/latitude
-            } catch (JSONException e) {
-            }
-
+            restaurant.distance = jo.getDouble("distance"); //Won't be there unless we specified longitude/latitude
             restaurant.snippetText = jo.getString("snippet_text");
-
 
             tempArray = jo.getJSONArray("categories");
             arrlength = tempArray.length();
@@ -109,7 +103,6 @@ public class Restaurant {
                 restaurants.add(restaurant);
             } catch (JSONException e) {
                 e.printStackTrace();
-                continue;
             }
         }
 

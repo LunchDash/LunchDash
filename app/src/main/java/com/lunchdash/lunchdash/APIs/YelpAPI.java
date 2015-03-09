@@ -12,7 +12,6 @@ import org.scribe.oauth.OAuthService;
 public class YelpAPI {
 
     private static final String API_HOST = "api.yelp.com";
-    private static final int SEARCH_LIMIT = 20;
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
 
@@ -33,7 +32,7 @@ public class YelpAPI {
         String ll = latitude + "," + longitude;
         request.addQuerystringParameter("ll", ll); //Specify location by "Geographic Coordinate" aka latitude longitude
 
-        String sortParam = null;
+        String sortParam;
         switch (sortBy) {
             case "Best Match":
                 sortParam = "0";
@@ -44,16 +43,19 @@ public class YelpAPI {
             case "Rating":
                 sortParam = "2";
                 break;
+            default:
+                sortParam = "0";
         }
         request.addQuerystringParameter("sort", sortParam);
 
-        String maxDistanceParam = "";
+        String maxDistanceParam;
         switch (maxDistance) {
             case "2 blocks": // 1 block is approximated to about 200 meters
                 maxDistanceParam = "400";
                 break;
             case "6 blocks":
                 maxDistanceParam = "1200";
+                break;
             case "1 mile":
                 maxDistanceParam = "1609";
                 break;
@@ -77,8 +79,7 @@ public class YelpAPI {
     }
 
     private OAuthRequest createOAuthRequest(String path) {
-        OAuthRequest request = new OAuthRequest(Verb.GET, "http://" + API_HOST + path);
-        return request;
+        return new OAuthRequest(Verb.GET, "http://" + API_HOST + path);
     }
 
     private String sendRequestAndGetResponse(OAuthRequest request) {
