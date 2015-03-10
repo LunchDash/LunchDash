@@ -199,7 +199,11 @@ public class Restaurant {
         return latitude;
     }
 
-    //Set selected
+
+    public void toggleSelected() {
+        selected = !selected;
+    }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }

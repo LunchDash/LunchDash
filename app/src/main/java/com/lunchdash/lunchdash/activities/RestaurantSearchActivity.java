@@ -2,6 +2,7 @@ package com.lunchdash.lunchdash.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,7 +45,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
     GoogleApiClient gApiClient;
     String latitude;
     String longitude;
-    TextView tvSelectedRestaurantCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,19 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         adapterRestaurants = new RestaurantsArrayAdapter(this, restaurants);
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);
+
+        lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
+                restaurant.toggleSelected();
+                if (restaurant.isSelected()) {
+                    view.setBackgroundColor(0xF1FFA05); //First byte is alpha
+                } else {
+                    view.setBackgroundColor(Color.WHITE);
+                }
+            }
+        });
     }
 
     @Override
@@ -191,7 +204,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
-                selectedRestaurants.add(restaurant.getId()); //If the checkbox is selected, add the restaurant id to the list.
+                selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
             }
         }
 

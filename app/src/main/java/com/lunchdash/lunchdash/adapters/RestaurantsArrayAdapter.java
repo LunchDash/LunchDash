@@ -1,13 +1,12 @@
 package com.lunchdash.lunchdash.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,8 +41,11 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
         ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
-        CheckBox cbSelected = (CheckBox) convertView.findViewById(R.id.cbSelected);
-        cbSelected.setChecked(false); //Force selected to false (in case it was selected last search)
+        if (restaurant.isSelected()) {
+            convertView.setBackgroundColor(0xF1FFA05); //First byte is alpha
+        } else {
+            convertView.setBackgroundColor(Color.WHITE);
+        }
 
         //Fill info
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
@@ -85,14 +87,6 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         Picasso.with(getContext()).load(restaurant.getImageURL()).into(ivImage);
         ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         Picasso.with(getContext()).load(restaurant.getRatingImgUrl()).into(ivRating);
-
-        cbSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Restaurant restaurant = getItem(position);
-                restaurant.setSelected(isChecked);
-            }
-        });
 
         return convertView;
     }
