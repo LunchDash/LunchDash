@@ -45,6 +45,16 @@ public class LoginActivity extends FragmentActivity {
         Parse.enableLocalDatastore(this);
         
         Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
+        
+        ParseUser u = ParseUser.getCurrentUser();
+        
+        if(u != null) {
+            Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        
 
     }
 
@@ -94,6 +104,6 @@ public class LoginActivity extends FragmentActivity {
             }
         });
     }
-    
+
     
 }
