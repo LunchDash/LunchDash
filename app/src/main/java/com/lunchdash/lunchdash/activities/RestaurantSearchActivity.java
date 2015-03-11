@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -95,6 +97,10 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
     public void onRestaurantSearch(View v) {
         EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
         String searchTerm = etRestaurantSearch.getText().toString();
+
+        //Hide the soft keyboard.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etRestaurantSearch.getWindowToken(), 0);
 
         //Get filter settings
         SharedPreferences filters = getSharedPreferences("settings", 0);
