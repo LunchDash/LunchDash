@@ -20,5 +20,6 @@
     <string name="title_activity_wait">WaitActivity</string>
     <string name="WaitingMessage">Trying to find lunch buddy for you</string>
     <string name="title_activity_contact">ContactActivity</string>
+    <string name="title_activity_accept_decline">AcceptDeclineActivity</string>
 
 </resources>
