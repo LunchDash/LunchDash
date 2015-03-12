@@ -1,8 +1,5 @@
 package com.lunchdash.lunchdash.models;
 
-/**
- * Created by chandrav on 3/11/15.
- */
 public class User {
     private String userId;
     private String imageUrl;

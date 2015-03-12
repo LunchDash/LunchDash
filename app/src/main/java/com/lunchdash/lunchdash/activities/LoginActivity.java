@@ -1,15 +1,14 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.lunchdash.lunchdash.R;
-
-import com.lunchdash.lunchdash.fragments.MainFragment;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -19,43 +18,39 @@ import com.parse.ParseUser;
 import java.util.Arrays;
 
 
-public class LoginActivity extends FragmentActivity {
-
-    private MainFragment mainFragment;
+public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_login);
-
-        if (savedInstanceState == null) {
-            // Add the fragment on initial activity setup
-            mainFragment = new MainFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(android.R.id.content, mainFragment)
-                    .commit();
-        } else {
-            // Or set the fragment from restored state info
-            mainFragment = (MainFragment) getSupportFragmentManager()
-                    .findFragmentById(android.R.id.content);
-        }
 
         Parse.enableLocalDatastore(this);
-        
         Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
-        
-        ParseUser u = ParseUser.getCurrentUser();
-        
-        if(u != null) {
+
+        if (ParseUser.getCurrentUser() == null) {
+            setContentView(R.layout.activity_login);
+        } else {
             Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
             startActivity(i);
             finish();
         }
+    }
 
-        
-
+    public void login(View v) {
+        ParseFacebookUtils.logIn(Arrays.asList("email"), this, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException err) {
+                if (user == null) {
+                    Log.d("AppDebug", "The user cancelled the Facebook login.");
+                } else {
+                    Log.d("AppDebug", "Authentication successful.");
+                    Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -84,26 +79,7 @@ public class LoginActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
-
-
-        ParseFacebookUtils.logIn(Arrays.asList("email"), this, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException err) {
-                if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                } else {
-                    if (user.isNew()) {
-                        Log.d("MyApp", "User signed up and logged in through Facebook!");
-                    } else {
-                        Log.d("MyApp", "User logged in through Facebook!");
-                    }
-                    Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }
-        });
     }
 
-    
+
 }
