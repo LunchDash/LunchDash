@@ -16,6 +16,23 @@ public class UserTable extends ParseObject {
         put ("userId", userid);
     }
     
+    public String getUserName() {
+        return getString("userName");        
+    }
+    public void setUserName(String userName){
+        put ("userName",userName );
+        
+    }
+    
+    public String getEmail(){
+        return getString("email");
+        
+    }
+    public void setEmail(String email){
+        put ("email", email);
+        
+    }
+    
     public String getImageUrl(){
         return getString("imageUrl");
     }
