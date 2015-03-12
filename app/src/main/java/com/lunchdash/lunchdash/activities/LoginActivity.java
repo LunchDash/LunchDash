@@ -13,6 +13,7 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.models.User;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
-        Parse.enableLocalDatastore(this);
+      //  Parse.enableLocalDatastore(this);
         Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
 
         if (ParseUser.getCurrentUser() == null) {
@@ -60,7 +61,53 @@ public class LoginActivity extends Activity {
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
         startActivity(i);
+
         finish();
+    }
+
+    public void populateUserModel() {
+        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
+        final Session fbSession = ParseFacebookUtils.getSession();
+
+        new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() { //Send a request to get the user's id, email, and name
+            @Override
+            public void onCompleted(Response response) {
+                JSONObject userJSON = null;
+                try {
+                    User user = User.getUserInstance();
+                    userJSON = new JSONObject(response.getRawResponse());
+                    user.setUserId(userJSON.getString("id"));
+                    user.setEmail(userJSON.getString("email"));
+                    user.setName(userJSON.getString("name"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).executeAsync();
+
+        Bundle params = new Bundle();
+        params.putBoolean("redirect", false);
+        params.putString("type", "large");
+
+        new Request(fbSession, "/me/picture", params, HttpMethod.GET, new Request.Callback() {
+
+            @Override
+            public void onCompleted(Response response) {
+                User user = User.getUserInstance();
+                try {
+                    JSONObject profilePictureJSON = new JSONObject(response.getRawResponse());
+                    user.setImageUrl(profilePictureJSON.getJSONObject("data").getString("url"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).executeAsync();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
 
     @Override
@@ -83,41 +130,6 @@ public class LoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void populateUserModel() {
-        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
-        Session fbSession = ParseFacebookUtils.getSession();
-        new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() {
-            @Override
-            public void onCompleted(Response response) {
-                JSONObject fbDetails = null;
-                String fbId;
-                String email;
-                String name;
-                String gender;
-
-                try {
-                    fbDetails = new JSONObject(response.getRawResponse());
-                    fbId = fbDetails.getString("id");
-                    email = fbDetails.getString("email");
-                    name = fbDetails.getString("name");
-                    gender = fbDetails.getString("gender");
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).executeAsync();
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
 
 

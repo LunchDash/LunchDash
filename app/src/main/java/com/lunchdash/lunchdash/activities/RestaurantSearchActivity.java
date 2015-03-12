@@ -28,6 +28,7 @@ import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.adapters.RestaurantsArrayAdapter;
 import com.lunchdash.lunchdash.fragments.FilterDialog;
 import com.lunchdash.lunchdash.models.Restaurant;
+import com.lunchdash.lunchdash.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -205,7 +206,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
     }
 
     public void onFinishedClick(View v) {
-
+        User user = User.getUserInstance(); //Grab user details here for parse.
         List<String> selectedRestaurants = new LinkedList();
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
