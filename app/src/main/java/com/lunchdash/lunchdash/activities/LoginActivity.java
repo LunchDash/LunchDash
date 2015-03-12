@@ -8,12 +8,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
 import com.lunchdash.lunchdash.R;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -31,9 +38,7 @@ public class LoginActivity extends Activity {
         if (ParseUser.getCurrentUser() == null) {
             setContentView(R.layout.activity_login);
         } else {
-            Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
-            startActivity(i);
-            finish();
+            onLoginSuccess();
         }
     }
 
@@ -45,12 +50,17 @@ public class LoginActivity extends Activity {
                     Log.d("AppDebug", "The user cancelled the Facebook login.");
                 } else {
                     Log.d("AppDebug", "Authentication successful.");
-                    Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
-                    startActivity(i);
-                    finish();
+                    onLoginSuccess();
                 }
             }
         });
+    }
+
+    public void onLoginSuccess() {
+        populateUserModel();
+        Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -73,6 +83,35 @@ public class LoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void populateUserModel() {
+        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
+        Session fbSession = ParseFacebookUtils.getSession();
+        new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() {
+            @Override
+            public void onCompleted(Response response) {
+                JSONObject fbDetails = null;
+                String fbId;
+                String email;
+                String name;
+                String gender;
+
+                try {
+                    fbDetails = new JSONObject(response.getRawResponse());
+                    fbId = fbDetails.getString("id");
+                    email = fbDetails.getString("email");
+                    name = fbDetails.getString("name");
+                    gender = fbDetails.getString("gender");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).executeAsync();
+
     }
 
     @Override
