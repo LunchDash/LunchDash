@@ -28,6 +28,7 @@ local.properties
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
+.idea/gradle.xml
 
 *.iml
  
