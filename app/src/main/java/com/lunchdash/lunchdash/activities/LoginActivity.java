@@ -2,14 +2,20 @@ package com.lunchdash.lunchdash.activities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.facebook.widget.LoginButton;
 import com.lunchdash.lunchdash.R;
 
-import com.lunchdash.lunchdash.fragments.MainFragment;
+import  com.facebook.Session;
+import com.lunchdash.lunchdash.fragements.MainFragment;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -45,16 +51,6 @@ public class LoginActivity extends FragmentActivity {
         Parse.enableLocalDatastore(this);
         
         Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
-        
-        ParseUser u = ParseUser.getCurrentUser();
-        
-        if(u != null) {
-            Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
-            startActivity(i);
-            finish();
-        }
-
-        
 
     }
 
@@ -104,6 +100,6 @@ public class LoginActivity extends FragmentActivity {
             }
         });
     }
-
+    
     
 }

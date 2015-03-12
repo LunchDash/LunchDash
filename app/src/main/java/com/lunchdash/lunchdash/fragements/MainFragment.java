@@ -1,4 +1,4 @@
-package com.lunchdash.lunchdash.fragments;
+package com.lunchdash.lunchdash.fragements;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
