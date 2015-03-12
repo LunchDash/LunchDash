@@ -5,27 +5,54 @@ import com.parse.ParseObject;
 
 @ParseClassName("UserTable")
 public class UserTable extends ParseObject {
+
+    /**
+     * Coloums
+     */
+    public final static String USER_ID = "userId";
+    public final static String USER_NAME = "userName";
+    public final static String USER_EMAIL = "email";
+    public final static String USER_IMAGE_URL = "imageUrl";
+    public final static String USER_STATUS = "status";
+    
     public String getUserid(){
-        return getString("userId");
+        return getString(USER_ID);
     }
     
     public void setUserId(String userid){
-        put ("userId", userid);
+        put (USER_ID, userid);
+    }
+    
+    public String getUserName() {
+        return getString(USER_NAME);
+    }
+    public void setUserName(String userName){
+        put (USER_NAME,userName );
+        
+    }
+    
+    public String getEmail(){
+        return getString(USER_EMAIL);
+        
+    }
+    public void setEmail(String email){
+        put (USER_EMAIL, email);
+        
     }
     
     public String getImageUrl(){
-        return getString("imageUrl");
+        return getString(USER_IMAGE_URL);
     }
     
     public void setImageUrl(String imageUrl){
-        put("imageUrl", imageUrl);
+        put(USER_IMAGE_URL, imageUrl);
     }
     
     public String getStatus(){
-        return getString("status");
+        return getString(USER_STATUS);
     }
     
     public void setStatus(String status){
-        put ("status", status);
+        put (USER_STATUS, status);
     }
 }

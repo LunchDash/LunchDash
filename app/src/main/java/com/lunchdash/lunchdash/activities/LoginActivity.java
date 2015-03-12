@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.User;
 import com.parse.LogInCallback;
@@ -32,8 +34,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-      //  Parse.enableLocalDatastore(this);
+        //  Parse.enableLocalDatastore(this);
         Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
 
         if (ParseUser.getCurrentUser() == null) {
@@ -61,7 +62,6 @@ public class LoginActivity extends Activity {
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
         startActivity(i);
-
         finish();
     }
 
@@ -131,6 +131,5 @@ public class LoginActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
