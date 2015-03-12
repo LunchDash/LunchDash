@@ -11,7 +11,7 @@ import com.lunchdash.lunchdash.R;
 
 
 public class SplashActivity extends Activity {
-    private static int SPLASH_TIME_OUT = 2000;
+    private static int SPLASH_TIME_OUT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
