@@ -1,6 +1,8 @@
 package com.lunchdash.lunchdash.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +17,21 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
-
+    int position = 0;
 
     public RestaurantsArrayAdapter(Context context, List<Restaurant> restaurants) {
         super(context, android.R.layout.simple_list_item_1);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        this.position = position;
         Restaurant restaurant = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_restaurant, parent, false);
         }
 
+        TextView tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
         TextView tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
         TextView tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
@@ -37,28 +41,45 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
         ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
+        if (restaurant.isSelected()) {
+            convertView.setBackgroundColor(0xF1FFA05); //First byte is alpha
+        } else {
+            convertView.setBackgroundColor(Color.WHITE);
+        }
+
         //Fill info
+        String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
+        tvDistance.setText(distanceString);
         tvRestName.setText(restaurant.getName());
         tvReviews.setText(restaurant.getReviewCount() + " reviews");
 
         //Concat all the Categories
-        String[][] categoryArray = restaurant.getCategories();
-        String categories = "";
-        for (int i = 0; i < categoryArray.length; i++) {
-            categories += categoryArray[i][0];
-            if (i != categoryArray.length - 1) { //If it's not the last item, add a comma.
-                categories += ", ";
+        try {
+            String[][] categoryArray = restaurant.getCategories();
+            String categories = "";
+            for (int i = 0; i < categoryArray.length; i++) {
+                categories += categoryArray[i][0];
+                if (i != categoryArray.length - 1) { //If it's not the last item, add a comma.
+                    categories += ", ";
+                }
             }
+            tvCategories.setText(categories);
+        } catch (NullPointerException e) {
+            Log.d("APPDEBUG", "Restaurant found without a category!");
+            tvCategories.setText("");
         }
-        tvCategories.setText(categories);
+
         //Concat all the lines of the Display Address
         String[] addressArray = restaurant.getDisplayAddress();
         String address = "";
-        for (int i = 0; i < addressArray.length; i++) {
-            address += addressArray[i];
-            if (i != addressArray.length - 1) { //If it's not the last item, add a space.
-                address += " ";
+        try {
+            for (int i = 0; i < addressArray.length; i++) {
+                address += addressArray[i];
+                if (i != addressArray.length - 1) { //If it's not the last item, add a space.
+                    address += " ";
+                }
             }
+        } catch (NullPointerException e) {
         }
         tvAddress.setText(address);
 
@@ -69,4 +90,11 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
 
         return convertView;
     }
+
+    public String metersToMiles(double meters) {
+        double miles = meters * 0.000621371;
+        miles = (double) Math.round(miles * 10) / 10;
+        return miles + "";
+    }
+
 }

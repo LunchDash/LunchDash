@@ -29,8 +29,12 @@ public class Restaurant {
     private String snippetImageUrl;
     private String snippetText;
     private double distance;
+    private double latitude;
+    private double longitude;
 
     private String[][] categories; //Array that contains 2 item arrays that have name/alias eg: [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
+
+    private boolean selected = false;
 
     public static Restaurant fromJSON(JSONObject jo) {
         Restaurant restaurant = new Restaurant();
@@ -60,6 +64,8 @@ public class Restaurant {
 
             restaurant.zipcode = location.getString("postal_code");
             restaurant.state = location.getString("state_code");
+            restaurant.latitude = location.getJSONObject("coordinate").getDouble("latitude");
+            restaurant.longitude = location.getJSONObject("coordinate").getDouble("longitude");
             restaurant.mobileUrl = jo.getString("mobile_url");
             restaurant.name = jo.getString("name");
             restaurant.ratingImgUrl = jo.getString("rating_img_url");
@@ -69,14 +75,8 @@ public class Restaurant {
             restaurant.reviewCount = jo.getInt("review_count");
             restaurant.snippetImageUrl = jo.getString("snippet_image_url");
             restaurant.snippetText = jo.getString("snippet_text");
-
-            try {
-                restaurant.distance = jo.getDouble("distance"); //Won't be there unless we specified longitude/latitude
-            } catch (JSONException e) {
-            }
-
+            restaurant.distance = jo.getDouble("distance"); //Won't be there unless we specified longitude/latitude
             restaurant.snippetText = jo.getString("snippet_text");
-
 
             tempArray = jo.getJSONArray("categories");
             arrlength = tempArray.length();
@@ -104,7 +104,6 @@ public class Restaurant {
                 restaurants.add(restaurant);
             } catch (JSONException e) {
                 e.printStackTrace();
-                continue;
             }
         }
 
@@ -191,4 +190,25 @@ public class Restaurant {
         return distance;
     }
 
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+
+    public void toggleSelected() {
+        selected = !selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
 }

@@ -16,9 +16,19 @@
         android:layout_gravity="center_vertical" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            tools:text="0.5 miles"
+            android:id="@+id/tvDistance"
+            android:text="10sp"
+            android:layout_gravity="right"
+            android:textColor="#ff0013ff" />
 
         <TextView
             android:layout_width="wrap_content"
