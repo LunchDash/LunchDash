@@ -4,16 +4,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/lvRestaurants"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/ll" />
-
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_alignParentBottom="true" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -31,45 +29,23 @@
             android:hint="@string/hint_restaurant_search"
             android:layout_weight="0.7" />
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/ib_filter"
-            android:src="@drawable/ic_filter"
-            android:layout_weight="0.15"
-            android:onClick="onFilterClick" />
-
+        <!--
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="New Button"
+                    android:id="@+id/button"
+                    android:layout_weight="0.3" />
+        -->
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/ib_search"
             android:src="@android:drawable/ic_menu_search"
-            android:layout_weight="0.15"
+            android:layout_weight="0.3"
             android:onClick="onRestaurantSearch" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="Finished Picking Restaurants >>>"
-            android:id="@+id/btnFinished"
-            android:onClick="onFinishedClick"
-            android:layout_alignTop="@+id/etSelected"
-            android:layout_toRightOf="@+id/etSelected"
-            android:layout_toEndOf="@+id/etSelected" />
 
     </LinearLayout>
-
 </RelativeLayout>

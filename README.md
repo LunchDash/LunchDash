@@ -17,10 +17,4 @@ LunchDash User Story:
 If time allows:  
 
 * After search, user will be shown a map marking all the restaurants.  They can select the restaurants they're interested in from that screen.
-
-
-![Video Walkthrough](walkthrough.gif)
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
 	
