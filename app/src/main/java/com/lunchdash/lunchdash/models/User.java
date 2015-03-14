@@ -38,6 +38,9 @@ public class User {
 
         try {
             List<ParseObject> users = query.find();
+            if (users.size() < 1) { //Return null if we don't find any matches.
+                return null;
+            }
             UserTable user = (UserTable) users.get(0);
             User u = new User(user);
             return u;
