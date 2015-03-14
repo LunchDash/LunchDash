@@ -1,20 +1,47 @@
 package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.lunchdash.lunchdash.APIs.ParseClient;
+import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.models.Restaurant;
+import com.lunchdash.lunchdash.models.User;
+import com.squareup.picasso.Picasso;
 
 public class AcceptDeclineActivity extends Activity {
+    ImageView ivProfileImg;
+    TextView  tvMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accept_decline);
+
+        Intent i = getIntent();
+        String userId = i.getStringExtra("userId");
+        String restaurantId = i.getStringExtra("restaurantId");
+
+        User user = ParseClient.getUser(userId);
+        Restaurant restaurant = LunchDashApplication.getRestaurantById(restaurantId);
+
+        ivProfileImg = (ImageView) findViewById(R.id.ivProfileImage);
+        tvMessage = (TextView) findViewById(R.id.tvMessage);
+
+        //tvMessage.setText(user.getName() + " would like to go to lunch with you at " + restaurant.getName());
+        tvMessage.setText(user.getName() + " would like to go to lunch with you at " + restaurant.getName());
+
+        ivProfileImg.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
+        Picasso.with(this).load(user.getImageUrl()).into((ivProfileImg));
     }
+
 
 
     @Override

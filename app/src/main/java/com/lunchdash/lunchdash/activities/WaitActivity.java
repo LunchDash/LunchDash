@@ -1,12 +1,15 @@
 package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lunchdash.lunchdash.R;
+
+import java.util.Random;
 
 public class WaitActivity extends Activity {
 
@@ -19,12 +22,52 @@ public class WaitActivity extends Activity {
 
             @Override
             public void run() {
-                //TBD - Wait for signal if non came do something like find new Restaurants
-                //Intent i = new Intent(WaitActivity.this, RestaurantSearchActivity.class);
-                //startActivity(i);
-                finish();
+                handleRequests();
             }
         }, WAIT_TIME_OUT);
+    }
+
+    void handleRequests()
+    {
+        if (onGetMatchRequest()) {
+            String userId = "10155239203120307"; //TODO
+            String restaurantId = "a-slice-of-new-york-san-jose"; //TODO
+
+            Intent i = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
+            i.putExtra("userId", userId);
+            i.putExtra("restaurantId",restaurantId);
+            startActivity(i);
+            finish();
+        }
+
+        if (onGetConfirmationRequest()) {
+            String userId = "10155239203120307"; //TODO
+            String restaurantId = "a-slice-of-new-york-san-jose"; //TODO
+            Intent i = new Intent(WaitActivity.this, ContactActivity.class);
+            i.putExtra("userId", userId);
+            i.putExtra("restaurantId",restaurantId);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    boolean onGetMatchRequest() {
+        Random r = new Random();
+        boolean haveMatchRequest = r.nextBoolean();
+        return haveMatchRequest;
+    }
+
+    boolean onGetConfirmationRequest() {
+        Random r = new Random();
+        boolean haveConfimation = r.nextBoolean();
+        return haveConfimation;
+
+    }
+
+    public boolean onGet(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_wait, menu);
+        return true;
     }
 
     @Override

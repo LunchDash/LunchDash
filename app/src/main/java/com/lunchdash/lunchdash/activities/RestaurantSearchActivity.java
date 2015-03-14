@@ -229,6 +229,8 @@ public class RestaurantSearchActivity extends Activity implements GoogleApiClien
         }
 
         User user = LunchDashApplication.user;
+        //user.setPhoneNumber("1234567890"); //Uncomment on Emulator 
+
         ParseClient.saveUser(user); //Create or update user info.
         ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
         ParseClient.deleteRestaurantMatches(user.getUserId());
