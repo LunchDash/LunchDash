@@ -3,9 +3,6 @@ package com.lunchdash.lunchdash.datastore;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by chandrav on 3/11/15.
- */
 @ParseClassName("UserTable")
 public class UserTable extends ParseObject {
 
@@ -17,45 +14,47 @@ public class UserTable extends ParseObject {
     public final static String USER_EMAIL = "email";
     public final static String USER_IMAGE_URL = "imageUrl";
     public final static String USER_STATUS = "status";
-    
-    public String getUserid(){
+
+    public String getUserid() {
         return getString(USER_ID);
     }
-    
-    public void setUserId(String userid){
-        put (USER_ID, userid);
+
+    public void setUserId(String userid) {
+        put(USER_ID, userid);
     }
-    
+
     public String getUserName() {
         return getString(USER_NAME);
     }
-    public void setUserName(String userName){
-        put (USER_NAME,userName );
-        
+
+    public void setName(String name) {
+        put(USER_NAME, name);
+
     }
-    
-    public String getEmail(){
+
+    public String getEmail() {
         return getString(USER_EMAIL);
-        
+
     }
-    public void setEmail(String email){
-        put (USER_EMAIL, email);
-        
+
+    public void setEmail(String email) {
+        put(USER_EMAIL, email);
+
     }
-    
-    public String getImageUrl(){
+
+    public String getImageUrl() {
         return getString(USER_IMAGE_URL);
     }
-    
-    public void setImageUrl(String imageUrl){
+
+    public void setImageUrl(String imageUrl) {
         put(USER_IMAGE_URL, imageUrl);
     }
-    
-    public String getStatus(){
+
+    public String getStatus() {
         return getString(USER_STATUS);
     }
-    
-    public void setStatus(String status){
-        put (USER_STATUS, status);
+
+    public void setStatus(String status) {
+        put(USER_STATUS, status);
     }
 }
