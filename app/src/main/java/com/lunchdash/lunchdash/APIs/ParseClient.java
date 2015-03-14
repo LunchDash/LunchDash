@@ -2,9 +2,11 @@ package com.lunchdash.lunchdash.APIs;
 
 import android.util.Log;
 
+import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 import com.lunchdash.lunchdash.datastore.UserTable;
 import com.lunchdash.lunchdash.models.User;
+import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import com.lunchdash.lunchdash.models.UserRestaurants;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -92,4 +94,72 @@ public class ParseClient {
             result.delete();
         }
     }
+
+
+    public static void populateUsersResutaurantMatches(UserRestaurants userRestaurant) throws ParseException {
+        //query users who also are interested in this restaurant.
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
+        query.whereEqualTo("restaurantId", userRestaurant.getRestaurantId());
+        query.whereNotEqualTo("userId", userRestaurant.getUserId());
+        List<ParseObject> results = query.find();
+        for (ParseObject restaurant : results) {
+
+            UserRestaurantMatches match = new UserRestaurantMatches();
+            match.setReqUserId(userRestaurant.getUserId());
+            match.setMatchedUserID(((UserRestaurantsTable) restaurant).getUserId());
+            match.setRestaurantId(userRestaurant.getRestaurantId());
+            saveUserRestaurantMatch(match);
+        }
+
+    }
+
+    private static UserRestaurantMatchesTable getUserRestaurantMatch(String reqId, String matchId, String resturantId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, reqId);
+        query.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchId);
+        query.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, resturantId);
+        try {
+            UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
+            return match;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static void saveUserRestaurantMatch(UserRestaurantMatches urm) {
+        UserRestaurantMatchesTable urmt;
+        urmt = getUserRestaurantMatch(urm.getReqUserId(), urm.getMatchedUserID(), urm.getRestaurantId());
+        if (urmt == null) {
+            urmt = new UserRestaurantMatchesTable();
+        }
+        urmt.setRequesterId(urm.getReqUserId());
+        urmt.setMatchedUserId(urm.getMatchedUserID());
+        urmt.setRestaurantId(urm.getRestaurantId());
+        urmt.setRequesterStatus(urm.isReqStatus());
+        urmt.setMatchedStatus(urm.isMatchedStatus());
+        urmt.saveInBackground();
+
+    }
+
+    public static void deleteRestaurantMatches(String userId) throws ParseException {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query.whereEqualTo("reqUserId", userId);
+        List<ParseObject> results = query.find();
+        for (ParseObject result : results) {
+            result.delete();
+        }
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query.whereEqualTo("matchedUserID", userId);
+        List<ParseObject> results2 = query2.find();
+        for (ParseObject result : results2) {
+            result.delete();
+        }
+
+
+    }
+
+
 }
