@@ -1,16 +1,16 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.lunchdash.lunchdash.R;
 
-public class ContactActivity extends ActionBarActivity {
+public class ContactActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
