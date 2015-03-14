@@ -51,8 +51,30 @@ public class User {
         return null;
     }
 
+    private static UserTable getUserTable(String userId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
+        query.whereEqualTo(UserTable.USER_ID, userId);
+
+        try {
+            UserTable user = (UserTable) query.getFirst();
+            return user;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
     public void save() { //Called after the info is set.
-        UserTable ut = new UserTable();
+
+
+        UserTable ut;
+        ut = getUserTable(userId);
+        if(ut == null){
+            ut = new UserTable();
+        }
+
         ut.setUserId(userId);
         ut.setName(name);
         ut.setImageUrl(imageUrl);
