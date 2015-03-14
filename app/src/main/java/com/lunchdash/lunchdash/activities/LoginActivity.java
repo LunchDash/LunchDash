@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -7,14 +8,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.lunchdash.lunchdash.R;
 
 import com.lunchdash.lunchdash.fragments.MainFragment;
+import com.lunchdash.lunchdash.models.User;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -41,20 +49,15 @@ public class LoginActivity extends FragmentActivity {
             mainFragment = (MainFragment) getSupportFragmentManager()
                     .findFragmentById(android.R.id.content);
         }
-
-        Parse.enableLocalDatastore(this);
-        
-        Parse.initialize(this, "scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD", "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE");
-        
+       
         ParseUser u = ParseUser.getCurrentUser();
-        
+
         if(u != null) {
             Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
             startActivity(i);
             finish();
         }
 
-        
 
     }
 
@@ -97,6 +100,22 @@ public class LoginActivity extends FragmentActivity {
                     } else {
                         Log.d("MyApp", "User logged in through Facebook!");
                     }
+
+                    Request.newMeRequest(Session.getActiveSession(), new Request.GraphUserCallback(){
+                        @Override
+                        public void onCompleted(GraphUser user, Response response) {
+                            String fullName = user.getName();
+                            String email = user.getProperty("email").toString();
+                            String facebookId = user.getId();
+
+                            //Do whatever you want
+                            User u = new User("sd3", "sdfsdffullName", "asdfadsf", "asdfasdf", "asdfd");
+                            u.save();
+
+                        }
+                        
+                    });
+                    
                     Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
                     startActivity(i);
                     finish();
