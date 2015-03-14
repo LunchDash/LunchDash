@@ -2,8 +2,8 @@ package com.lunchdash.lunchdash;
 
 import android.app.Application;
 
-import com.lunchdash.lunchdash.datastore.UserResturanMatchesTable;
-import com.lunchdash.lunchdash.datastore.UserResturantsTable;
+import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
+import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 import com.lunchdash.lunchdash.datastore.UserTable;
 import com.lunchdash.lunchdash.models.User;
 import com.parse.Parse;
@@ -20,8 +20,8 @@ public class LunchDashApplication extends Application {
         super.onCreate();
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(UserTable.class);
-        ParseObject.registerSubclass(UserResturantsTable.class);
-        ParseObject.registerSubclass(UserResturanMatchesTable.class);
+        ParseObject.registerSubclass(UserRestaurantsTable.class);
+        ParseObject.registerSubclass(UserRestaurantMatchesTable.class);
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
     }
 }

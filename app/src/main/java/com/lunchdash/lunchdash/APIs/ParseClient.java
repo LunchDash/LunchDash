@@ -2,10 +2,10 @@ package com.lunchdash.lunchdash.APIs;
 
 import android.util.Log;
 
-import com.lunchdash.lunchdash.datastore.UserResturantsTable;
+import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 import com.lunchdash.lunchdash.datastore.UserTable;
 import com.lunchdash.lunchdash.models.User;
-import com.lunchdash.lunchdash.models.UserResturants;
+import com.lunchdash.lunchdash.models.UserRestaurants;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -46,11 +46,11 @@ public class ParseClient {
         });
     }
 
-    public static void saveUserRestaurantPair(UserResturants ur) {
-        UserResturantsTable urt;
+    public static void saveUserRestaurantPair(UserRestaurants ur) {
+        UserRestaurantsTable urt;
         urt = getUserResturantTable(ur);
         if (urt == null) {
-            urt = new UserResturantsTable();
+            urt = new UserRestaurantsTable();
         }
         urt.setUserid(ur.getUserId());
         urt.setResturantid(ur.getRestaurantId());
@@ -63,14 +63,14 @@ public class ParseClient {
 
     }
 
-    private static UserResturantsTable getUserResturantTable(UserResturants ur) {
+    private static UserRestaurantsTable getUserResturantTable(UserRestaurants ur) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserResturantsTable");
-        query.whereEqualTo(UserResturantsTable.USER_ID, ur.getUserId());
-        query.whereEqualTo(UserResturantsTable.RESTURANT_ID, ur.getRestaurantId());
+        query.whereEqualTo(UserRestaurantsTable.USER_ID, ur.getUserId());
+        query.whereEqualTo(UserRestaurantsTable.RESTAURANT_ID, ur.getRestaurantId());
 
         try {
-            UserResturantsTable userResturant = (UserResturantsTable) query.getFirst();
-            return userResturant;
+            UserRestaurantsTable userRestaurant = (UserRestaurantsTable) query.getFirst();
+            return userRestaurant;
         } catch (ParseException e) {
             e.printStackTrace();
         }

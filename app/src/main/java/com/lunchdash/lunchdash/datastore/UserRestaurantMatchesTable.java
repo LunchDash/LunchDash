@@ -6,12 +6,12 @@ import com.parse.ParseObject;
 /**
  * Created by chandrav on 3/12/15.
  */
-@ParseClassName("UserResturanMatchesTable")
-public class UserResturanMatchesTable  extends ParseObject{
-    
+@ParseClassName("UserRestaurantMatchesTable")
+public class UserRestaurantMatchesTable extends ParseObject {
+
     public final static String REQUESTER_USER_ID = "reqUserId";
     public final static String MATCHED_USER_ID = "matchedUserID";
-    public final static String RESTURANT_ID = "resturanId";
+    public final static String RESTAURANT_ID = "restaurantId";
     public final static String REQUESTER_STATUS = "reqStatus";
     public final static String MATCHED_STATUS = "matchedStatus";
 
@@ -32,12 +32,12 @@ public class UserResturanMatchesTable  extends ParseObject{
         put(MATCHED_USER_ID, matchedUserId);
     }
 
-    public String getResturantId() {
-        return getString(RESTURANT_ID);
+    public String getRestaurantId() {
+        return getString(RESTAURANT_ID);
     }
 
-    public void setResturantId(String resturantId) {
-        put(RESTURANT_ID, resturantId);
+    public void setRestaurantId(String restaurantId) {
+        put(RESTAURANT_ID, restaurantId);
     }
 
     public boolean isRequesterStatus() {

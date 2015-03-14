@@ -31,7 +31,7 @@ import com.lunchdash.lunchdash.adapters.RestaurantsArrayAdapter;
 import com.lunchdash.lunchdash.fragments.FilterDialog;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
-import com.lunchdash.lunchdash.models.UserResturants;
+import com.lunchdash.lunchdash.models.UserRestaurants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -216,7 +216,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
                 selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                UserResturants userResturantPair = new UserResturants(user.getUserId(), restaurant.getId());
+                UserRestaurants userResturantPair = new UserRestaurants(user.getUserId(), restaurant.getId());
                 ParseClient.saveUserRestaurantPair(userResturantPair);
             }
         }

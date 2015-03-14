@@ -3,14 +3,11 @@ package com.lunchdash.lunchdash.datastore;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by chandrav on 3/12/15.
- */
-@ParseClassName("UserResturantsTable")
-public class UserResturantsTable extends ParseObject{
+@ParseClassName("UserRestaurantsTable")
+public class UserRestaurantsTable extends ParseObject {
     public final static String USER_ID = "userId";
-    public final static String RESTURANT_ID = "resturantId";
-    
+    public final static String RESTAURANT_ID = "restaurantId";
+
     public String getUserid() {
         return getString(USER_ID);
     }
@@ -20,11 +17,11 @@ public class UserResturantsTable extends ParseObject{
     }
 
     public String getResturantid() {
-        return getString(RESTURANT_ID);
+        return getString(RESTAURANT_ID);
     }
 
-    public void setResturantid(String resturantid) {
-        put( RESTURANT_ID, resturantid);
+    public void setResturantid(String restaurantid) {
+        put(RESTAURANT_ID, restaurantid);
     }
 
 }

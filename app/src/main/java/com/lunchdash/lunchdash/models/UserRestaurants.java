@@ -1,11 +1,11 @@
 package com.lunchdash.lunchdash.models;
 
-public class UserResturants {
+public class UserRestaurants {
 
     private String userId;
     private String restaurantId;
 
-    public UserResturants(String userId, String resturantId) {
+    public UserRestaurants(String userId, String resturantId) {
         this.userId = userId;
         this.restaurantId = resturantId;
     }
