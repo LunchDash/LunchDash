@@ -28,6 +28,10 @@ public class ParseClient {
         return null;
     }
 
+    public static User getUser(String userId) {
+        return new User(getUserTable(userId));
+    }
+
 
     public static void saveUser(User user) { //Called after the info is set.
         UserTable ut;

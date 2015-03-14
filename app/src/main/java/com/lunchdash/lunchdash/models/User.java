@@ -12,7 +12,7 @@ public class User {
     private String name;
     private String phoneNumber;
 
-    private User(UserTable ut) {
+    public User(UserTable ut) {
         this.userId = ut.getString(UserTable.USER_ID);
         this.imageUrl = ut.getString(UserTable.USER_IMAGE_URL);
         this.status = ut.getString(UserTable.USER_STATUS);
