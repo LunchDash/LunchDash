@@ -32,6 +32,7 @@ import com.lunchdash.lunchdash.fragments.FilterDialog;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurants;
+import com.parse.ParseException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -208,25 +209,31 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         }
     }
 
-    public void onFinishedClick(View v) {
-        User user = LunchDashApplication.user; //Grab user details here for parse.
-        ParseClient.saveUser(LunchDashApplication.user);
+    public void onFinishedClick(View v) throws ParseException {
+
+
         List<String> selectedRestaurants = new LinkedList();
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
                 selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurant.getId());
-                ParseClient.saveUserRestaurantPair(userRestaurantPair);
             }
         }
-
-        if (selectedRestaurants.size() < 1) {
+        if (selectedRestaurants.size() < 1) { //We're going to take no action if they didn't select at least 1 restaurant.
             Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Intent i = new Intent(this, WaitActivity.class);
+        User user = LunchDashApplication.user;
+        ParseClient.saveUser(user); //Create or update user info.
+        ParseClient.deleteURPairsWithId(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
+
+        for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
+            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);
+            ParseClient.saveUserRestaurantPair(userRestaurantPair);
+        }
+
+        Intent i = new Intent(this, WaitActivity.class); //Start waiting for restaurants.
         startActivity(i);
     }
 }

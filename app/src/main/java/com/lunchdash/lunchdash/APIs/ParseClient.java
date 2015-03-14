@@ -11,6 +11,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.util.List;
+
 public class ParseClient {
 
     private static UserTable getUserTable(String userId) {
@@ -48,7 +50,7 @@ public class ParseClient {
 
     public static void saveUserRestaurantPair(UserRestaurants ur) {
         UserRestaurantsTable urt;
-        urt = getUserResturantTable(ur);
+        urt = getUserRestaurantTable(ur);
         if (urt == null) {
             urt = new UserRestaurantsTable();
         }
@@ -57,14 +59,14 @@ public class ParseClient {
         urt.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Log.e("TAG", "user resturant saved");
+                Log.e("TAG", "user restaurant saved");
             }
         });
 
     }
 
-    private static UserRestaurantsTable getUserResturantTable(UserRestaurants ur) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserResturantsTable");
+    private static UserRestaurantsTable getUserRestaurantTable(UserRestaurants ur) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
         query.whereEqualTo(UserRestaurantsTable.USER_ID, ur.getUserId());
         query.whereEqualTo(UserRestaurantsTable.RESTAURANT_ID, ur.getRestaurantId());
 
@@ -76,6 +78,15 @@ public class ParseClient {
         }
 
         return null;
+    }
+
+    public static void deleteURPairsWithId(String userId) throws ParseException { //Delete all User-Restaurant pairs in Parse that match a specified userId
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
+        query.whereEqualTo("userId", userId);
+        List<ParseObject> results = query.find();
+        for (ParseObject result : results) {
+            result.delete();
+        }
     }
 
 
