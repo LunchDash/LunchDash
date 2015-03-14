@@ -1,5 +1,7 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,8 +9,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class RestaurantSearchActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class RestaurantSearchActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public YelpAPI yapi;
     ArrayList<Restaurant> restaurants;
     ListView lvRestaurants;
@@ -132,7 +132,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
     }
 
     public void onFilterClick(View v) {
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FilterDialog fd = FilterDialog.newInstance();
         fd.show(fm, "fragment_filter_options");
     }
