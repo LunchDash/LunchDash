@@ -90,18 +90,4 @@ public class ParseClient {
     }
 
 
-    public static void deleteUserRestaurantPairs(String userId) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserResturantsTable");
-        query.whereEqualTo(UserRestaurantsTable.USER_ID, userId);
-        try {
-            List<ParseObject> urt = query.find();
-            for(int i = 0; i < urt.size(); i++){
-                ParseObject ur = urt.get(i);
-                ur.delete();
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
