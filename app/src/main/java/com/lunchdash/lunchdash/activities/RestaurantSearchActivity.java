@@ -216,8 +216,8 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
                 selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                UserRestaurants userResturantPair = new UserRestaurants(user.getUserId(), restaurant.getId());
-                ParseClient.saveUserRestaurantPair(userResturantPair);
+                UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurant.getId());
+                ParseClient.saveUserRestaurantPair(userRestaurantPair);
             }
         }
 
@@ -225,8 +225,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
             Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        //TODO: Pass the values to the Wait activity.
 
         Intent i = new Intent(this, WaitActivity.class);
         startActivity(i);

@@ -8,20 +8,20 @@ public class UserRestaurantsTable extends ParseObject {
     public final static String USER_ID = "userId";
     public final static String RESTAURANT_ID = "restaurantId";
 
-    public String getUserid() {
+    public String getUserId() {
         return getString(USER_ID);
     }
 
-    public void setUserid(String userid) {
-        put(USER_ID, userid);
+    public void setUserId(String userId) {
+        put(USER_ID, userId);
     }
 
-    public String getResturantid() {
+    public String getRestaurantId() {
         return getString(RESTAURANT_ID);
     }
 
-    public void setResturantid(String restaurantid) {
-        put(RESTAURANT_ID, restaurantid);
+    public void setRestaurantId(String restaurantId) {
+        put(RESTAURANT_ID, restaurantId);
     }
 
 }

@@ -3,9 +3,6 @@ package com.lunchdash.lunchdash.datastore;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by chandrav on 3/12/15.
- */
 @ParseClassName("UserRestaurantMatchesTable")
 public class UserRestaurantMatchesTable extends ParseObject {
 

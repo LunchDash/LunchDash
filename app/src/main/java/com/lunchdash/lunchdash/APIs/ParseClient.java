@@ -52,8 +52,8 @@ public class ParseClient {
         if (urt == null) {
             urt = new UserRestaurantsTable();
         }
-        urt.setUserid(ur.getUserId());
-        urt.setResturantid(ur.getRestaurantId());
+        urt.setUserId(ur.getUserId());
+        urt.setRestaurantId(ur.getRestaurantId());
         urt.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
