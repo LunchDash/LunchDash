@@ -212,6 +212,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
         User user = LunchDashApplication.user; //Grab user details here for parse.
         ParseClient.saveUser(LunchDashApplication.user);
         List<String> selectedRestaurants = new LinkedList();
+        ParseClient.deleteUserRestaurantPairs(LunchDashApplication.user.getUserId());
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
