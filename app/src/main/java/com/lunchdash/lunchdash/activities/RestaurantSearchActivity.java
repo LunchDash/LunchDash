@@ -213,7 +213,6 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
 
 
         List<String> selectedRestaurants = new LinkedList();
-        ParseClient.deleteUserRestaurantPairs(LunchDashApplication.user.getUserId());
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
