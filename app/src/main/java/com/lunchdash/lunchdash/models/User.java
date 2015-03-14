@@ -31,63 +31,6 @@ public class User {
         setStatus("Waiting");
     }
 
-    public static User getUser(String userId) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
-        query.setLimit(1);
-        query.whereEqualTo(UserTable.USER_ID, userId);
-
-        try {
-            List<ParseObject> users = query.find();
-            if (users.size() < 1) { //Return null if we don't find any matches.
-                return null;
-            }
-            UserTable user = (UserTable) users.get(0);
-            User u = new User(user);
-            return u;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private static UserTable getUserTable(String userId){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
-        query.whereEqualTo(UserTable.USER_ID, userId);
-
-        try {
-            UserTable user = (UserTable) query.getFirst();
-            return user;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        return null;
-    }
-
-    public void save() { //Called after the info is set.
-
-
-        UserTable ut;
-        ut = getUserTable(userId);
-        if(ut == null){
-            ut = new UserTable();
-        }
-
-        ut.setUserId(userId);
-        ut.setName(name);
-        ut.setImageUrl(imageUrl);
-        ut.setEmail(email);
-        ut.setStatus(status);
-        ut.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Log.e("TAG", "user saved");
-            }
-        });
-    }
-
     public String getUserId() {
         return userId;
     }

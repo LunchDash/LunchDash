@@ -23,6 +23,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.lunchdash.lunchdash.APIs.Keys;
+import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
@@ -209,14 +210,14 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
 
     public void onFinishedClick(View v) {
         User user = LunchDashApplication.user; //Grab user details here for parse.
-        LunchDashApplication.user.save(); //Save the info to parse.
+        ParseClient.saveUser(LunchDashApplication.user);
         List<String> selectedRestaurants = new LinkedList();
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
                 selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                UserResturants userResturant = new UserResturants(user.getUserId(), restaurant.getId());
-                userResturant.save();
+                UserResturants userResturantPair = new UserResturants(user.getUserId(), restaurant.getId());
+                ParseClient.saveUserRestaurantPair(userResturantPair);
             }
         }
 
