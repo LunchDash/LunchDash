@@ -213,10 +213,14 @@ public class RestaurantSearchActivity extends Activity implements GoogleApiClien
 
 
         List<String> selectedRestaurants = new LinkedList();
+
+        LunchDashApplication.restaurantList = new ArrayList<>();
+
         for (int i = 0; i < restaurants.size(); i++) {
             Restaurant restaurant = restaurants.get(i);
             if (restaurant.isSelected()) {
                 selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
+                LunchDashApplication.restaurantList.add(restaurant);
             }
         }
         if (selectedRestaurants.size() < 1) { //We're going to take no action if they didn't select at least 1 restaurant.
