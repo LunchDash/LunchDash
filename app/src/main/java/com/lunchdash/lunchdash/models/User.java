@@ -1,15 +1,7 @@
 package com.lunchdash.lunchdash.models;
 
 
-import android.util.Log;
-
 import com.lunchdash.lunchdash.datastore.UserTable;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
-
-import java.util.List;
 
 
 public class User {
@@ -18,6 +10,7 @@ public class User {
     private String status;
     private String email;
     private String name;
+    private String phoneNumber;
 
     private User(UserTable ut) {
         this.userId = ut.getString(UserTable.USER_ID);
@@ -71,4 +64,12 @@ public class User {
         this.name = name;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
+

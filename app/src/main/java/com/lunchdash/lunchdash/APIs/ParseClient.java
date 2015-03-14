@@ -40,6 +40,7 @@ public class ParseClient {
         ut.setImageUrl(user.getImageUrl());
         ut.setEmail(user.getEmail());
         ut.setStatus(user.getStatus());
+        ut.setPhoneNumber(user.getPhoneNumber());
         ut.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -74,34 +75,17 @@ public class ParseClient {
             UserRestaurantsTable userRestaurant = (UserRestaurantsTable) query.getFirst();
             return userRestaurant;
         } catch (ParseException e) {
-            e.printStackTrace();
         }
 
         return null;
     }
 
-    public static void deleteURPairsWithId(String userId) throws ParseException { //Delete all User-Restaurant pairs in Parse that match a specified userId
+    public static void deleteUserRestaurantPairs(String userId) throws ParseException { //Delete all User-Restaurant pairs in Parse that match a specified userId
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
         query.whereEqualTo("userId", userId);
         List<ParseObject> results = query.find();
         for (ParseObject result : results) {
             result.delete();
         }
-    }
-
-
-    public static void deleteUserRestaurantPairs(String userId) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserResturantsTable");
-        query.whereEqualTo(UserRestaurantsTable.USER_ID, userId);
-        try {
-            List<ParseObject> urt = query.find();
-            for(int i = 0; i < urt.size(); i++){
-                ParseObject ur = urt.get(i);
-                ur.delete();
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
     }
 }

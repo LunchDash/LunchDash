@@ -227,7 +227,7 @@ public class RestaurantSearchActivity extends ActionBarActivity implements Googl
 
         User user = LunchDashApplication.user;
         ParseClient.saveUser(user); //Create or update user info.
-        ParseClient.deleteURPairsWithId(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
+        ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
             UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);

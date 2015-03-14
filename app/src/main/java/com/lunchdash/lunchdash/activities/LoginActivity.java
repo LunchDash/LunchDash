@@ -2,8 +2,10 @@ package com.lunchdash.lunchdash.activities;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +59,12 @@ public class LoginActivity extends Activity {
 
     public void onLoginSuccess() {
         LunchDashApplication.user = new User();
+
+        //Store their phone number.
+        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        String phoneNumber = tMgr.getLine1Number();
+        LunchDashApplication.user.setPhoneNumber(tMgr.getLine1Number());
+
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
         startActivity(i);
@@ -64,7 +72,7 @@ public class LoginActivity extends Activity {
     }
 
     public void populateUserModel() {
-        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
+       ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
         final Session fbSession = ParseFacebookUtils.getSession();
 
         new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() { //Send a request to get the user's id, email, and name

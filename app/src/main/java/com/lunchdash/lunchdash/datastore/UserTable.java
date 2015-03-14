@@ -14,6 +14,7 @@ public class UserTable extends ParseObject {
     public final static String USER_EMAIL = "email";
     public final static String USER_IMAGE_URL = "imageUrl";
     public final static String USER_STATUS = "status";
+    public final static String USER_PHONE_NUMBER = "phoneNumber";
 
     public String getUserid() {
         return getString(USER_ID);
@@ -56,5 +57,13 @@ public class UserTable extends ParseObject {
 
     public void setStatus(String status) {
         put(USER_STATUS, status);
+    }
+
+    public String getPhoneNumber() {
+        return getString(USER_PHONE_NUMBER);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        put(USER_PHONE_NUMBER, phoneNumber);
     }
 }
