@@ -151,7 +151,11 @@ public class ParseClient {
         if (urmt == null) {
             urmt = new UserRestaurantMatchesTable();
         }
-        urmt.setRequesterStatus(reqResponse);
+        if (urmt.getRequesterId() == reqUserId) {
+            urmt.setRequesterStatus(reqResponse);
+        } else if (urmt.getMatchedUserId() == matchedUserId){
+            urmt.setMatchedStatus(reqResponse);
+        }
         urmt.saveInBackground();
     }
 
