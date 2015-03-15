@@ -22,14 +22,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:background="#3B5998">
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/etRestaurantSearch"
             android:hint="@string/hint_restaurant_search"
-            android:layout_weight="0.7" />
+            android:layout_weight="0.7"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -61,11 +64,11 @@
 
 
         <Button
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_width="match_parent"
             style="@style/RectangleButton"
             android:text="Finished Picking Restaurants >>>"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:id="@+id/btnFinished"
             android:onClick="onFinishedClick"
             android:layout_alignTop="@+id/etSelected"
