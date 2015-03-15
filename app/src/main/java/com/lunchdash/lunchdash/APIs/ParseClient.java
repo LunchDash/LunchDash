@@ -13,6 +13,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ParseClient {
@@ -144,19 +145,30 @@ public class ParseClient {
     }
 
     public static void deleteRestaurantMatches(String userId) throws ParseException {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query.whereEqualTo("reqUserId", userId);
-        List<ParseObject> results = query.find();
+        List<ParseObject> results = getUserRestaurantsMatches(userId);
+
         for (ParseObject result : results) {
             result.delete();
         }
 
+    }
+
+    public static List<ParseObject> getUserRestaurantsMatches(String userId) {
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo("reqUserId", userId);
+
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query.whereEqualTo("matchedUserID", userId);
-        List<ParseObject> results2 = query2.find();
-        for (ParseObject result : results2) {
-            result.delete();
+        query2.whereEqualTo("matchedUserID", userId);
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+
+        try {
+            List<ParseObject> results = query.find();
+            return results;
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        return null;
 
 
     }
