@@ -145,6 +145,17 @@ public class ParseClient {
 
     }
 
+    public static void saveUserRestaurantMatch(String reqUserId, String matchedUserId, String getRestaurantId, String reqResponse) {
+        UserRestaurantMatchesTable urmt;
+        urmt = getUserRestaurantMatch(reqUserId, matchedUserId, getRestaurantId);
+        if (urmt == null) {
+            urmt = new UserRestaurantMatchesTable();
+        }
+        urmt.setRequesterStatus(reqResponse);
+        urmt.saveInBackground();
+    }
+
+
     public static void deleteRestaurantMatches(String userId) throws ParseException {
         List<ParseObject> results = getUserRestaurantsMatches(userId);
 
@@ -205,6 +216,5 @@ public class ParseClient {
         }
         return null;
     }
-
 
 }

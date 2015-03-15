@@ -1,7 +1,6 @@
 package com.lunchdash.lunchdash.models;
 
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
-import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 
 /**
  * Created by nandinimargada on 3/14/15.
@@ -24,7 +23,6 @@ public class UserRestaurantMatches {
         setMatchedStatus(urmt.getMatchedStatus());
         setReqStatus(urmt.getRequesterStatus());
     }
-
 
     public String getReqUserId() {
         return reqUserId;

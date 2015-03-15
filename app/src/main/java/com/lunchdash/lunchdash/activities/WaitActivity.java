@@ -4,92 +4,78 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.lunchdash.lunchdash.APIs.ParseClient;
+import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 
-import java.util.Random;
+import java.util.List;
 
 public class WaitActivity extends Activity {
+
+    private static final String TAG = "WaitActivity";
 
     private static int WAIT_TIME_OUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
+
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                handleRequests();
+              finish();
             }
         }, WAIT_TIME_OUT);
+
     }
 
-    void handleRequests()
+    @Override
+    public void onResume()
     {
-        if (onGetMatchRequest()) {
-            String userId = "10155239203120307"; //TODO
-            String restaurantId = "a-slice-of-new-york-san-jose"; //TODO
+        super.onResume();
+        handleRequests();
+    }
 
-            Intent i = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
-            i.putExtra("userId", userId);
-            i.putExtra("restaurantId",restaurantId);
-            startActivity(i);
+    void handleRequests() {
+
+        List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
+
+        Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
+
+        Log.i(TAG, "handleRequests:: Found #" + matches.size());
+
+        for (UserRestaurantMatches match : matches) {
+
+            Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
+            acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
+            acceptDeclineActivityIntent.putExtra("restaurantId",match.getRestaurantId());
+            startActivity(acceptDeclineActivityIntent);
+
+            //Always check if we have a match already.. before showing the next one
+            onGetConfirmationRequest();
+
+        }
+        onGetConfirmationRequest();
+    }
+
+    void onGetConfirmationRequest() {
+
+
+        UserRestaurantMatches usersMatchConfirmation =
+                ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
+
+        if (usersMatchConfirmation != null) {
+            Log.i(TAG, "onGetConfirmationRequest");
+            Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
+            contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
+            contactActivityIntent.putExtra("restaurantId", usersMatchConfirmation.getRestaurantId());
+            startActivity(contactActivityIntent);
             finish();
         }
-
-        if (onGetConfirmationRequest()) {
-            String userId = "10155239203120307"; //TODO
-            String restaurantId = "a-slice-of-new-york-san-jose"; //TODO
-            Intent i = new Intent(WaitActivity.this, ContactActivity.class);
-            i.putExtra("userId", userId);
-            i.putExtra("restaurantId",restaurantId);
-            startActivity(i);
-            finish();
-        }
     }
-
-    boolean onGetMatchRequest() {
-        Random r = new Random();
-        boolean haveMatchRequest = r.nextBoolean();
-        return haveMatchRequest;
-    }
-
-    boolean onGetConfirmationRequest() {
-        Random r = new Random();
-        boolean haveConfimation = r.nextBoolean();
-        return haveConfimation;
-
-    }
-
-    public boolean onGet(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_wait, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_wait, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
