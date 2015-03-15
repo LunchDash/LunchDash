@@ -183,5 +183,28 @@ public class ParseClient {
         return matches;
     }
 
+    public static UserRestaurantMatches getUserRestaurantMatchAccepted(String userId){
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, true);
+        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, true);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+        query2.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, true);
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, true);
+
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+
+        try {
+            UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
+            return new UserRestaurantMatches(match);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
