@@ -2,10 +2,12 @@ package com.lunchdash.lunchdash.models;
 
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 
+import java.io.Serializable;
+
 /**
  * Created by nandinimargada on 3/14/15.
  */
-public class UserRestaurantMatches {
+public class UserRestaurantMatches implements Serializable {
 
     public static final String STATUS_WAITING = "waiting";
     public static final String STATUS_ACCEPTED = "accepted";
