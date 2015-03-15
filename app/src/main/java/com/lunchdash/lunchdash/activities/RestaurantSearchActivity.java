@@ -165,13 +165,14 @@ public class RestaurantSearchActivity extends Activity {
                 LunchDashApplication.restaurantList.add(restaurant);
             }
         }
+
         if (selectedRestaurants.size() < 1) { //We're going to take no action if they didn't select at least 1 restaurant.
             Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         User user = LunchDashApplication.user;
-        //user.setPhoneNumber("1234567890"); //Uncomment on Emulator 
+        user.setPhoneNumber("1234567890"); //Uncomment on Emulator
 
         ParseClient.saveUser(user); //Create or update user info.
         ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable

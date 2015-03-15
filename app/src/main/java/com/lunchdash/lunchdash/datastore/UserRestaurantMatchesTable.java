@@ -37,19 +37,19 @@ public class UserRestaurantMatchesTable extends ParseObject {
         put(RESTAURANT_ID, restaurantId);
     }
 
-    public boolean isRequesterStatus() {
-        return getBoolean(REQUESTER_STATUS);
+    public String getRequesterStatus() {
+        return getString(REQUESTER_STATUS);
     }
 
-    public void setRequesterStatus(boolean requesterStatus) {
+    public void setRequesterStatus(String requesterStatus) {
         put(REQUESTER_STATUS, requesterStatus);
     }
 
-    public boolean isMatchedStatus() {
-        return getBoolean(MATCHED_STATUS);
+    public String getMatchedStatus() {
+        return getString(MATCHED_STATUS);
     }
 
-    public void setMatchedStatus(boolean matchedStatus) {
+    public void setMatchedStatus(String matchedStatus) {
         put(MATCHED_STATUS, matchedStatus);
     }
 

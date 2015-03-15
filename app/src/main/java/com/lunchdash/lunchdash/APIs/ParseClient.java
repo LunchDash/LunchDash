@@ -115,11 +115,11 @@ public class ParseClient {
 
     }
 
-    private static UserRestaurantMatchesTable getUserRestaurantMatch(String reqId, String matchId, String resturantId) {
+    private static UserRestaurantMatchesTable getUserRestaurantMatch(String reqId, String matchId, String restaurantId) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, reqId);
         query.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchId);
-        query.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, resturantId);
+        query.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
         try {
             UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
             return match;
@@ -139,11 +139,26 @@ public class ParseClient {
         urmt.setRequesterId(urm.getReqUserId());
         urmt.setMatchedUserId(urm.getMatchedUserID());
         urmt.setRestaurantId(urm.getRestaurantId());
-        urmt.setRequesterStatus(urm.isReqStatus());
-        urmt.setMatchedStatus(urm.isMatchedStatus());
+        urmt.setRequesterStatus(urm.getReqStatus());
+        urmt.setMatchedStatus(urm.getMatchedStatus());
         urmt.saveInBackground();
 
     }
+
+    public static void saveUserRestaurantMatch(String reqUserId, String matchedUserId, String getRestaurantId, String reqResponse) {
+        UserRestaurantMatchesTable urmt;
+        urmt = getUserRestaurantMatch(reqUserId, matchedUserId, getRestaurantId);
+        if (urmt == null) {
+            urmt = new UserRestaurantMatchesTable();
+        }
+        if (urmt.getRequesterId() == reqUserId) {
+            urmt.setRequesterStatus(reqResponse);
+        } else if (urmt.getMatchedUserId() == matchedUserId){
+            urmt.setMatchedStatus(reqResponse);
+        }
+        urmt.saveInBackground();
+    }
+
 
     public static void deleteRestaurantMatches(String userId) throws ParseException {
         List<ParseObject> results = getUserRestaurantsMatches(userId);
@@ -156,10 +171,10 @@ public class ParseClient {
 
     private static List<ParseObject> getUserRestaurantsMatches(String userId) {
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo("reqUserId", userId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query2.whereEqualTo("matchedUserID", userId);
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
 
         ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
 
@@ -183,5 +198,27 @@ public class ParseClient {
         return matches;
     }
 
+    public static UserRestaurantMatches getUserRestaurantMatchAccepted(String userId){
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
+        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+        query2.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
+
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+
+        try {
+            UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
+            return new UserRestaurantMatches(match);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

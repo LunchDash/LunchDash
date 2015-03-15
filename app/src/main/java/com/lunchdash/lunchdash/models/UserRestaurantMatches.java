@@ -1,26 +1,28 @@
 package com.lunchdash.lunchdash.models;
 
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
-import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 
 /**
  * Created by nandinimargada on 3/14/15.
  */
 public class UserRestaurantMatches {
 
+    public static final String STATUS_WAITING = "waiting";
+    public static final String STATUS_ACCEPTED = "accepted";
+    public static final String STATUS_DENIED = "denied";
+
     public UserRestaurantMatches(){
-        setMatchedStatus(false);
-        setReqStatus(false);
+        setMatchedStatus(STATUS_WAITING);
+        setReqStatus(STATUS_WAITING);
     }
 
     public UserRestaurantMatches(UserRestaurantMatchesTable urmt){
         setReqUserId(urmt.getRequesterId());
         setMatchedUserID(urmt.getMatchedUserId());
         setRestaurantId(urmt.getRestaurantId());
-        setMatchedStatus(urmt.isMatchedStatus());
-        setReqStatus(urmt.isRequesterStatus());
+        setMatchedStatus(urmt.getMatchedStatus());
+        setReqStatus(urmt.getRequesterStatus());
     }
-
 
     public String getReqUserId() {
         return reqUserId;
@@ -46,26 +48,26 @@ public class UserRestaurantMatches {
         this.restaurantId = restaurantId;
     }
 
-    public boolean isReqStatus() {
+    public String getReqStatus() {
         return reqStatus;
     }
 
-    public void setReqStatus(boolean reqStatus) {
+    public void setReqStatus(String reqStatus) {
         this.reqStatus = reqStatus;
     }
 
-    public boolean isMatchedStatus() {
+    public String getMatchedStatus() {
         return matchedStatus;
     }
 
-    public void setMatchedStatus(boolean matchedStatus) {
+    public void setMatchedStatus(String matchedStatus) {
         this.matchedStatus = matchedStatus;
     }
 
     private String reqUserId;
     private String matchedUserID;
     private String restaurantId;
-    private boolean reqStatus;
-    private boolean matchedStatus;
+    private String reqStatus;
+    private String matchedStatus;
 
 }
