@@ -13,6 +13,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -153,7 +154,7 @@ public class ParseClient {
 
     }
 
-    public static List<ParseObject> getUserRestaurantsMatches(String userId) {
+    private static List<ParseObject> getUserRestaurantsMatches(String userId) {
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query1.whereEqualTo("reqUserId", userId);
 
@@ -169,8 +170,17 @@ public class ParseClient {
             e.printStackTrace();
         }
         return null;
+    }
 
+    public static List<UserRestaurantMatches> getUserMatches(String userId){
+        List<UserRestaurantMatches> matches = new ArrayList<UserRestaurantMatches>();
+        List<ParseObject> results = getUserRestaurantsMatches(userId);
+        for (ParseObject match : results) {
+            UserRestaurantMatches matchObject = new UserRestaurantMatches(((UserRestaurantMatchesTable)match));
+            matches.add(matchObject);
+        }
 
+        return matches;
     }
 
 

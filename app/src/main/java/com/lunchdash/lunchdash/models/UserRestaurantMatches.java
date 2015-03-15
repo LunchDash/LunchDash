@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.models;
 
+import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 
 /**
@@ -10,6 +11,14 @@ public class UserRestaurantMatches {
     public UserRestaurantMatches(){
         setMatchedStatus(false);
         setReqStatus(false);
+    }
+
+    public UserRestaurantMatches(UserRestaurantMatchesTable urmt){
+        setReqUserId(urmt.getRequesterId());
+        setMatchedUserID(urmt.getMatchedUserId());
+        setRestaurantId(urmt.getRestaurantId());
+        setMatchedStatus(urmt.isMatchedStatus());
+        setReqStatus(urmt.isRequesterStatus());
     }
 
 
