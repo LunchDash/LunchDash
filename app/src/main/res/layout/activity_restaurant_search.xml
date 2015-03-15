@@ -63,12 +63,15 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            style="@style/RectangleButton"
             android:text="Finished Picking Restaurants >>>"
+            android:textSize="17sp"
             android:id="@+id/btnFinished"
             android:onClick="onFinishedClick"
             android:layout_alignTop="@+id/etSelected"
             android:layout_toRightOf="@+id/etSelected"
-            android:layout_toEndOf="@+id/etSelected" />
+            android:layout_toEndOf="@+id/etSelected"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

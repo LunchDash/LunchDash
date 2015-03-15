@@ -9,4 +9,9 @@
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
     </style>
 
+    <style name="RectangleButton">
+        <item name="android:background">@drawable/rectangle_button</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

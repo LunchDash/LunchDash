@@ -37,6 +37,7 @@
         <activity
             android:name=".activities.RestaurantSearchActivity"
             android:label="@string/title_activity_restaurant_search"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity

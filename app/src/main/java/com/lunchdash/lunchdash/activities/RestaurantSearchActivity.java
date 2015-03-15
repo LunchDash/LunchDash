@@ -2,26 +2,22 @@ package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.lunchdash.lunchdash.APIs.Keys;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
@@ -40,30 +36,28 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
-public class RestaurantSearchActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class RestaurantSearchActivity extends Activity {
     public YelpAPI yapi;
     ArrayList<Restaurant> restaurants;
     ListView lvRestaurants;
     RestaurantsArrayAdapter adapterRestaurants;
-    Location location;
-    GoogleApiClient gApiClient;
-    String latitude;
-    String longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_search);
-        buildGoogleApiClient();
+
 
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
         adapterRestaurants = new RestaurantsArrayAdapter(this, restaurants);
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);
+
+        //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
+        new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
 
         lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,56 +73,22 @@ public class RestaurantSearchActivity extends Activity implements GoogleApiClien
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        gApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        gApiClient.disconnect();
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        gApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
     public void onRestaurantSearch(View v) {
         EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
         String searchTerm = etRestaurantSearch.getText().toString();
-
-        //Hide the soft keyboard.
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etRestaurantSearch.getWindowToken(), 0);
 
         //Get filter settings
         SharedPreferences filters = getSharedPreferences("settings", 0);
         String sortBy = filters.getString("sortBy", "Best Match");
         String maxDistance = filters.getString("maxDistance", "Best Match");
 
+
         if (searchTerm.equals("")) return;
-        try {
-            restaurants = new ConnectToYelp().execute(searchTerm, latitude, longitude, sortBy, maxDistance).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants.
-            restaurants.get(i).setSelected(false);
-        }
+        new ConnectToYelp().execute(searchTerm, LunchDashApplication.latitude, LunchDashApplication.longitude, sortBy, maxDistance);
 
-        adapterRestaurants.notifyDataSetChanged();
-        adapterRestaurants.clear();
-        adapterRestaurants.addAll(restaurants);
-        adapterRestaurants.notifyDataSetChanged();
-
-        lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etRestaurantSearch.getWindowToken(), 0);
     }
 
     public void onFilterClick(View v) {
@@ -145,50 +105,15 @@ public class RestaurantSearchActivity extends Activity implements GoogleApiClien
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+    private class ConnectToYelp extends AsyncTask<String, Void, ArrayList<Restaurant>> {
+        ProgressDialog dialog;
 
-        //int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_search) {
-            return true;
-        }*/
-
-        Toast.makeText(this,
-                String.valueOf(lvRestaurants.getCheckedItemCount()),
-                Toast.LENGTH_LONG).show();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        location = LocationServices.FusedLocationApi.getLastLocation(gApiClient);
-        if (location != null) {
-            latitude = location.getLatitude() + "";
-            longitude = location.getLongitude() + "";
-            Log.d("APPDEBUG", "This device's Latitude/Longitude is: " + latitude + "," + longitude);
-        } else {
-            Log.d("APPDEBUG", "Location is null");
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(RestaurantSearchActivity.this, "Searching Restaurants", "Please wait...", true);
         }
 
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    private class ConnectToYelp extends AsyncTask<String, Void, ArrayList<Restaurant>> {
         @Override
         protected ArrayList<Restaurant> doInBackground(String... params) {
 
@@ -201,11 +126,28 @@ public class RestaurantSearchActivity extends Activity implements GoogleApiClien
             String jsonResults = yapi.searchForRestaurants(term, latitude, longitude, sortBy, maxDistance);
             ArrayList<Restaurant> results = null;
             try {
-                results = Restaurant.fromJSONArray((new JSONObject(jsonResults)).getJSONArray("businesses"));
+                restaurants = Restaurant.fromJSONArray((new JSONObject(jsonResults)).getJSONArray("businesses"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return results;
+            return restaurants;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Restaurant> restaurants) {
+            for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants.
+                restaurants.get(i).setSelected(false);
+            }
+
+            adapterRestaurants.notifyDataSetChanged();
+            adapterRestaurants.clear();
+            adapterRestaurants.addAll(restaurants);
+            adapterRestaurants.notifyDataSetChanged();
+
+            lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+            Button btnFinished = (Button) findViewById(R.id.btnFinished);
+            btnFinished.setVisibility(View.VISIBLE);
+            dialog.dismiss();
         }
     }
 

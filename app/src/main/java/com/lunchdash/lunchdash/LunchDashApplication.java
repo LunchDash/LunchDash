@@ -18,6 +18,8 @@ public class LunchDashApplication extends Application {
     public static final String YOUR_CLIENT_KEY = "POAzmk8AO0H695i4QYHHjSKDSg8VkD4tdEodghYE";
     public static User user;
     public static List<Restaurant> restaurantList;
+    public static String longitude;
+    public static String latitude;
 
     @Override
     public void onCreate() {
