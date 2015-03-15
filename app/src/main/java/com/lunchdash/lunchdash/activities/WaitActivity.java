@@ -16,66 +16,99 @@ import java.util.List;
 
 public class WaitActivity extends Activity {
 
-    private static final String TAG = "WaitActivity";
-
-    private static int WAIT_TIME_OUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
 
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
               finish();
             }
         }, WAIT_TIME_OUT);
-
     }
 
     @Override
-    public void onResume()
+    protected void onResume()
     {
         super.onResume();
         handleRequests();
+        onGetConfirmationRequest();
+        //handler.postDelayed(runnable, POLLING_INTERVAL);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent i) {
+        if (resultCode == Activity.RESULT_OK) {
+            mResponse = (String) i.getStringExtra("userMatchResponse");
+        }
     }
 
     void handleRequests() {
 
-        List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
+        if (mResponse != UserRestaurantMatches.STATUS_ACCEPTED) {
 
-        Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
+            List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
 
-        Log.i(TAG, "handleRequests:: Found #" + matches.size());
+            Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
 
-        for (UserRestaurantMatches match : matches) {
+            Log.i(TAG, "handleRequests:: Found #" + matches.size());
 
-            Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
-            acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
-            acceptDeclineActivityIntent.putExtra("restaurantId",match.getRestaurantId());
-            startActivity(acceptDeclineActivityIntent);
+            for (UserRestaurantMatches match : matches) {
 
-            //Always check if we have a match already.. before showing the next one
-            onGetConfirmationRequest();
+                Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
+                if (match.getReqUserId() == LunchDashApplication.user.getUserId()) {
+                    acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
+                } else {
+                    acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
+                }
+                acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
+                startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
 
+            }
         }
-        onGetConfirmationRequest();
+
+
     }
 
     void onGetConfirmationRequest() {
 
+        if (mResponse != UserRestaurantMatches.STATUS_ACCEPTED) {
+            return;
+        }
 
         UserRestaurantMatches usersMatchConfirmation =
-                ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
+            ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
 
         if (usersMatchConfirmation != null) {
             Log.i(TAG, "onGetConfirmationRequest");
             Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
-            contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
+            if (usersMatchConfirmation.getReqUserId() == LunchDashApplication.user.getUserId()) {
+                contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
+            } else {
+                contactActivityIntent.putExtra("userId", usersMatchConfirmation.getReqUserId());
+            }
+
             contactActivityIntent.putExtra("restaurantId", usersMatchConfirmation.getRestaurantId());
             startActivity(contactActivityIntent);
             finish();
         }
     }
+
+    // Defines a runnable which is run every 100ms
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            handleRequests();
+            handler.postDelayed(this, POLLING_INTERVAL);
+        }
+    };
+
+    // Create a handler which can run code periodically
+    private Handler handler = new Handler();
+    private String mResponse;
+    private static final String TAG = "WaitActivity";
+    public final int REQUEST_CODE = 100;
+    private static int WAIT_TIME_OUT = 10000;
+    private static int POLLING_INTERVAL = 2000;
 }
