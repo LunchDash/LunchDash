@@ -116,10 +116,19 @@ public class ParseClient {
     }
 
     private static UserRestaurantMatchesTable getUserRestaurantMatch(String reqId, String matchId, String restaurantId) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, reqId);
-        query.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchId);
-        query.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, reqId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query2.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, matchId);
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, reqId);
+        query2.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+
+
         try {
             UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
             return match;

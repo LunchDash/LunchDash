@@ -8,9 +8,9 @@ public class User {
     private String userId;
     private String imageUrl;
     private String status;
-    private String email;
-    private String name;
-    private String phoneNumber;
+    private String email = "email";
+    private String name = "name";
+    private String phoneNumber = "1234567890";
 
     public User(UserTable ut) {
         this.userId = ut.getString(UserTable.USER_ID);

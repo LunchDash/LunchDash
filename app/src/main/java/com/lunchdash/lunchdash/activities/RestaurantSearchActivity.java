@@ -176,7 +176,7 @@ public class RestaurantSearchActivity extends Activity {
 
         ParseClient.saveUser(user); //Create or update user info.
         ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
-        ParseClient.deleteRestaurantMatches(user.getUserId());
+        //ParseClient.deleteRestaurantMatches(user.getUserId());
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
             UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);
