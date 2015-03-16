@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/login">
 
-    <Button
-        android:id="@+id/authButton"
+    <ImageButton
+        android:id="@+id/ibLogin"
+        android:layout_width="265dp"
+        android:layout_height="69dp"
+        android:src="@drawable/login_facebook"
+        android:onClick="login"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:layout_marginBottom="155dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:text="Log into Facebook"
-        android:onClick="login" />
+        android:text="Lunch Dash"
+        android:id="@+id/tvLoginTitle"
+        android:layout_marginTop="127dp"
+        android:textSize="60sp"
+        android:textColor="#FFFFFF"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="150"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+</RelativeLayout>

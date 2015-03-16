@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -44,6 +45,9 @@ public class LoginActivity extends Activity {
     }
 
     public void login(View v) {
+        //Hide the login button.
+        final ImageButton ibLogin = (ImageButton) findViewById(R.id.ibLogin);
+
         ParseFacebookUtils.logIn(Arrays.asList("email"), this, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
@@ -51,6 +55,7 @@ public class LoginActivity extends Activity {
                     Log.d("AppDebug", "The user cancelled the Facebook login.");
                 } else {
                     Log.d("AppDebug", "Authentication successful.");
+                    ibLogin.setVisibility(View.INVISIBLE); //Hide the login button.
                     onLoginSuccess();
                 }
             }
@@ -72,7 +77,7 @@ public class LoginActivity extends Activity {
     }
 
     public void populateUserModel() {
-       ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
+        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
         final Session fbSession = ParseFacebookUtils.getSession();
 
         new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() { //Send a request to get the user's id, email, and name

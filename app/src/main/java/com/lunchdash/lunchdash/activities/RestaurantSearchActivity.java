@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -43,6 +42,7 @@ public class RestaurantSearchActivity extends Activity {
     ArrayList<Restaurant> restaurants;
     ListView lvRestaurants;
     RestaurantsArrayAdapter adapterRestaurants;
+    List<String> selectedRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class RestaurantSearchActivity extends Activity {
         lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);
 
+
         //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
         new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
 
@@ -65,7 +66,7 @@ public class RestaurantSearchActivity extends Activity {
                 Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
                 restaurant.toggleSelected();
                 if (restaurant.isSelected()) {
-                    view.setBackgroundColor(0xF1FFA05); //First byte is alpha
+                    view.setBackgroundColor(Color.parseColor("#E8F3FF"));
                 } else {
                     view.setBackgroundColor(Color.WHITE);
                 }
@@ -97,12 +98,43 @@ public class RestaurantSearchActivity extends Activity {
         fd.show(fm, "fragment_filter_options");
     }
 
+    public void onFinishedClick(View v) throws ParseException {
+        selectedRestaurants = new LinkedList();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_restaurant_search, menu);
-        return true;
+        LunchDashApplication.restaurantList = new ArrayList<>();
+
+        for (int i = 0; i < restaurants.size(); i++) {
+            Restaurant restaurant = restaurants.get(i);
+            if (restaurant.isSelected()) {
+                selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
+                LunchDashApplication.restaurantList.add(restaurant);
+            }
+        }
+
+        if (selectedRestaurants.size() > 0) {
+            new FinishTask().execute(null, null, null); //Run the parse tasks in the background.
+        } else { //We're going to take no action if they didn't select at least 1 restaurant.
+            Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+
+    public void onFinished() throws ParseException {
+        User user = LunchDashApplication.user;
+        //user.setPhoneNumber("1234567890"); //Uncomment on Emulator
+
+        ParseClient.saveUser(user); //Create or update user info.
+        ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
+        ParseClient.deleteRestaurantMatches(user.getUserId());
+
+        for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
+            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);
+            ParseClient.saveUserRestaurantPair(userRestaurantPair);
+            ParseClient.populateUsersResutaurantMatches(userRestaurantPair);
+        }
+
+
     }
 
     private class ConnectToYelp extends AsyncTask<String, Void, ArrayList<Restaurant>> {
@@ -151,40 +183,32 @@ public class RestaurantSearchActivity extends Activity {
         }
     }
 
-    public void onFinishedClick(View v) throws ParseException {
+    private class FinishTask extends AsyncTask<Void, Void, Void> {
+        ProgressDialog dialog;
 
 
-        List<String> selectedRestaurants = new LinkedList();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(RestaurantSearchActivity.this, "Getting Ready", "Please wait...", true);
+        }
 
-        LunchDashApplication.restaurantList = new ArrayList<>();
-
-        for (int i = 0; i < restaurants.size(); i++) {
-            Restaurant restaurant = restaurants.get(i);
-            if (restaurant.isSelected()) {
-                selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                LunchDashApplication.restaurantList.add(restaurant);
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                onFinished();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+            return null;
         }
 
-        if (selectedRestaurants.size() < 1) { //We're going to take no action if they didn't select at least 1 restaurant.
-            Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
-            return;
+        @Override
+        protected void onPostExecute(Void v) {
+            dialog.dismiss();
+            Intent i = new Intent(RestaurantSearchActivity.this, WaitActivity.class); //Start waiting for restaurants.
+            startActivity(i);
         }
-
-        User user = LunchDashApplication.user;
-        user.setPhoneNumber("1234567890"); //Uncomment on Emulator
-
-        ParseClient.saveUser(user); //Create or update user info.
-        ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
-        ParseClient.deleteRestaurantMatches(user.getUserId());
-
-        for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
-            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);
-            ParseClient.saveUserRestaurantPair(userRestaurantPair);
-            ParseClient.populateUsersResutaurantMatches(userRestaurantPair);
-        }
-
-        Intent i = new Intent(this, WaitActivity.class); //Start waiting for restaurants.
-        startActivity(i);
     }
+
 }

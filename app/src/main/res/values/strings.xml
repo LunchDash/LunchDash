@@ -18,7 +18,7 @@
     <string name="get_started">To get started, log in using Facebook</string>
     <string name="RestaurantSelected">RestaurantSelected</string>
     <string name="title_activity_wait">WaitActivity</string>
-    <string name="WaitingMessage">Trying to find lunch buddy for you</string>
+    <string name="WaitingMessage">Finding you a lunch companion!\n\n Please wait...</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_accept_decline">AcceptDeclineActivity</string>
 
