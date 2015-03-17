@@ -1,7 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;

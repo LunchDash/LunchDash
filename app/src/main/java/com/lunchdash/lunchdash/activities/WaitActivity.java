@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
@@ -20,69 +19,64 @@ public class WaitActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-              finish();
-            }
-        }, WAIT_TIME_OUT);
+        handler.postDelayed(runnable, INITIAL_POLLING_INTERVAL);
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        handleRequests();
-        onGetConfirmationRequest();
-        //handler.postDelayed(runnable, POLLING_INTERVAL);
+        //RestartTheThreadAgain
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent i) {
+
         if (resultCode == Activity.RESULT_OK) {
-            mResponse = (String) i.getStringExtra("userMatchResponse");
+            //onGetConfirmationRequest();
         }
+
     }
 
     void handleRequests() {
 
-        if (mResponse != UserRestaurantMatches.STATUS_ACCEPTED) {
+        List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
 
-            List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
+        //Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "handleRequests:: Found #" + matches.size());
 
-            Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
+        onGetConfirmationRequest();
 
-            Log.i(TAG, "handleRequests:: Found #" + matches.size());
+        for (UserRestaurantMatches match : matches) {
 
-            for (UserRestaurantMatches match : matches) {
+            //PauseTheThreadHere();
 
-                Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
-                if (match.getReqUserId() == LunchDashApplication.user.getUserId()) {
-                    acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
-                } else {
-                    acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
-                }
-                acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
-                acceptDeclineActivityIntent.putExtra("match", match);
-                startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
-
+            Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
+            if (match.getReqUserId() == LunchDashApplication.user.getUserId()) {
+                acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
+            } else {
+                acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
             }
-        }
+            acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
+            acceptDeclineActivityIntent.putExtra("match", match);
+            startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
 
+            onGetConfirmationRequest();
+
+        }
 
     }
 
-    void onGetConfirmationRequest() {
 
-        if (mResponse != UserRestaurantMatches.STATUS_ACCEPTED) {
-            return;
-        }
+    void onGetConfirmationRequest() {
 
         UserRestaurantMatches usersMatchConfirmation =
             ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
 
         if (usersMatchConfirmation != null) {
             Log.i(TAG, "onGetConfirmationRequest");
+
+            //StopTheThreadHere();
+
             Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
             if (usersMatchConfirmation.getReqUserId() == LunchDashApplication.user.getUserId()) {
                 contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
@@ -92,6 +86,7 @@ public class WaitActivity extends Activity {
 
             contactActivityIntent.putExtra("restaurantId", usersMatchConfirmation.getRestaurantId());
             startActivity(contactActivityIntent);
+
             finish();
         }
     }
@@ -103,13 +98,14 @@ public class WaitActivity extends Activity {
             handleRequests();
             handler.postDelayed(this, POLLING_INTERVAL);
         }
+
+
     };
 
     // Create a handler which can run code periodically
     private Handler handler = new Handler();
-    private String mResponse;
     private static final String TAG = "WaitActivity";
     public final int REQUEST_CODE = 100;
-    private static int WAIT_TIME_OUT = 10000;
-    private static int POLLING_INTERVAL = 2000;
+    private static int POLLING_INTERVAL = 20000;
+    private static int INITIAL_POLLING_INTERVAL = 200;
 }
