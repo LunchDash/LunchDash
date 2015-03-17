@@ -3,6 +3,7 @@ package com.lunchdash.lunchdash.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import com.squareup.picasso.Picasso;
 
-public class AcceptDeclineActivity extends Activity {
+public class AcceptDeclineActivity extends ActionBarActivity {
     ImageView ivProfileImg;
     TextView  tvMessage;
     User matchedUser;

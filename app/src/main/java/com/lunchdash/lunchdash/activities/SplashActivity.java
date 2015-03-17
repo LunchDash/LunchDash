@@ -1,10 +1,10 @@
 package com.lunchdash.lunchdash.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -14,7 +14,7 @@ import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 
 
-public class SplashActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SplashActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static int SPLASH_TIME_OUT = 500;
     Location location;
     GoogleApiClient gApiClient;

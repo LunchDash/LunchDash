@@ -1,7 +1,5 @@
 package com.lunchdash.lunchdash.activities;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +7,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -37,7 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class RestaurantSearchActivity extends Activity {
+public class RestaurantSearchActivity extends ActionBarActivity {
     public YelpAPI yapi;
     List<Restaurant> restaurants;
     ListView lvRestaurants;
@@ -93,7 +93,7 @@ public class RestaurantSearchActivity extends Activity {
     }
 
     public void onFilterClick(View v) {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FilterDialog fd = FilterDialog.newInstance();
         fd.show(fm, "fragment_filter_options");
     }

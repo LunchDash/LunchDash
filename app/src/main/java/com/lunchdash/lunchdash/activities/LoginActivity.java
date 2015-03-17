@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +31,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 package com.lunchdash.lunchdash.fragments;
 
-import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,7 @@ import android.widget.Spinner;
 
 import com.lunchdash.lunchdash.R;
 
-public class FilterDialog extends DialogFragment {
+public class FilterDialog extends android.support.v4.app.DialogFragment {
     private Spinner spinSortBy;
     private Spinner spinMaxDistance;
 
