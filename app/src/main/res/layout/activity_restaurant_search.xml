@@ -22,7 +22,8 @@
             android:hint="@string/hint_restaurant_search"
             android:layout_weight="0.7"
             android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#FFFFFF"
+            android:inputType="text" />
 
         <ImageButton
             android:layout_width="0dp"

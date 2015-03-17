@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -39,6 +40,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     public YelpAPI yapi;
     public List<Restaurant> restaurants;
     List<String> selectedRestaurants;
+    public static FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,29 @@ public class RestaurantSearchActivity extends ActionBarActivity {
 
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment());
-        ft.commit();
+        setupViews();
 
         //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
         new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
+    }
+
+    public void setupViews() {
+        fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment());
+        ft.commit();
+
+        final EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
+        etRestaurantSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    onRestaurantSearch(etRestaurantSearch);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void onRestaurantSearch(View v) {
