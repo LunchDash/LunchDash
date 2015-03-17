@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
@@ -13,7 +14,7 @@ import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 
 import java.util.List;
 
-public class WaitActivity extends Activity {
+public class WaitActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,7 @@ public class WaitActivity extends Activity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         //RestartTheThreadAgain
     }
@@ -70,7 +70,7 @@ public class WaitActivity extends Activity {
     void onGetConfirmationRequest() {
 
         UserRestaurantMatches usersMatchConfirmation =
-            ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
+                ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
 
         if (usersMatchConfirmation != null) {
             Log.i(TAG, "onGetConfirmationRequest");

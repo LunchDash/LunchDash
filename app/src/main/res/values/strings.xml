@@ -21,5 +21,6 @@
     <string name="WaitingMessage">Finding you a lunch companion!\n\n Please wait...</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_accept_decline">AcceptDeclineActivity</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>

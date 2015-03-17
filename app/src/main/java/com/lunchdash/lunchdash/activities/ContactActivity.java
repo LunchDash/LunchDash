@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.squareup.picasso.Picasso;
 
-public class ContactActivity extends Activity {
+public class ContactActivity extends ActionBarActivity {
     ImageView ivUserImage;
     TextView tvContactText;
 
