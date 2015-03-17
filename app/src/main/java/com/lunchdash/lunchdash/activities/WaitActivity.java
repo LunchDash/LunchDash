@@ -51,7 +51,7 @@ public class WaitActivity extends Activity {
             //PauseTheThreadHere();
 
             Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
-            if (match.getReqUserId() == LunchDashApplication.user.getUserId()) {
+            if (match.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
                 acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
             } else {
                 acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
@@ -78,7 +78,7 @@ public class WaitActivity extends Activity {
             //StopTheThreadHere();
 
             Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
-            if (usersMatchConfirmation.getReqUserId() == LunchDashApplication.user.getUserId()) {
+            if (usersMatchConfirmation.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
                 contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
             } else {
                 contactActivityIntent.putExtra("userId", usersMatchConfirmation.getReqUserId());
