@@ -20,26 +20,42 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
     int position = 0;
 
     public RestaurantsArrayAdapter(Context context, List<Restaurant> restaurants) {
-        super(context, android.R.layout.simple_list_item_1);
+        super(context, android.R.layout.simple_list_item_1, restaurants);
+    }
+
+    private static class ViewHolder {
+        TextView tvDistance;
+        TextView tvRestName;
+        TextView tvReviews;
+        TextView tvCategories;
+        TextView tvAddress;
+
+        ImageView ivImage;
+        ImageView ivRating;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         this.position = position;
         Restaurant restaurant = getItem(position);
+        ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_restaurant, parent, false);
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_restaurant, parent, false);
+
+            viewHolder.tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
+            viewHolder.tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
+            viewHolder.tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
+            viewHolder.tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
+            viewHolder.tvAddress = (TextView) convertView.findViewById(R.id.tvAddress);
+            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
+            viewHolder.ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        TextView tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
-        TextView tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
-        TextView tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
-        TextView tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
-        TextView tvAddress = (TextView) convertView.findViewById(R.id.tvAddress);
-
-
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
-        ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
         if (restaurant.isSelected()) {
             convertView.setBackgroundColor(Color.parseColor("#E8F3FF"));
@@ -49,9 +65,9 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
 
         //Fill info
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
-        tvDistance.setText(distanceString);
-        tvRestName.setText(restaurant.getName());
-        tvReviews.setText(restaurant.getReviewCount() + " reviews");
+        viewHolder.tvDistance.setText(distanceString);
+        viewHolder.tvRestName.setText(restaurant.getName());
+        viewHolder.tvReviews.setText(restaurant.getReviewCount() + " reviews");
 
         //Concat all the Categories
         try {
@@ -63,10 +79,10 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
                     categories += ", ";
                 }
             }
-            tvCategories.setText(categories);
+            viewHolder.tvCategories.setText(categories);
         } catch (NullPointerException e) {
             Log.d("APPDEBUG", "Restaurant found without a category!");
-            tvCategories.setText("");
+            viewHolder.tvCategories.setText("");
         }
 
         //Concat all the lines of the Display Address
@@ -81,12 +97,12 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
             }
         } catch (NullPointerException e) {
         }
-        tvAddress.setText(address);
+        viewHolder.tvAddress.setText(address);
 
-        ivImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(getContext()).load(restaurant.getImageURL()).into(ivImage);
-        ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(getContext()).load(restaurant.getRatingImgUrl()).into(ivRating);
+        viewHolder.ivImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
+        Picasso.with(getContext()).load(restaurant.getImageURL()).into(viewHolder.ivImage);
+        viewHolder.ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
+        Picasso.with(getContext()).load(restaurant.getRatingImgUrl()).into(viewHolder.ivRating);
 
         return convertView;
     }

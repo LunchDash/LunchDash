@@ -5,16 +5,6 @@
     tools:context=".MainActivity">
 
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/lvRestaurants"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/ll" />
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -77,5 +67,13 @@
             android:visibility="invisible" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutRestaurant"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ll"></FrameLayout>
 
 </RelativeLayout>
