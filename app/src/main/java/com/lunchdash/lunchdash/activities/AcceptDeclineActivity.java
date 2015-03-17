@@ -1,6 +1,7 @@
 package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
@@ -20,6 +22,7 @@ public class AcceptDeclineActivity extends Activity {
     TextView  tvMessage;
     User matchedUser;
     Restaurant restaurant;
+    UserRestaurantMatches match;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class AcceptDeclineActivity extends Activity {
         Intent i = getIntent();
         String userId = i.getStringExtra("userId");
         String restaurantId = i.getStringExtra("restaurantId");
+        match = (UserRestaurantMatches)i.getSerializableExtra("match");
 
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
@@ -44,11 +48,19 @@ public class AcceptDeclineActivity extends Activity {
     public void onAccept(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
-        ParseClient.saveUserRestaurantMatch(
-                LunchDashApplication.user.getUserId(),
-                matchedUser.getUserId(),
-                restaurant.getId(),
-                userMatchResponse);
+//        ParseClient.saveUserRestaurantMatch(
+//                LunchDashApplication.user.getUserId(),
+//                matchedUser.getUserId(),
+//                restaurant.getId(),
+//                userMatchResponse);
+
+        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())){
+            match.setReqStatus(UserRestaurantMatches.STATUS_ACCEPTED);
+        } else {
+            match.setMatchedStatus(UserRestaurantMatches.STATUS_ACCEPTED);
+        }
+
+        ParseClient.saveUserRestaurantMatch(match);
 
         Intent i = new Intent();
         i.putExtra("userMatchResponse", userMatchResponse);

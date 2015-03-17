@@ -63,6 +63,7 @@ public class WaitActivity extends Activity {
                     acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
                 }
                 acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
+                acceptDeclineActivityIntent.putExtra("match", match);
                 startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
 
             }
