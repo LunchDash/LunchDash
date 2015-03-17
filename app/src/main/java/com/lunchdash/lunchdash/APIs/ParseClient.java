@@ -181,9 +181,11 @@ public class ParseClient {
     private static List<ParseObject> getUserRestaurantsMatches(String userId) {
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+        query1.whereNotEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_WAITING);
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+        query2.whereNotEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_WAITING);
 
         ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
 
