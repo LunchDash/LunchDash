@@ -15,6 +15,16 @@
         android:id="@+id/linearLayout"
         android:background="#3B5998">
 
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ib_filter"
+            android:src="@drawable/ic_filter"
+            android:layout_weight="0.15"
+            android:onClick="onFilterClick"
+            android:background="#3B5998"
+            android:scaleType="fitXY" />
+
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -28,11 +38,11 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/ib_filter"
-            android:src="@drawable/ic_filter"
+            android:id="@+id/ib_maps"
+            android:src="@android:drawable/ic_dialog_map"
             android:layout_weight="0.15"
-            android:onClick="onFilterClick" />
-
+            android:onClick="onMapButtonClick"
+            android:background="#3B5998"/>
 
         <ImageButton
             android:layout_width="0dp"
@@ -40,7 +50,8 @@
             android:id="@+id/ib_search"
             android:src="@android:drawable/ic_menu_search"
             android:layout_weight="0.15"
-            android:onClick="onRestaurantSearch" />
+            android:onClick="onRestaurantSearch"
+            android:background="#3B5998"/>
 
     </LinearLayout>
 

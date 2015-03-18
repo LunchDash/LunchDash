@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +24,7 @@ import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.fragments.FilterDialog;
+import com.lunchdash.lunchdash.fragments.GMapFragment;
 import com.lunchdash.lunchdash.fragments.RestaurantListFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
@@ -59,7 +62,8 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     public void setupViews() {
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment());
+        //ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+        ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
         ft.commit();
 
         final EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
@@ -166,13 +170,18 @@ public class RestaurantSearchActivity extends ActionBarActivity {
             for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants.
                 restaurants.get(i).setSelected(false);
             }
-            RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
 
-            rListFragment.adapterRestaurants.clear();
-            rListFragment.adapterRestaurants.addAll(restaurants);
-            rListFragment.adapterRestaurants.notifyDataSetChanged();
+            //Get the current fragment
+            RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+            Fragment restaurantMapFragment = getSupportFragmentManager().findFragmentByTag("RESTAURANT_MAP");
 
-            rListFragment.lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+            //RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
+            if (rListFragment != null) {
+                rListFragment.adapterRestaurants.clear();
+                rListFragment.adapterRestaurants.addAll(restaurants);
+                rListFragment.adapterRestaurants.notifyDataSetChanged();
+                rListFragment.lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+            }
             Button btnFinished = (Button) findViewById(R.id.btnFinished);
             btnFinished.setVisibility(View.VISIBLE);
             dialog.dismiss();
