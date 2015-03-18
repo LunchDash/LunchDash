@@ -2,6 +2,7 @@ package com.lunchdash.lunchdash.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -15,39 +16,65 @@ import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import java.util.List;
 
 public class WaitActivity extends ActionBarActivity {
+    // Create a handler which can run code periodically
+    private Handler handler = new Handler();
+    private static final String TAG = "WaitActivity";
+    public final int REQUEST_CODE = 100;
+    FindMatchTask matchTask;
+    int loopCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
-        handler.postDelayed(runnable, INITIAL_POLLING_INTERVAL);
+
+        //matchTask.execute(null, null, null);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("APPDEBUG", "pause called");
+        matchTask.cancel(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("APPDEBUG", "Destroy called");
+        matchTask.cancel(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //RestartTheThreadAgain
+        Log.d("APPDEBUG", "resume called");
+
+        matchTask = new FindMatchTask();
+        matchTask.execute(null, null, null); //Restart the async task when we return from the AcceptDeclineActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent i) {
 
         if (resultCode == Activity.RESULT_OK) {
+            Log.d("APPDEBUG", "successfully did acceptdeclineactivity");
             //onGetConfirmationRequest();
         }
 
     }
 
     void handleRequests() {
-
+        loopCount++;
+        Log.d("APPDEBUG", "loop count is: " + loopCount);
         List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
 
         //Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
-        Log.i(TAG, "handleRequests:: Found #" + matches.size());
+        // Log.i(TAG, "handleRequests:: Found #" + matches.size());
 
         onGetConfirmationRequest();
 
         for (UserRestaurantMatches match : matches) {
-
+            Log.d("APPDEBUG", "Found a match on" + LunchDashApplication.user.getUserId());
             //PauseTheThreadHere();
 
             Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
@@ -58,9 +85,11 @@ public class WaitActivity extends ActionBarActivity {
             }
             acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
             acceptDeclineActivityIntent.putExtra("match", match);
+
+            matchTask.cancel(true);
             startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
 
-            onGetConfirmationRequest();
+            //onGetConfirmationRequest();
 
         }
 
@@ -73,9 +102,7 @@ public class WaitActivity extends ActionBarActivity {
                 ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
 
         if (usersMatchConfirmation != null) {
-            Log.i(TAG, "onGetConfirmationRequest");
-
-            //StopTheThreadHere();
+            matchTask.cancel(true);
 
             Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
             if (usersMatchConfirmation.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
@@ -91,21 +118,28 @@ public class WaitActivity extends ActionBarActivity {
         }
     }
 
-    // Defines a runnable which is run every 100ms
-    private Runnable runnable = new Runnable() {
+    private class FindMatchTask extends AsyncTask<Object, Void, Void> {
+
+
         @Override
-        public void run() {
-            handleRequests();
-            handler.postDelayed(this, POLLING_INTERVAL);
+        protected Void doInBackground(Object... params) {
+            while (!matchTask.isCancelled()) {
+                handleRequests();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
 
-    };
 
-    // Create a handler which can run code periodically
-    private Handler handler = new Handler();
-    private static final String TAG = "WaitActivity";
-    public final int REQUEST_CODE = 100;
-    private static int POLLING_INTERVAL = 20000;
-    private static int INITIAL_POLLING_INTERVAL = 200;
 }

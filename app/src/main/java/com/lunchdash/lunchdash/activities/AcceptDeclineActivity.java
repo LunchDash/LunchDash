@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 public class AcceptDeclineActivity extends ActionBarActivity {
     ImageView ivProfileImg;
-    TextView  tvMessage;
+    TextView tvMessage;
     User matchedUser;
     Restaurant restaurant;
     UserRestaurantMatches match;
@@ -31,7 +31,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         Intent i = getIntent();
         String userId = i.getStringExtra("userId");
         String restaurantId = i.getStringExtra("restaurantId");
-        match = (UserRestaurantMatches)i.getSerializableExtra("match");
+        match = (UserRestaurantMatches) i.getSerializableExtra("match");
 
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
@@ -47,10 +47,12 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void onAccept(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
-        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())){
+        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
             match.setReqStatus(UserRestaurantMatches.STATUS_ACCEPTED);
+            match.setMatchedStatus(UserRestaurantMatches.STATUS_UNCHANGED);
         } else {
             match.setMatchedStatus(UserRestaurantMatches.STATUS_ACCEPTED);
+            match.setReqStatus(UserRestaurantMatches.STATUS_UNCHANGED);
         }
 
         ParseClient.saveUserRestaurantMatch(match);
@@ -64,7 +66,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void onDecline(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_DENIED;
 
-        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())){
+        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
             match.setReqStatus(UserRestaurantMatches.STATUS_DENIED);
         } else {
             match.setMatchedStatus(UserRestaurantMatches.STATUS_DENIED);

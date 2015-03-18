@@ -9,13 +9,14 @@ public class UserRestaurantMatches implements Serializable {
     public static final String STATUS_WAITING = "waiting";
     public static final String STATUS_ACCEPTED = "accepted";
     public static final String STATUS_DENIED = "denied";
+    public static final String STATUS_UNCHANGED = "noaction";
 
-    public UserRestaurantMatches(){
+    public UserRestaurantMatches() {
         setMatchedStatus(STATUS_WAITING);
         setReqStatus(STATUS_WAITING);
     }
 
-    public UserRestaurantMatches(UserRestaurantMatchesTable urmt){
+    public UserRestaurantMatches(UserRestaurantMatchesTable urmt) {
         setReqUserId(urmt.getRequesterId());
         setMatchedUserID(urmt.getMatchedUserId());
         setRestaurantId(urmt.getRestaurantId());

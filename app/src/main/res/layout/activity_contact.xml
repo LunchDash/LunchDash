@@ -22,7 +22,8 @@
         android:layout_alignParentEnd="true"
         android:background="@color/com_facebook_blue"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:id="@+id/linearLayout5">
 
         <ImageButton
             android:layout_width="100dp"
@@ -51,11 +52,12 @@
         android:layout_height="wrap_content"
         tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!"
         android:id="@+id/tvContactText"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textIsSelectable="true"
         android:gravity="center_horizontal"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/ivUserImage"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/linearLayout5" />
 
 
 </RelativeLayout>

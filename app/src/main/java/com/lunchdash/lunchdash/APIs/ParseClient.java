@@ -148,10 +148,13 @@ public class ParseClient {
         urmt.setRequesterId(urm.getReqUserId());
         urmt.setMatchedUserId(urm.getMatchedUserID());
         urmt.setRestaurantId(urm.getRestaurantId());
-        urmt.setRequesterStatus(urm.getReqStatus());
-        urmt.setMatchedStatus(urm.getMatchedStatus());
+        if (!urm.getReqStatus().equals(UserRestaurantMatches.STATUS_UNCHANGED)) {
+            urmt.setRequesterStatus(urm.getReqStatus());
+        }
+        if (!urm.getMatchedStatus().equals(UserRestaurantMatches.STATUS_UNCHANGED)) {
+            urmt.setMatchedStatus(urm.getMatchedStatus());
+        }
         urmt.saveInBackground();
-
     }
 
     public static void saveUserRestaurantMatch(String reqUserId, String matchedUserId, String getRestaurantId, String reqResponse) {
@@ -162,7 +165,7 @@ public class ParseClient {
         }
         if (urmt.getRequesterId() == reqUserId) {
             urmt.setRequesterStatus(reqResponse);
-        } else if (urmt.getMatchedUserId() == matchedUserId){
+        } else if (urmt.getMatchedUserId() == matchedUserId) {
             urmt.setMatchedStatus(reqResponse);
         }
         urmt.saveInBackground();
@@ -170,7 +173,20 @@ public class ParseClient {
 
 
     public static void deleteRestaurantMatches(String userId) throws ParseException {
-        List<ParseObject> results = getUserRestaurantsMatches(userId);
+
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+        List<ParseObject> results = null;
+        try {
+            results = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         for (ParseObject result : results) {
             result.delete();
@@ -198,18 +214,18 @@ public class ParseClient {
         return null;
     }
 
-    public static List<UserRestaurantMatches> getUserMatches(String userId){
+    public static List<UserRestaurantMatches> getUserMatches(String userId) {
         List<UserRestaurantMatches> matches = new ArrayList<UserRestaurantMatches>();
         List<ParseObject> results = getUserRestaurantsMatches(userId);
         for (ParseObject match : results) {
-            UserRestaurantMatches matchObject = new UserRestaurantMatches(((UserRestaurantMatchesTable)match));
+            UserRestaurantMatches matchObject = new UserRestaurantMatches(((UserRestaurantMatchesTable) match));
             matches.add(matchObject);
         }
 
         return matches;
     }
 
-    public static UserRestaurantMatches getUserRestaurantMatchAccepted(String userId){
+    public static UserRestaurantMatches getUserRestaurantMatchAccepted(String userId) {
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
         query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);

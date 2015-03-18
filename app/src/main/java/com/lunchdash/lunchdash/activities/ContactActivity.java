@@ -1,6 +1,5 @@
 package com.lunchdash.lunchdash.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,9 +37,9 @@ public class ContactActivity extends ActionBarActivity {
         tvContactText = (TextView) findViewById(R.id.tvContactText);
 
         user = ParseClient.getUser(userId);
-        Restaurant restaurant =  LunchDashApplication.getRestaurantById(restaurantId);
+        Restaurant restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
-        tvContactText.setText(user.getName() + " is ready for an awesome lunch!\\nGet in touch with him/her @ restaurant " + restaurant.getName());
+        tvContactText.setText(user.getName() + " is ready for an awesome lunch at " + restaurant.getName() + "!\nGet in touch with them!");
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         Picasso.with(this).load(user.getImageUrl()).into((ivUserImage));
 
@@ -57,7 +56,7 @@ public class ContactActivity extends ActionBarActivity {
         mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
         mailClient.setType("plain/text");
         mailClient.putExtra(Intent.EXTRA_EMAIL, user.getEmail());
-        mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at"+ restaurant.getName());
+        mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at" + restaurant.getName());
 
         startActivity(mailClient);
     }
