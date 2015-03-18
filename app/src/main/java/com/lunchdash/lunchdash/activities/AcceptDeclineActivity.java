@@ -47,12 +47,6 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void onAccept(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
-//        ParseClient.saveUserRestaurantMatch(
-//                LunchDashApplication.user.getUserId(),
-//                matchedUser.getUserId(),
-//                restaurant.getId(),
-//                userMatchResponse);
-
         if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())){
             match.setReqStatus(UserRestaurantMatches.STATUS_ACCEPTED);
         } else {
@@ -70,10 +64,13 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void onDecline(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_DENIED;
 
-        ParseClient.saveUserRestaurantMatch(LunchDashApplication.user.getUserId(),
-                matchedUser.getUserId(),
-                restaurant.getId(),
-                userMatchResponse);
+        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())){
+            match.setReqStatus(UserRestaurantMatches.STATUS_DENIED);
+        } else {
+            match.setMatchedStatus(UserRestaurantMatches.STATUS_DENIED);
+        }
+
+        ParseClient.saveUserRestaurantMatch(match);
 
         Intent i = new Intent();
         i.putExtra("userMatchResponse", userMatchResponse);

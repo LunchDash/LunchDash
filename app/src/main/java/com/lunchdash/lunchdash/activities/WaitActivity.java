@@ -54,7 +54,7 @@ public class WaitActivity extends ActionBarActivity {
             if (match.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
                 acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
             } else {
-                acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
+                acceptDeclineActivityIntent.putExtra("userId", match.getReqUserId());
             }
             acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
             acceptDeclineActivityIntent.putExtra("match", match);
