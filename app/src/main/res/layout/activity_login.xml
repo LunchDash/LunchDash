@@ -29,7 +29,7 @@
         android:shadowColor="#000"
         android:shadowDx="0"
         android:shadowDy="0"
-        android:shadowRadius="150"
+        android:shadowRadius="25"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

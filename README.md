@@ -17,6 +17,10 @@ If time allows:
 
 ![Video Walkthrough](walkthrough_sprint2.gif)
 
+another sprint 2 gif
+![Video Walkthrough](walkthrough3.gif)
+
+
 Older walkthrough
 
 ![Video Walkthrough](walkthrough.gif)
