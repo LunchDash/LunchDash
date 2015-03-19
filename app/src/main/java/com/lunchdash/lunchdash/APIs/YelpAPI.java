@@ -30,7 +30,7 @@ public class YelpAPI {
         request.addQuerystringParameter("term", term);
 
         String ll = latitude + "," + longitude;
-        ll = "37.7749,-122.419";
+        //ll = "37.7749,-122.419";
         request.addQuerystringParameter("ll", ll); //Specify location by "Geographic Coordinate" aka latitude longitude
 
         String sortParam;
