@@ -10,12 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lunchdash.lunchdash.APIs.Keys;
@@ -49,7 +49,6 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_search);
-
 
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
@@ -100,6 +99,25 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         FragmentManager fm = getSupportFragmentManager();
         FilterDialog fd = FilterDialog.newInstance();
         fd.show(fm, "fragment_filter_options");
+    }
+
+    public void onSwitcherClick(View v) {
+        FragmentTransaction ft = fm.beginTransaction();
+
+        RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+
+        ImageButton ibSwitcher = (ImageButton) findViewById(R.id.ibSwitcher);
+
+        if (rListFragment != null) { //We see the list.  Switch to the map.
+            ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
+            ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+
+        } else { //We're seeing the map.  Switch to the list.
+            ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+            ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
+        }
+
+        ft.commit();
     }
 
     public void onFinishedClick(View v) throws ParseException {
