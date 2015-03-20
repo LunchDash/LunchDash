@@ -1,5 +1,7 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
@@ -27,8 +31,7 @@ public class WaitActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
-
-        //matchTask.execute(null, null, null);
+        doAnimation();
     }
 
     @Override
@@ -92,6 +95,24 @@ public class WaitActivity extends ActionBarActivity {
             //onGetConfirmationRequest();
 
         }
+
+    }
+
+    void doAnimation() {
+
+        ImageView fork = (ImageView) findViewById(R.id.ivFork);
+        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", 315);
+        moveFork.setInterpolator(new BounceInterpolator());
+        moveFork.setDuration(2000);
+        moveFork.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
+        moveFork.start();
+
+        ImageView spoon = (ImageView) findViewById(R.id.ivSpoon);
+        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -215);
+        moveSpoon.setInterpolator(new BounceInterpolator());
+        moveSpoon.setDuration(2000);
+        moveSpoon.setRepeatCount(ValueAnimator.INFINITE);
+        moveSpoon.start();
 
     }
 
