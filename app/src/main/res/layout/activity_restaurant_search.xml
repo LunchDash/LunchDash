@@ -38,11 +38,11 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/ib_maps"
-            android:src="@android:drawable/ic_dialog_map"
+            android:id="@+id/ibSwitcher"
+            android:src="@drawable/ic_list"
             android:layout_weight="0.15"
-            android:onClick="onMapButtonClick"
-            android:background="#3B5998"/>
+            android:onClick="onSwitcherClick"
+            android:background="#3B5998" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -51,7 +51,7 @@
             android:src="@android:drawable/ic_menu_search"
             android:layout_weight="0.15"
             android:onClick="onRestaurantSearch"
-            android:background="#3B5998"/>
+            android:background="#3B5998" />
 
     </LinearLayout>
 
@@ -86,6 +86,6 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/ll"></FrameLayout>
+        android:layout_above="@+id/ll" />
 
 </RelativeLayout>
