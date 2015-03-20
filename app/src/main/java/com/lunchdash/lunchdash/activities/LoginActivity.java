@@ -1,7 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,18 +44,19 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    public void login(View v) {
-        //Hide the login button.
+    public void onLoginClick(View v) {
+
         final ImageButton ibLogin = (ImageButton) findViewById(R.id.ibLogin);
+        ibLogin.setVisibility(View.INVISIBLE); //Hide the login button.
 
         ParseFacebookUtils.logIn(Arrays.asList("email"), this, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
                 if (user == null) {
                     Log.d("AppDebug", "The user cancelled the Facebook login.");
+                    ibLogin.setVisibility(View.VISIBLE); //Show the login button.
                 } else {
                     Log.d("AppDebug", "Authentication successful.");
-                    ibLogin.setVisibility(View.INVISIBLE); //Hide the login button.
                     onLoginSuccess();
                 }
             }
@@ -142,5 +142,4 @@ public class LoginActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
