@@ -41,7 +41,7 @@ import java.util.List;
 
 public class RestaurantSearchActivity extends ActionBarActivity {
     public YelpAPI yapi;
-    public List<Restaurant> restaurants;
+    public static List<Restaurant> restaurants;
     List<String> selectedRestaurants;
     public static FragmentManager fm;
 
@@ -173,7 +173,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
 
             //Get the current fragment
             RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
-            Fragment restaurantMapFragment = getSupportFragmentManager().findFragmentByTag("RESTAURANT_MAP");
+            GMapFragment gMapFragment = (GMapFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_MAP");
 
             //RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
             if (rListFragment != null) {
@@ -182,6 +182,10 @@ public class RestaurantSearchActivity extends ActionBarActivity {
                 rListFragment.adapterRestaurants.notifyDataSetChanged();
                 rListFragment.lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
             }
+            if (gMapFragment != null) {
+                gMapFragment.updateMap();
+            }
+
             Button btnFinished = (Button) findViewById(R.id.btnFinished);
             btnFinished.setVisibility(View.VISIBLE);
             dialog.dismiss();
