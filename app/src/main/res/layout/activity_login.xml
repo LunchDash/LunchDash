@@ -10,7 +10,7 @@
         android:layout_width="265dp"
         android:layout_height="69dp"
         android:src="@drawable/login_facebook"
-        android:onClick="login"
+        android:onClick="onLoginClick"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitCenter"
         android:background="@null"
