@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:id="@+id/llInfoWindow">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        tools:text="0.5 miles"
+        android:id="@+id/tvDistance"
+        android:text="10sp"
+        android:layout_gravity="right"
+        android:textColor="#ff0013ff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        tools:text="In-n-Out"
+        android:id="@+id/tvRestName"
+        android:text="10sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCategories"
+        tools:text="Burgers, Fast Food"
+        android:textSize="14sp" />
+</LinearLayout>

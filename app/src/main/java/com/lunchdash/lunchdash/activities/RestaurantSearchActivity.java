@@ -4,17 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.lunchdash.lunchdash.APIs.Keys;
@@ -22,8 +23,9 @@ import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.adapters.RestaurantsArrayAdapter;
 import com.lunchdash.lunchdash.fragments.FilterDialog;
+import com.lunchdash.lunchdash.fragments.GMapFragment;
+import com.lunchdash.lunchdash.fragments.RestaurantListFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurants;
@@ -39,37 +41,40 @@ import java.util.List;
 
 public class RestaurantSearchActivity extends ActionBarActivity {
     public YelpAPI yapi;
-    List<Restaurant> restaurants;
-    ListView lvRestaurants;
-    RestaurantsArrayAdapter adapterRestaurants;
+    public static List<Restaurant> restaurants;
     List<String> selectedRestaurants;
+    public static FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_search);
 
-
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
-        adapterRestaurants = new RestaurantsArrayAdapter(this, restaurants);
-        lvRestaurants = (ListView) findViewById(R.id.lvRestaurants);
-        lvRestaurants.setAdapter(adapterRestaurants);
-
+        setupViews();
 
         //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
         new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
+    }
 
-        lvRestaurants.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void setupViews() {
+        //Show the restaurant list by default.
+        fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+        ft.commit();
+
+        final EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
+
+        etRestaurantSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
-                restaurant.toggleSelected();
-                if (restaurant.isSelected()) {
-                    view.setBackgroundColor(Color.parseColor("#E8F3FF"));
-                } else {
-                    view.setBackgroundColor(Color.WHITE);
+            public boolean onKey(View v, int keyCode, KeyEvent event) { //Submits if you press the enter key on the soft keyboard.
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    onRestaurantSearch(etRestaurantSearch);
+                    return true;
                 }
+                return false;
             }
         });
     }
@@ -89,7 +94,6 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         String sortBy = filters.getString("sortBy", "Best Match");
         String maxDistance = filters.getString("maxDistance", "Best Match");
 
-
         if (searchTerm.equals("")) return;
 
         new ConnectToYelp().execute(searchTerm, LunchDashApplication.latitude, LunchDashApplication.longitude, sortBy, maxDistance);
@@ -102,6 +106,25 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         FragmentManager fm = getSupportFragmentManager();
         FilterDialog fd = FilterDialog.newInstance();
         fd.show(fm, "fragment_filter_options");
+    }
+
+    public void onSwitcherClick(View v) {
+        FragmentTransaction ft = fm.beginTransaction();
+
+        RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+
+        ImageButton ibSwitcher = (ImageButton) findViewById(R.id.ibSwitcher);
+
+        if (rListFragment != null) { //We see the list.  Switch to the map.
+            ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
+            ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+
+        } else { //We're seeing the map.  Switch to the list.
+            ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+            ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
+        }
+
+        ft.commit();
     }
 
     public void onFinishedClick(View v) throws ParseException {
@@ -173,12 +196,21 @@ public class RestaurantSearchActivity extends ActionBarActivity {
                 restaurants.get(i).setSelected(false);
             }
 
-            adapterRestaurants.notifyDataSetChanged();
-            adapterRestaurants.clear();
-            adapterRestaurants.addAll(restaurants);
-            adapterRestaurants.notifyDataSetChanged();
+            //Get the current fragment
+            RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+            GMapFragment gMapFragment = (GMapFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_MAP");
 
-            lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+            //RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
+            if (rListFragment != null) {
+                rListFragment.adapterRestaurants.clear();
+                rListFragment.adapterRestaurants.addAll(restaurants);
+                rListFragment.adapterRestaurants.notifyDataSetChanged();
+                rListFragment.lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
+            }
+            if (gMapFragment != null) {
+                gMapFragment.updateMap();
+            }
+
             Button btnFinished = (Button) findViewById(R.id.btnFinished);
             btnFinished.setVisibility(View.VISIBLE);
             dialog.dismiss();

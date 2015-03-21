@@ -5,16 +5,6 @@
     tools:context=".MainActivity">
 
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/lvRestaurants"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/ll" />
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -25,6 +15,16 @@
         android:id="@+id/linearLayout"
         android:background="#3B5998">
 
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ib_filter"
+            android:src="@drawable/ic_filter"
+            android:layout_weight="0.15"
+            android:onClick="onFilterClick"
+            android:background="#3B5998"
+            android:scaleType="fitXY" />
+
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -32,16 +32,17 @@
             android:hint="@string/hint_restaurant_search"
             android:layout_weight="0.7"
             android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#FFFFFF"
+            android:inputType="text" />
 
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/ib_filter"
-            android:src="@drawable/ic_filter"
+            android:id="@+id/ibSwitcher"
+            android:src="@android:drawable/ic_dialog_map"
             android:layout_weight="0.15"
-            android:onClick="onFilterClick" />
-
+            android:onClick="onSwitcherClick"
+            android:background="#3B5998" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -49,7 +50,8 @@
             android:id="@+id/ib_search"
             android:src="@android:drawable/ic_menu_search"
             android:layout_weight="0.15"
-            android:onClick="onRestaurantSearch" />
+            android:onClick="onRestaurantSearch"
+            android:background="#3B5998" />
 
     </LinearLayout>
 
@@ -77,5 +79,13 @@
             android:visibility="invisible" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutRestaurant"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ll" />
 
 </RelativeLayout>
