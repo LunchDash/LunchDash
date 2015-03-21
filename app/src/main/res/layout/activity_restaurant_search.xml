@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/lvRestaurants"
         android:layout_alignParentLeft="true"
+        android:background="@color/lightprimarycolor"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
         android:layout_above="@+id/ll" />
@@ -23,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout"
-        android:background="#3B5998">
+        android:background="@color/darkprimarycolor">
 
         <EditText
             android:layout_width="0dp"
@@ -31,8 +32,8 @@
             android:id="@+id/etRestaurantSearch"
             android:hint="@string/hint_restaurant_search"
             android:layout_weight="0.7"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF" />
+            android:textColor="@color/text"
+            android:textColorHint="@color/text" />
 
         <ImageButton
             android:layout_width="0dp"

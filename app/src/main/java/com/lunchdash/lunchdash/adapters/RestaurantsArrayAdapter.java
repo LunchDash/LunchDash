@@ -42,7 +42,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         ImageView ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
         if (restaurant.isSelected()) {
-            convertView.setBackgroundColor(Color.parseColor("#E8F3FF"));
+            convertView.setBackgroundColor(getContext().getResources().getColor(R.color.lightprimarycolor));
         } else {
             convertView.setBackgroundColor(Color.WHITE);
         }

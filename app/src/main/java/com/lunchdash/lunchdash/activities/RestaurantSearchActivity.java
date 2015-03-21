@@ -66,7 +66,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
                 Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
                 restaurant.toggleSelected();
                 if (restaurant.isSelected()) {
-                    view.setBackgroundColor(Color.parseColor("#E8F3FF"));
+                    view.setBackgroundColor(getResources().getColor(R.color.lightprimarycolor));
                 } else {
                     view.setBackgroundColor(Color.WHITE);
                 }

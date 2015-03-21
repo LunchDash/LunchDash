@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="horizontal"
-    android:background="#FFFFFF">
+    android:background="@color/primarycolor">
 
     <ImageView
         android:layout_width="75dp"
@@ -28,13 +28,14 @@
             android:id="@+id/tvDistance"
             android:text="10sp"
             android:layout_gravity="right"
-            android:textColor="#ff0013ff" />
+            android:textColor="@color/primarytext" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             tools:text="In-n-Out"
+            android:textColor="@color/primarytext"
             android:id="@+id/tvRestName"
             android:text="10sp" />
 
@@ -55,6 +56,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/tvReviews"
                 tools:text="140 reviews"
+                android:textColor="@color/secondarytext"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="5dp" />
         </LinearLayout>
@@ -63,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:textColor="@color/secondarytext"
             tools:text="445 Industrial Rd San Carlos, CA 94070"
             android:id="@+id/tvAddress"
             android:singleLine="true" />
@@ -71,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvCategories"
+            android:textColor="@color/secondarytext"
             tools:text="Burgers, Fast Food"
             android:textSize="14sp" />
 

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightprimarycolor"
     tools:context="com.lunchdash.lunchdash.activities.ContactActivity">
 
     <ImageView
@@ -9,10 +10,11 @@
         android:layout_height="200dp"
         android:id="@+id/ivUserImage"
         android:layout_marginTop="29dp"
+
         tools:image="@drawable/ic_launcher"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/com_facebook_blue" />
+        android:background="@color/accentcolor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@color/com_facebook_blue"
+        android:background="@color/lightprimarycolor"
         android:orientation="horizontal"
         android:gravity="center"
         android:id="@+id/linearLayout5">
