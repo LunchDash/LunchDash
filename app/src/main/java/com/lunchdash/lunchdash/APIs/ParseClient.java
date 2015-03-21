@@ -1,7 +1,10 @@
 package com.lunchdash.lunchdash.APIs;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.lunchdash.lunchdash.activities.ContactActivity;
+import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 import com.lunchdash.lunchdash.datastore.UserTable;
@@ -292,6 +295,35 @@ public class ParseClient {
             e.printStackTrace();
         }
 
+    }
+
+    public static void saveChatMessage(String roomId, String userId, String message){
+        ChatMessageTable chatMessage = new ChatMessageTable();
+        chatMessage.setChatRoomId(roomId);
+        chatMessage.setUserId(userId);
+        chatMessage.setMessageBody(message);
+        try {
+            chatMessage.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<ChatMessageTable> getChatMessages(String roomId){
+        ParseQuery<ChatMessageTable> query = ParseQuery.getQuery(ChatMessageTable.class);
+        query.setLimit(ContactActivity.MAX_CHAT_MESSAGES_TO_SHOW);
+        query.orderByAscending("createdAt");
+        query.whereEqualTo(ChatMessageTable.CHAT_ROOM_ID, roomId);
+
+        try {
+            List<ChatMessageTable> results = query.find();
+            return results;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
     }
 
 }
