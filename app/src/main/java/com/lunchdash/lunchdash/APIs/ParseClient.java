@@ -49,12 +49,17 @@ public class ParseClient {
         ut.setEmail(user.getEmail());
         ut.setStatus(user.getStatus());
         ut.setPhoneNumber(user.getPhoneNumber());
-        ut.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Log.e("TAG", "user saved");
-            }
-        });
+        try {
+            ut.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        ut.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                Log.e("TAG", "user saved");
+//            }
+//        });
     }
 
     public static void saveUserRestaurantPair(UserRestaurants ur) {
@@ -65,12 +70,17 @@ public class ParseClient {
         }
         urt.setUserId(ur.getUserId());
         urt.setRestaurantId(ur.getRestaurantId());
-        urt.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Log.e("TAG", "user restaurant saved");
-            }
-        });
+        try {
+            urt.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        urt.saveInBackground(new SaveCallback() {
+//            @Override
+//            public void done(ParseException e) {
+//                Log.e("TAG", "user restaurant saved");
+//            }
+//        });
 
     }
 
@@ -154,7 +164,11 @@ public class ParseClient {
         if (!urm.getMatchedStatus().equals(UserRestaurantMatches.STATUS_UNCHANGED)) {
             urmt.setMatchedStatus(urm.getMatchedStatus());
         }
-        urmt.saveInBackground();
+        try {
+            urmt.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveUserRestaurantMatch(String reqUserId, String matchedUserId, String getRestaurantId, String reqResponse) {
@@ -168,7 +182,11 @@ public class ParseClient {
         } else if (urmt.getMatchedUserId() == matchedUserId) {
             urmt.setMatchedStatus(reqResponse);
         }
-        urmt.saveInBackground();
+        try {
+            urmt.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
