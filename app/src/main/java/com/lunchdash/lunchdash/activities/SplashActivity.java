@@ -62,6 +62,7 @@ public class SplashActivity extends ActionBarActivity implements GoogleApiClient
             public void run() {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 finish();
             }
         }, SPLASH_TIME_OUT);

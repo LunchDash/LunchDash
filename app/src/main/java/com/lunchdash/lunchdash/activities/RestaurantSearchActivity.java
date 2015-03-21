@@ -74,6 +74,12 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
     public void onRestaurantSearch(View v) {
         EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
         String searchTerm = etRestaurantSearch.getText().toString();
@@ -204,6 +210,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
             dialog.dismiss();
             Intent i = new Intent(RestaurantSearchActivity.this, WaitActivity.class); //Start waiting for restaurants.
             startActivity(i);
+            overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
     }
 

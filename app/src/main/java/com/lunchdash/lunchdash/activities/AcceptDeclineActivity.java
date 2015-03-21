@@ -44,6 +44,12 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         Picasso.with(this).load(matchedUser.getImageUrl()).into((ivProfileImg));
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
     public void onAccept(View v) {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 

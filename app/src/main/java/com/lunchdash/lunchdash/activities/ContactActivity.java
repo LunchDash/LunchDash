@@ -45,10 +45,17 @@ public class ContactActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
     public void onCallClick(View v) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:0123456789"));
         startActivity(intent);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     public void onEmailClick(View v) {
@@ -59,6 +66,7 @@ public class ContactActivity extends ActionBarActivity {
         mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at" + restaurant.getName());
 
         startActivity(mailClient);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
 }

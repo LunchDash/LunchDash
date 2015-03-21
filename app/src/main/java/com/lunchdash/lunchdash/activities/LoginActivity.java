@@ -63,6 +63,12 @@ public class LoginActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
     public void onLoginSuccess() {
         LunchDashApplication.user = new User();
 
@@ -74,7 +80,9 @@ public class LoginActivity extends ActionBarActivity {
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
         finish();
+
     }
 
     public void populateUserModel() {

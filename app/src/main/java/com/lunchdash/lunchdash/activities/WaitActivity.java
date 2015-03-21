@@ -98,6 +98,12 @@ public class WaitActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
     void doAnimation() {
 
         ImageView fork = (ImageView) findViewById(R.id.ivFork);
@@ -134,7 +140,7 @@ public class WaitActivity extends ActionBarActivity {
 
             contactActivityIntent.putExtra("restaurantId", usersMatchConfirmation.getRestaurantId());
             startActivity(contactActivityIntent);
-
+            overridePendingTransition(R.anim.right_in, R.anim.left_out);
             finish();
         }
     }
