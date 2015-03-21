@@ -280,4 +280,18 @@ public class ParseClient {
         return null;
     }
 
+    /**
+     * Method to be called when the app exits.
+     * @param userId
+     */
+    public static void deleteUserSelections(String userId){
+        try {
+            deleteRestaurantMatches(userId);
+            deleteUserRestaurantPairs(userId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
