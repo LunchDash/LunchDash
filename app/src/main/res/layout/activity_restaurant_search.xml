@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/ibSwitcher"
-            android:src="@drawable/ic_list"
+            android:src="@android:drawable/ic_dialog_map"
             android:layout_weight="0.15"
             android:onClick="onSwitcherClick"
             android:background="#3B5998" />

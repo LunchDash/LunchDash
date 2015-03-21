@@ -24,15 +24,12 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
     @Override
     public View getInfoWindow(Marker marker) {
 
-        View v = mInflater.inflate(R.layout.item_restaurant, null);
+        View v = mInflater.inflate(R.layout.infowindow_restaurant, null);
 
         TextView tvDistance = (TextView) v.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
-        TextView tvReviews = (TextView) v.findViewById(R.id.tvReviews);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
-        TextView tvAddress = (TextView) v.findViewById(R.id.tvAddress);
-        ImageView ivImage = (ImageView) v.findViewById(R.id.ivImage);
-        ImageView ivRating = (ImageView) v.findViewById(R.id.ivRating);
+
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
         Restaurant restaurant = RestaurantSearchActivity.restaurants.get(listPos);
@@ -41,7 +38,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
         tvDistance.setText(distanceString);
         tvRestName.setText(restaurant.getName());
-        tvReviews.setText(restaurant.getReviewCount() + " reviews");
+
 
         //Concat all the Categories
         try {
@@ -71,12 +68,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
             }
         } catch (NullPointerException e) {
         }
-        tvAddress.setText(address);
 
-        ivImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(v.getContext()).load(restaurant.getImageURL()).into(ivImage);
-        ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(v.getContext()).load(restaurant.getRatingImgUrl()).into(ivRating);
         return v;
     }
 

@@ -59,16 +59,17 @@ public class RestaurantSearchActivity extends ActionBarActivity {
     }
 
     public void setupViews() {
+        //Show the restaurant list by default.
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        //ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
-        ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
+        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
         ft.commit();
 
         final EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
+
         etRestaurantSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public boolean onKey(View v, int keyCode, KeyEvent event) { //Submits if you press the enter key on the soft keyboard.
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     onRestaurantSearch(etRestaurantSearch);
                     return true;

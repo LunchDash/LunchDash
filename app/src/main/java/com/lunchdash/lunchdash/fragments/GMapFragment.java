@@ -16,7 +16,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -65,7 +64,7 @@ public class GMapFragment extends Fragment {
         CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
         map.moveCamera(center);
         map.animateCamera(CameraUpdateFactory.zoomTo(12));
-
+        updateMap();
         return v;
 
     }
@@ -107,8 +106,6 @@ public class GMapFragment extends Fragment {
                 marker.setAnchor(0.5f, 1.0f + 14 * t);
                 if (t > 0.0) {
                     handler.postDelayed(this, 15);
-                } else {
-                    marker.showInfoWindow();
                 }
             }
         });
