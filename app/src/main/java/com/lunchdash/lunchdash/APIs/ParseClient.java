@@ -108,6 +108,20 @@ public class ParseClient {
     }
 
 
+    public static int getUserCountForResturant(String resturantId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
+        query.whereEqualTo(UserRestaurantsTable.RESTAURANT_ID, resturantId);
+        try {
+            List<ParseObject> results = query.find();
+            if (results != null && !results.isEmpty()){
+                return  results.size();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void populateUsersResutaurantMatches(UserRestaurants userRestaurant) throws ParseException {
         //query users who also are interested in this restaurant.
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
