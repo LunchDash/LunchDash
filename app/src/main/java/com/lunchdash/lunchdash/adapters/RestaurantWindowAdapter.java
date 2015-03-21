@@ -3,7 +3,6 @@ package com.lunchdash.lunchdash.adapters;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -12,7 +11,6 @@ import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.activities.RestaurantSearchActivity;
 import com.lunchdash.lunchdash.fragments.GMapFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
-import com.squareup.picasso.Picasso;
 
 public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
     LayoutInflater mInflater;

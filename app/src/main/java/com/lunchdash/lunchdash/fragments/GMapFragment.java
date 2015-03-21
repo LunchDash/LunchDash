@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,7 @@ public class GMapFragment extends Fragment {
         LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
         map.moveCamera(center);
-        map.animateCamera(CameraUpdateFactory.zoomTo(12));
+        map.animateCamera(CameraUpdateFactory.zoomTo(13));
         updateMap();
         return v;
 
@@ -81,11 +80,28 @@ public class GMapFragment extends Fragment {
                     Marker marker = map.addMarker(new MarkerOptions().position(rLatLng));
                     markerRestaurantPair.put(marker.getId(), i);
                     dropPin(marker);
-
-                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.fork_icon));
+                    boolean selected = RestaurantSearchActivity.restaurants.get(i).isSelected();
+                    if (selected) {
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
+                    } else {
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_unselected));
+                    }
 
                 }
-                Log.d("APPDEBUG", "STOP");
+            }
+        });
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                int position = markerRestaurantPair.get(marker.getId()); //The position of the restaurant in the restaurants array list.
+                Restaurant restaurant = RestaurantSearchActivity.restaurants.get(position);
+                restaurant.toggleSelected();
+                boolean selected = restaurant.isSelected();
+                if (selected) {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
+                } else {
+                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_unselected));
+                }
             }
         });
 
