@@ -98,7 +98,7 @@ public class LoginActivity extends ActionBarActivity {
                     userJSON = new JSONObject(response.getRawResponse());
                     LunchDashApplication.user.setUserId(userJSON.getString("id"));
                     LunchDashApplication.user.setEmail(userJSON.getString("email"));
-                    LunchDashApplication.user.setName(userJSON.getString("name"));
+                    LunchDashApplication.user.setName(userJSON.getString("first_name"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
