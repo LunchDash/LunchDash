@@ -14,7 +14,9 @@ import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.models.User;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -62,7 +64,16 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
         final ImageView profileView = isMe ? holder.imageRight : holder.imageLeft;
-        Picasso.with(getContext()).load(getProfileUrl(message.getUserId())).into(profileView);
+
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(30)
+                .oval(false)
+                .build();
+
+        Picasso.with(getContext())
+                .load(getProfileUrl(message.getUserId()))
+                .transform(transformation)
+                .into(profileView);
         holder.body.setText(message.getMessageBody());
         return convertView;
     }

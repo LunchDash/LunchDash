@@ -52,17 +52,13 @@ public class ParseClient {
         ut.setEmail(user.getEmail());
         ut.setStatus(user.getStatus());
         ut.setPhoneNumber(user.getPhoneNumber());
+        ut.setUserCurrentLat(user.getCurrentLat());
+        ut.setUserCurrentLon(user.getCurrentLon());
         try {
             ut.save();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        ut.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                Log.e("TAG", "user saved");
-//            }
-//        });
     }
 
     public static void saveUserRestaurantPair(UserRestaurants ur) {
@@ -78,12 +74,6 @@ public class ParseClient {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        urt.saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                Log.e("TAG", "user restaurant saved");
-//            }
-//        });
 
     }
 

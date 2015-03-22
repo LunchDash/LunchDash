@@ -1,79 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.lunchdash.lunchdash.activities.ContactActivity">
-
-    <LinearLayout
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.lunchdash.lunchdash.activities.ContactActivity">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/info"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <ImageView
                 android:id="@+id/ivUserImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@color/com_facebook_blue"
                 tools:image="@drawable/ic_launcher" />
 
             <TextView
                 android:id="@+id/tvContactText"
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/ivUserImage"
-                android:layout_toRightOf="@+id/ivUserImage"
                 android:gravity="center_horizontal"
                 android:textIsSelectable="true"
-                android:textSize="20sp"
+                android:textSize="12sp"
+                android:textColor="@color/primary_material_dark"
                 tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!" />
-
-        </RelativeLayout>
-
+        </LinearLayout>
         <ListView
             android:id="@+id/lvChat"
+            android:layout_below="@+id/info"
+            android:layout_above="@+id/llSend"
             android:layout_width="wrap_content"
-            android:layout_height="350dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:transcriptMode="alwaysScroll" />
+            android:transcriptMode="alwaysScroll"
+            android:layout_height="match_parent"
+             />
 
 
         <RelativeLayout
             android:id="@+id/llSend"
-            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lvChat">
+            android:orientation="horizontal"
+            >
 
             <EditText
                 android:id="@+id/etMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_toLeftOf="@+id/btSend"
-                android:layout_toStartOf="@+id/btSend"
+                android:layout_alignBottom="@+id/btSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/message_hint" />
 
             <Button
                 android:id="@+id/btSend"
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:gravity="center_vertical|right"
                 android:text="@string/send" />
 
         </RelativeLayout>
 
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
