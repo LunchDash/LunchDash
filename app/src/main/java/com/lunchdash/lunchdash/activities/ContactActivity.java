@@ -125,6 +125,9 @@ public class ContactActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
+                if (data.equals("")){
+                    return;
+                }
                 ParseClient.saveChatMessage(match.getId(), LunchDashApplication.user.getUserId(), data);
                 etMessage.setText("");
             }
