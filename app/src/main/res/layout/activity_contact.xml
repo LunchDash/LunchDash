@@ -28,9 +28,16 @@
                 android:textColor="@color/primary_material_dark"
                 tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!" />
         </LinearLayout>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mvContactMap"
+            android:layout_below="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
         <ListView
             android:id="@+id/lvChat"
-            android:layout_below="@+id/info"
+            android:layout_below="@+id/mvContactMap"
             android:layout_above="@+id/llSend"
             android:layout_width="wrap_content"
             android:transcriptMode="alwaysScroll"
