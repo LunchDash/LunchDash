@@ -1,10 +1,8 @@
 package com.lunchdash.lunchdash.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,10 +20,7 @@ import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,24 +93,6 @@ public class ContactActivity extends ActionBarActivity {
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
-    public void onCallClick(View v) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:0123456789"));
-        startActivity(intent);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
-    public void onEmailClick(View v) {
-        Intent mailClient = new Intent(Intent.ACTION_VIEW);
-        mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        mailClient.setType("plain/text");
-        mailClient.putExtra(Intent.EXTRA_EMAIL, user.getEmail());
-        mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at" + restaurant.getName());
-
-        startActivity(mailClient);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
     private void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
@@ -130,7 +107,7 @@ public class ContactActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                if (data.equals("")){
+                if (data.equals("")) {
                     return;
                 }
                 ParseClient.saveChatMessage(match.getId(), LunchDashApplication.user.getUserId(), data);
@@ -144,7 +121,7 @@ public class ContactActivity extends ActionBarActivity {
     private void receiveMessage() {
         // Construct query to execute
         List<ChatMessageTable> messages = ParseClient.getChatMessages(match.getId());
-        if (messages != null){
+        if (messages != null) {
             mMessages.clear();
             mMessages.addAll(messages);
             mAdapter.notifyDataSetChanged();
@@ -155,4 +132,10 @@ public class ContactActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+
+    }
 }
