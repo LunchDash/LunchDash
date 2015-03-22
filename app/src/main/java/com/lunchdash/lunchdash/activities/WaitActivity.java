@@ -78,7 +78,6 @@ public class WaitActivity extends ActionBarActivity {
 
         for (UserRestaurantMatches match : matches) {
             Log.d("APPDEBUG", "Found a match on" + LunchDashApplication.user.getUserId());
-            //PauseTheThreadHere();
 
             Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
             if (match.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
@@ -92,7 +91,7 @@ public class WaitActivity extends ActionBarActivity {
             matchTask.cancel(true);
             startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
 
-            //onGetConfirmationRequest();
+            onGetConfirmationRequest();
 
         }
 
