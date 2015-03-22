@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.squareup.picasso.Picasso;
@@ -24,11 +25,13 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
     }
 
     private static class ViewHolder {
+        TextView tvPeopleWaiting;
         TextView tvDistance;
         TextView tvRestName;
         TextView tvReviews;
         TextView tvCategories;
         TextView tvAddress;
+
 
         ImageView ivImage;
         ImageView ivRating;
@@ -44,6 +47,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_restaurant, parent, false);
 
+            viewHolder.tvPeopleWaiting = (TextView) convertView.findViewById(R.id.tvPeopleWaiting);
             viewHolder.tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
             viewHolder.tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
             viewHolder.tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
@@ -64,6 +68,13 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         }
 
         //Fill info
+        int numWaiting = ParseClient.getUserCountForResturant(restaurant.getId());
+        if (numWaiting == 1) { //Set text if there's anyone waiting for that restaurant.
+            viewHolder.tvPeopleWaiting.setText("1 person waiting!");
+        } else if (numWaiting >= 2) {
+            viewHolder.tvPeopleWaiting.setText(numWaiting + " people waiting!");
+        }
+
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
         viewHolder.tvDistance.setText(distanceString);
         viewHolder.tvRestName.setText(restaurant.getName());

@@ -20,15 +20,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            tools:text="0.5 miles"
-            android:id="@+id/tvDistance"
-            android:text="10sp"
-            android:layout_gravity="right"
-            android:textColor="#ff0013ff" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                tools:text="2 people waiting!"
+                android:id="@+id/tvPeopleWaiting"
+                android:textSize="15sp"
+                android:textColor="#FFA500" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                tools:text="0.5 miles"
+                android:id="@+id/tvDistance"
+                android:textSize="15sp"
+                android:layout_gravity="right"
+                android:textColor="#ff0013ff"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +54,7 @@
             android:ellipsize="end"
             tools:text="In-n-Out"
             android:id="@+id/tvRestName"
-            android:text="10sp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

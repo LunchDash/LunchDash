@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.activities.RestaurantSearchActivity;
 import com.lunchdash.lunchdash.fragments.GMapFragment;
@@ -24,15 +25,22 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         View v = mInflater.inflate(R.layout.infowindow_restaurant, null);
 
+        TextView tvPeopleWaiting = (TextView) v.findViewById(R.id.tvPeopleWaiting);
         TextView tvDistance = (TextView) v.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
-
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
         Restaurant restaurant = RestaurantSearchActivity.restaurants.get(listPos);
 
         //Fill info
+        int numWaiting = ParseClient.getUserCountForResturant(restaurant.getId());
+        if (numWaiting == 1) { //Set text if there's anyone waiting for that restaurant.
+            tvPeopleWaiting.setText("1 person waiting!");
+        } else if (numWaiting >= 2) {
+            tvPeopleWaiting.setText(numWaiting + " people waiting!");
+        }
+
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
         tvDistance.setText(distanceString);
         tvRestName.setText(restaurant.getName());
