@@ -64,7 +64,6 @@ public class ContactActivity extends FragmentActivity implements
     EditText etMessage;
     Button btSend;
     UserRestaurantMatches match;
-    User user;
     Restaurant restaurant;
 
     Marker restaurantMarker;
@@ -121,7 +120,7 @@ public class ContactActivity extends FragmentActivity implements
 
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
         tvContactText = (TextView) findViewById(R.id.tvContactText);
-        user = ParseClient.getUser(userId);
+        User user = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
         tvContactText.setText(user.getName() + " is ready for an awesome lunch at " + restaurant.getName() + "!\nGet in touch with them!");
@@ -164,7 +163,7 @@ public class ContactActivity extends FragmentActivity implements
             );
             builder.include(restaurantMarker.getPosition());
 
-            String otherUserId = match.getReqUserId().equals(user.getUserId())?match.getMatchedUserID():match.getReqUserId();
+            String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId())?match.getMatchedUserID():match.getReqUserId();
             User otherUser = ParseClient.getUser(otherUserId);
 
             otherUserMarker = map.addMarker(new MarkerOptions()
@@ -266,7 +265,7 @@ public class ContactActivity extends FragmentActivity implements
 
 
         //query other users location and udpate the marker too.
-        String otherUserId = match.getReqUserId().equals(user.getUserId())?match.getMatchedUserID():match.getReqUserId();
+        String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId())?match.getMatchedUserID():match.getReqUserId();
         User otherUser = ParseClient.getUser(otherUserId);
         otherUserMarker.setPosition(new LatLng(
                 Double.parseDouble(otherUser.getCurrentLat()),
@@ -306,7 +305,7 @@ public class ContactActivity extends FragmentActivity implements
         Intent mailClient = new Intent(Intent.ACTION_VIEW);
         mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
         mailClient.setType("plain/text");
-        mailClient.putExtra(Intent.EXTRA_EMAIL, user.getEmail());
+        mailClient.putExtra(Intent.EXTRA_EMAIL, LunchDashApplication.user.getEmail());
         mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at" + restaurant.getName());
 
         startActivity(mailClient);
