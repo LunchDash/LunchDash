@@ -2,6 +2,7 @@ package com.lunchdash.lunchdash;
 
 import android.app.Application;
 
+import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantsTable;
 import com.lunchdash.lunchdash.datastore.UserTable;
@@ -28,6 +29,7 @@ public class LunchDashApplication extends Application {
         ParseObject.registerSubclass(UserTable.class);
         ParseObject.registerSubclass(UserRestaurantsTable.class);
         ParseObject.registerSubclass(UserRestaurantMatchesTable.class);
+        ParseObject.registerSubclass(ChatMessageTable.class);
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
     }
 

@@ -17,6 +17,7 @@ public class UserRestaurantMatches implements Serializable {
     }
 
     public UserRestaurantMatches(UserRestaurantMatchesTable urmt) {
+        setId(urmt.getObjectId());
         setReqUserId(urmt.getRequesterId());
         setMatchedUserID(urmt.getMatchedUserId());
         setRestaurantId(urmt.getRestaurantId());
@@ -64,6 +65,15 @@ public class UserRestaurantMatches implements Serializable {
         this.matchedStatus = matchedStatus;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String reqUserId;
     private String matchedUserID;
     private String restaurantId;

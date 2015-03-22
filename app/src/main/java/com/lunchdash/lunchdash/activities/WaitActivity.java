@@ -139,6 +139,7 @@ public class WaitActivity extends ActionBarActivity {
             }
 
             contactActivityIntent.putExtra("restaurantId", usersMatchConfirmation.getRestaurantId());
+            contactActivityIntent.putExtra("match", usersMatchConfirmation);
             startActivity(contactActivityIntent);
             overridePendingTransition(R.anim.right_in, R.anim.left_out);
             finish();
