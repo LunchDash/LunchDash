@@ -76,6 +76,8 @@ public class LoginActivity extends ActionBarActivity {
         TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = tMgr.getLine1Number();
         LunchDashApplication.user.setPhoneNumber(tMgr.getLine1Number());
+        LunchDashApplication.user.setCurrentLat(LunchDashApplication.latitude);
+        LunchDashApplication.user.setCurrentLon(LunchDashApplication.longitude);
 
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);

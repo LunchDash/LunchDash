@@ -15,6 +15,8 @@ public class UserTable extends ParseObject {
     public final static String USER_IMAGE_URL = "imageUrl";
     public final static String USER_STATUS = "status";
     public final static String USER_PHONE_NUMBER = "phoneNumber";
+    public final static String USER_CURRENT_LAT = "currentLat";
+    public final static String USER_CURRENT_LON = "currentLon";
 
     public String getUserid() {
         return getString(USER_ID);
@@ -65,5 +67,21 @@ public class UserTable extends ParseObject {
 
     public void setPhoneNumber(String phoneNumber) {
         put(USER_PHONE_NUMBER, phoneNumber);
+    }
+
+    public String getUserCurrentLat(){
+        return getString(USER_CURRENT_LAT);
+    }
+
+    public void setUserCurrentLat(String lat){
+        put(USER_CURRENT_LAT, lat);
+    }
+
+    public String getUserCurrentLon(){
+        return getString(USER_CURRENT_LON);
+    }
+
+    public void setUserCurrentLon(String lon){
+        put(USER_CURRENT_LON, lon);
     }
 }

@@ -22,8 +22,10 @@ import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,10 @@ public class ContactActivity extends ActionBarActivity {
 
         tvContactText.setText(user.getName() + " is ready for an awesome lunch at " + restaurant.getName() + "!\nGet in touch with them!");
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(this).load(user.getImageUrl()).into((ivUserImage));
+
+        Picasso.with(this)
+                .load(user.getImageUrl())
+                .into((ivUserImage));
         setupMessagePosting();
         handler.postDelayed(runnable, 100);
 

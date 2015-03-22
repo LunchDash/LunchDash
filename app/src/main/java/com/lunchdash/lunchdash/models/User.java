@@ -11,6 +11,24 @@ public class User {
     private String email = "email";
     private String name = "name";
     private String phoneNumber = "1234567890";
+    private String currentLat = "0";
+    private String currentLon = "0";
+
+    public String getCurrentLat() {
+        return currentLat;
+    }
+
+    public void setCurrentLat(String currentLat) {
+        this.currentLat = currentLat;
+    }
+
+    public String getCurrentLon() {
+        return currentLon;
+    }
+
+    public void setCurrentLon(String currentLon) {
+        this.currentLon = currentLon;
+    }
 
     public User(UserTable ut) {
         this.userId = ut.getString(UserTable.USER_ID);
@@ -18,6 +36,8 @@ public class User {
         this.status = ut.getString(UserTable.USER_STATUS);
         this.email = ut.getString(UserTable.USER_EMAIL);
         this.name = ut.getString(UserTable.USER_NAME);
+        this.currentLat = ut.getString(UserTable.USER_CURRENT_LAT);
+        this.currentLon = ut.getString(UserTable.USER_CURRENT_LON);
     }
 
     public User() {
