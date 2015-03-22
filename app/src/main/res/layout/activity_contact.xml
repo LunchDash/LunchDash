@@ -29,11 +29,13 @@
                 tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!" />
         </LinearLayout>
 
-        <com.google.android.gms.maps.MapView
+
+        <fragment
             android:id="@+id/mvContactMap"
             android:layout_below="@+id/info"
+            class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"/>
 
         <ListView
             android:id="@+id/lvChat"
