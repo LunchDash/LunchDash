@@ -15,7 +15,6 @@
             android:id="@+id/ivUserImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/com_facebook_blue"
             tools:image="@drawable/ic_launcher" />
 
         <TextView
@@ -39,32 +38,46 @@
     <ListView
         android:id="@+id/lvChat"
         android:layout_below="@+id/flContactMap"
-        android:layout_above="@+id/llSend"
+        android:layout_above="@+id/separator"
         android:layout_width="wrap_content"
         android:transcriptMode="alwaysScroll"
         android:layout_height="match_parent" />
 
+    <!-- horizontal separator -->
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/separator"
+        android:layout_height="1dp"
+        android:layout_above="@+id/llSend"
+        android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:id="@+id/llSend"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="wrap_content"
-            android:hint="@string/message_hint" />
+            android:hint="@string/message_hint"
+            android:layout_gravity="center_vertical" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btSend"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
-            android:text="@string/send" />
+            android:src="@drawable/send_button"
+            android:background="@null"
+            android:text="@string/send"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 

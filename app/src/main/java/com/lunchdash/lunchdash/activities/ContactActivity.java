@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,15 +32,15 @@ public class ContactActivity extends ActionBarActivity {
     public static User matchedUser;
     TextView tvContactText;
     EditText etMessage;
-    Button btSend;
+    ImageButton btSend;
     public static UserRestaurantMatches match;
     public static Restaurant restaurant;
+    List<ChatMessageTable> messagesPrevious = new ArrayList<>();
 
+    public static int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
     // Create a handler which can run code periodically
     private Handler handler = new Handler();
-
-    public static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
     private ListView lvChat;
     private ArrayList<ChatMessageTable> mMessages;
@@ -99,7 +99,7 @@ public class ContactActivity extends ActionBarActivity {
     private void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend = (Button) findViewById(R.id.btSend);
+        btSend = (ImageButton) findViewById(R.id.btSend);
 
         lvChat = (ListView) findViewById(R.id.lvChat);
         mMessages = new ArrayList<>();
@@ -123,7 +123,9 @@ public class ContactActivity extends ActionBarActivity {
     private void receiveMessage() {
         // Construct query to execute
         List<ChatMessageTable> messages = ParseClient.getChatMessages(match.getId());
-        if (messages != null) {
+
+        if (messages != null && messages.size() != messagesPrevious.size()) {
+            messagesPrevious = messages;
             mMessages.clear();
             mMessages.addAll(messages);
             mAdapter.notifyDataSetChanged();
