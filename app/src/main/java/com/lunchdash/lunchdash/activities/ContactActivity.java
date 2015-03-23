@@ -4,12 +4,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.ErrorDialogFragment;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -35,7 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,10 +41,7 @@ import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,9 +81,6 @@ public class ContactActivity extends FragmentActivity implements
     private ListView lvChat;
     private ArrayList<ChatMessageTable> mMessages;
     private ChatListAdapter mAdapter;
-
-
-
 
 
     // Defines a runnable which is run every 100ms
@@ -157,22 +145,22 @@ public class ContactActivity extends FragmentActivity implements
             map.setMyLocationEnabled(true);
 
             restaurantMarker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(restaurant.getLatitude(), restaurant.getLongitude()))
-                    .title(restaurant.getName())
+                            .position(new LatLng(restaurant.getLatitude(), restaurant.getLongitude()))
+                            .title(restaurant.getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_shop))
             );
             builder.include(restaurantMarker.getPosition());
 
-            String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId())?match.getMatchedUserID():match.getReqUserId();
+            String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
             User otherUser = ParseClient.getUser(otherUserId);
 
             otherUserMarker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(
-                            Double.parseDouble(otherUser.getCurrentLat()),
-                            Double.parseDouble(otherUser.getCurrentLon())
+                            .position(new LatLng(
+                                            Double.parseDouble(otherUser.getCurrentLat()),
+                                            Double.parseDouble(otherUser.getCurrentLon())
+                                    )
                             )
-                    )
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_walker))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_walker))
             );
 
             builder.include(otherUserMarker.getPosition());
@@ -265,7 +253,7 @@ public class ContactActivity extends FragmentActivity implements
 
 
         //query other users location and udpate the marker too.
-        String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId())?match.getMatchedUserID():match.getReqUserId();
+        String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
         User otherUser = ParseClient.getUser(otherUserId);
         otherUserMarker.setPosition(new LatLng(
                 Double.parseDouble(otherUser.getCurrentLat()),
@@ -292,24 +280,6 @@ public class ContactActivity extends FragmentActivity implements
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
-    }
-
-    public void onCallClick(View v) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:0123456789"));
-        startActivity(intent);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
-    public void onEmailClick(View v) {
-        Intent mailClient = new Intent(Intent.ACTION_VIEW);
-        mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-        mailClient.setType("plain/text");
-        mailClient.putExtra(Intent.EXTRA_EMAIL, LunchDashApplication.user.getEmail());
-        mailClient.putExtra(Intent.EXTRA_SUBJECT, "LunchDash Meetup at" + restaurant.getName());
-
-        startActivity(mailClient);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     private void setupMessagePosting() {
@@ -340,7 +310,7 @@ public class ContactActivity extends FragmentActivity implements
     private void receiveMessage() {
         // Construct query to execute
         List<ChatMessageTable> messages = ParseClient.getChatMessages(match.getId());
-        if (messages != null){
+        if (messages != null) {
             mMessages.clear();
             mMessages.addAll(messages);
             mAdapter.notifyDataSetChanged();
@@ -351,11 +321,10 @@ public class ContactActivity extends FragmentActivity implements
 
     }
 
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-		/*
-		 * Google Play services can resolve some errors it detects. If the error
+        /*
+         * Google Play services can resolve some errors it detects. If the error
 		 * has a resolution, try sending an Intent to start a Google Play
 		 * services activity that can resolve error.
 		 */
@@ -364,8 +333,8 @@ public class ContactActivity extends FragmentActivity implements
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this,
                         CONNECTION_FAILURE_RESOLUTION_REQUEST);
-				/*
-				 * Thrown if Google Play services canceled the original
+                /*
+                 * Thrown if Google Play services canceled the original
 				 * PendingIntent
 				 */
             } catch (IntentSender.SendIntentException e) {
@@ -403,4 +372,11 @@ public class ContactActivity extends FragmentActivity implements
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+
+    }
 }

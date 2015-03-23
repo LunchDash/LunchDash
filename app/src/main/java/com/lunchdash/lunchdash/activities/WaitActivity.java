@@ -37,15 +37,15 @@ public class WaitActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("APPDEBUG", "pause called");
-        matchTask.cancel(true);
+        matchTask.cancel(true); //Stop the task.
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("APPDEBUG", "Destroy called");
-        matchTask.cancel(true);
+        matchTask.cancel(true); //Stop the task.
+        ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+
     }
 
     @Override
@@ -167,6 +167,5 @@ public class WaitActivity extends ActionBarActivity {
             super.onPostExecute(aVoid);
         }
     }
-
 
 }
