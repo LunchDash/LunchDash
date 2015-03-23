@@ -26,6 +26,7 @@ public class WaitActivity extends ActionBarActivity {
     public final int REQUEST_CODE = 100;
     FindMatchTask matchTask;
     int loopCount = 0;
+    boolean keepAlive = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,14 @@ public class WaitActivity extends ActionBarActivity {
     protected void onPause() {
         super.onPause();
         matchTask.cancel(true); //Stop the task.
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!keepAlive) {
+            ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+        }
     }
 
     @Override
@@ -89,8 +98,9 @@ public class WaitActivity extends ActionBarActivity {
             acceptDeclineActivityIntent.putExtra("match", match);
 
             matchTask.cancel(true);
+            keepAlive = true; //We will prevent Parse cleaning up when WaitActivity goes into onStop
             startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
-
+            keepAlive = false;
             onGetConfirmationRequest();
 
         }
