@@ -1,5 +1,7 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -50,24 +52,31 @@ public class SplashActivity extends ActionBarActivity implements GoogleApiClient
     @Override
     public void onConnected(Bundle bundle) {
         location = LocationServices.FusedLocationApi.getLastLocation(gApiClient);
-        if (location != null) {
+        if (location != null) { //Grab their lat/long and continue.
             LunchDashApplication.latitude = location.getLatitude() + "";
             LunchDashApplication.longitude = location.getLongitude() + "";
             Log.d("APPDEBUG", "This device's Latitude/Longitude is: " + LunchDashApplication.latitude + "," + LunchDashApplication.longitude);
-        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    finish();
+                }
+            }, SPLASH_TIME_OUT);
+        } else { //We couldn't find their long/lat probably because their GPS is disabled.  Show an error message and exit out.
             Log.d("APPDEBUG", "Location is null");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Could not get your current location.  Make sure your GPS is enabled!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
-
-
     }
 
     @Override
