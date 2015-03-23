@@ -33,16 +33,15 @@ public class Restaurant {
     private double distance;
     private double latitude;
     private double longitude;
+    private int userCount; //Number of users waiting for the restaurant.
 
-    public int getNumOfUsersInterested() {
-        return numOfUsersInterested;
+    public int getUserCount() {
+        return userCount;
     }
 
-    public void setNumOfUsersInterested(int numOfUsersInterested) {
-        this.numOfUsersInterested = numOfUsersInterested;
+    public void setUserCount(int userCount) {
+        this.userCount = userCount;
     }
-
-    private int  numOfUsersInterested;
 
     private String[][] categories; //Array that contains 2 item arrays that have name/alias eg: [["Local Flavor", "localflavor"], ["Active Life", "active"], ["Mass Media", "massmedia"]]
 
@@ -99,7 +98,7 @@ public class Restaurant {
             }
 
             // Try to get the number of users interested in this restaurant.
-            restaurant.numOfUsersInterested = ParseClient.getUserCountForResturant(restaurant.id);
+            restaurant.userCount = ParseClient.getUserCountForResturant(restaurant.id);
 
 
         } catch (JSONException e) {
