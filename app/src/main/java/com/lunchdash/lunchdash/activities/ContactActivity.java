@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -74,7 +75,7 @@ public class ContactActivity extends ActionBarActivity {
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
-        tvContactText.setText(matchedUser.getName() + " is ready for an awesome lunch at " + restaurant.getName() + "!\nGet in touch with them!");
+        tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at\n <b>" + restaurant.getName() + "!</b>\nGet in touch with them!"));
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
 
         Picasso.with(this)
@@ -102,6 +103,8 @@ public class ContactActivity extends ActionBarActivity {
         btSend = (ImageButton) findViewById(R.id.btSend);
 
         lvChat = (ListView) findViewById(R.id.lvChat);
+        TextView tvEmptyList = (TextView) findViewById(R.id.tvEmptyList);
+        lvChat.setEmptyView(tvEmptyList);
         mMessages = new ArrayList<>();
         mAdapter = new ChatListAdapter(this, LunchDashApplication.user.getUserId(), mMessages);
         lvChat.setAdapter(mAdapter);

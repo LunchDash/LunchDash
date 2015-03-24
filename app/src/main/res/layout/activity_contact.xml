@@ -43,13 +43,27 @@
         android:transcriptMode="alwaysScroll"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tvEmptyList"
+        android:text="No messages yet!"
+        android:layout_below="@+id/flContactMap"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/separator"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="30dp"
+        android:gravity="center" />
+
     <!-- horizontal separator -->
     <View
         android:layout_width="fill_parent"
         android:id="@+id/separator"
         android:layout_height="1dp"
         android:layout_above="@+id/llSend"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/llSend"
@@ -80,5 +94,7 @@
             android:layout_gravity="center_vertical" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>

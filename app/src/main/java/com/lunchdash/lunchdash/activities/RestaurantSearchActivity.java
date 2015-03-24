@@ -191,7 +191,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(List<Restaurant> restaurants) {
-            for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants.
+            for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants
                 restaurants.get(i).setSelected(false);
             }
 
