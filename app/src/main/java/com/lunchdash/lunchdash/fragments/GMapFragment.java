@@ -62,7 +62,7 @@ public class GMapFragment extends Fragment {
         LatLng latLng = new LatLng(latitude, longitude);
         CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
         map.moveCamera(center);
-        map.animateCamera(CameraUpdateFactory.zoomTo(13));
+        map.animateCamera(CameraUpdateFactory.zoomTo(14));
         updateMap();
         return v;
 
@@ -79,10 +79,11 @@ public class GMapFragment extends Fragment {
                     LatLng rLatLng = new LatLng(rList.get(i).getLatitude(), rList.get(i).getLongitude());
                     Marker marker = map.addMarker(new MarkerOptions().position(rLatLng));
                     markerRestaurantPair.put(marker.getId(), i);
-                    dropPin(marker);
+
                     boolean selected = RestaurantSearchActivity.restaurants.get(i).isSelected();
                     if (selected) {
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
+                        dropPin(marker);
                     } else {
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_unselected));
                     }
@@ -99,6 +100,7 @@ public class GMapFragment extends Fragment {
                 boolean selected = restaurant.isSelected();
                 if (selected) {
                     marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
+                    dropPin(marker);
                 } else {
                     marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_unselected));
                 }

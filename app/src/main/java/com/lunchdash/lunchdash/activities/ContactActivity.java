@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,7 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -75,7 +78,7 @@ public class ContactActivity extends ActionBarActivity {
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
-        tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at\n <b>" + restaurant.getName() + "!</b>\nGet in touch with them!"));
+        tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at<br> <b>" + restaurant.getName() + "!</b><br>Get in touch with them!"));
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
 
         Picasso.with(this)
@@ -108,18 +111,39 @@ public class ContactActivity extends ActionBarActivity {
         mMessages = new ArrayList<>();
         mAdapter = new ChatListAdapter(this, LunchDashApplication.user.getUserId(), mMessages);
         lvChat.setAdapter(mAdapter);
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(new View.OnClickListener() {
+
+        btSend.setOnClickListener(new View.OnClickListener() { //Submit when the send button is clicked
             @Override
             public void onClick(View v) {
-                String data = etMessage.getText().toString();
-                if (data.equals("")) {
-                    return;
-                }
-                ParseClient.saveChatMessage(match.getId(), LunchDashApplication.user.getUserId(), data);
-                etMessage.setText("");
+                postMessage();
             }
         });
+
+        etMessage.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) { //Submits if you press the enter key on the soft keyboard.
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    postMessage();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+    }
+
+    private void postMessage() { //create message object on Parse
+        String data = etMessage.getText().toString();
+        if (data.equals("")) {
+            return;
+        }
+        ParseClient.saveChatMessage(match.getId(), LunchDashApplication.user.getUserId(), data);
+        etMessage.setText("");
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //Hide the soft keyboard after you've sent the message.
+        imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
+
+
     }
 
     // Query messages from Parse so we can load them into the chat adapter
