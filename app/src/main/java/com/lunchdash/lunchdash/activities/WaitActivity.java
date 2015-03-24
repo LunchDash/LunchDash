@@ -57,7 +57,6 @@ public class WaitActivity extends ActionBarActivity {
         super.onStop();
         if (!keepAlive) {
             ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
-            finish();
         }
     }
 
