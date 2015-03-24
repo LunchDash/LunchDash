@@ -4,13 +4,16 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
@@ -25,13 +28,21 @@ public class WaitActivity extends ActionBarActivity {
     private static final String TAG = "WaitActivity";
     public final int REQUEST_CODE = 100;
     FindMatchTask matchTask;
-    int loopCount = 0;
+    //int loopCount = 0;
     boolean keepAlive = false;
+    int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
+
+        //Get the screen width
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+
         doAnimation();
     }
 
@@ -76,8 +87,8 @@ public class WaitActivity extends ActionBarActivity {
     }
 
     void handleRequests() {
-        loopCount++;
-        Log.d("APPDEBUG", "loop count is: " + loopCount);
+        //loopCount++;
+        //Log.d("APPDEBUG", "loop count is: " + loopCount);
         List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
 
         //Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
@@ -116,17 +127,19 @@ public class WaitActivity extends ActionBarActivity {
     void doAnimation() {
 
         ImageView fork = (ImageView) findViewById(R.id.ivFork);
-        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", 315);
+        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", screenWidth / 2);
         moveFork.setInterpolator(new BounceInterpolator());
         moveFork.setDuration(2000);
         moveFork.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
-        moveFork.start();
+
 
         ImageView spoon = (ImageView) findViewById(R.id.ivSpoon);
-        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -215);
+        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -screenWidth / 2);
         moveSpoon.setInterpolator(new BounceInterpolator());
         moveSpoon.setDuration(2000);
         moveSpoon.setRepeatCount(ValueAnimator.INFINITE);
+
+        moveFork.start();
         moveSpoon.start();
 
     }
