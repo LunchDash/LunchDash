@@ -50,12 +50,12 @@ public class ContactActivity extends ActionBarActivity {
     private ArrayList<ChatMessageTable> mMessages;
     private ChatListAdapter mAdapter;
 
-    // Defines a runnable which is run every 100ms
+    // Defines a runnable which is run every 500ms
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
             refreshMessages();
-            handler.postDelayed(this, 100);
+            handler.postDelayed(this, 500);
         }
     };
 
@@ -78,7 +78,7 @@ public class ContactActivity extends ActionBarActivity {
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
-        tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at<br> <b>" + restaurant.getName() + "!</b><br>Get in touch with them!"));
+        tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at<br> <b>" + restaurant.getName() + "!</b><br>Get in touch!"));
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
 
         Picasso.with(this)

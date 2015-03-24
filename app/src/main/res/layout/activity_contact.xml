@@ -6,10 +6,16 @@
     tools:context="com.lunchdash.lunchdash.activities.ContactActivity">
 
     <LinearLayout
-        android:id="@+id/info"
+        android:id="@+id/llInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@+id/flContactMap"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#3B5998">
 
         <ImageView
             android:id="@+id/ivUserImage"
@@ -24,43 +30,53 @@
             android:gravity="center_horizontal"
             android:textIsSelectable="true"
             android:textSize="15sp"
-            android:textColor="@color/primary_material_dark"
+            android:textColor="#FFFFFF"
             tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!" />
     </LinearLayout>
+
+    <!-- horizontal separator -->
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/separatorTop"
+        android:layout_height="1dp"
+        android:layout_below="@+id/llInfo"
+        android:background="@android:color/darker_gray" />
 
 
     <FrameLayout
         android:id="@+id/flContactMap"
-        android:layout_below="@+id/info"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ListView
         android:id="@+id/lvChat"
-        android:layout_below="@+id/flContactMap"
-        android:layout_above="@+id/separator"
+        android:layout_above="@+id/separatorBottom"
         android:layout_width="wrap_content"
         android:transcriptMode="alwaysScroll"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/llInfo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tvEmptyList"
         android:text="@string/chatEmptyListMessage"
-        android:layout_below="@+id/flContactMap"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/separator"
+        android:layout_above="@+id/separatorBottom"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textSize="30sp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_below="@+id/llInfo" />
 
     <!-- horizontal separator -->
     <View
         android:layout_width="fill_parent"
-        android:id="@+id/separator"
+        android:id="@+id/separatorBottom"
         android:layout_height="1dp"
         android:layout_above="@+id/llSend"
         android:background="@android:color/darker_gray" />
