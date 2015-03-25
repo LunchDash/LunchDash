@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
@@ -29,7 +28,7 @@ public class WaitActivity extends ActionBarActivity {
     public final int REQUEST_CODE = 100;
     FindMatchTask matchTask;
     //int loopCount = 0;
-    boolean keepAlive = false;
+    //  boolean keepAlive = false;
     int screenWidth;
 
     @Override
@@ -55,16 +54,17 @@ public class WaitActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (!keepAlive) {
-            ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
-        }
+        /*if (!keepAlive) {
+            Log.d("APPDEBUG", "Calling this when it's not supposed to...");
+            ParseClient.deleteInactiveUserSelections(LunchDashApplication.user.getUserId());
+        }*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         matchTask.cancel(true); //Stop the task.
-        ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+        ParseClient.deleteInactiveUserSelections(LunchDashApplication.user.getUserId());
 
     }
 
@@ -98,6 +98,10 @@ public class WaitActivity extends ActionBarActivity {
 
         for (UserRestaurantMatches match : matches) {
             Log.d("APPDEBUG", "Found a match on" + LunchDashApplication.user.getUserId());
+            boolean isActive = ParseClient.isActive(match.getReqUserId(), match.getMatchedUserID(), match.getRestaurantId());
+            if (!isActive) { //Make sure the other side hasn't already declined while we were waiting.
+                continue;
+            }
 
             Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
             if (match.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
@@ -109,9 +113,9 @@ public class WaitActivity extends ActionBarActivity {
             acceptDeclineActivityIntent.putExtra("match", match);
 
             matchTask.cancel(true);
-            keepAlive = true; //We will prevent Parse cleaning up when WaitActivity goes into onStop
+            // keepAlive = true; //We will prevent Parse cleaning up when WaitActivity goes into onStop
             startActivityForResult(acceptDeclineActivityIntent, REQUEST_CODE);
-            keepAlive = false;
+            // keepAlive = false;
             onGetConfirmationRequest();
 
         }

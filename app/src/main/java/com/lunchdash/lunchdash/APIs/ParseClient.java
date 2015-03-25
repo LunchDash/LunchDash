@@ -1,8 +1,5 @@
 package com.lunchdash.lunchdash.APIs;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.lunchdash.lunchdash.activities.ContactActivity;
 import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
@@ -14,7 +11,6 @@ import com.lunchdash.lunchdash.models.UserRestaurants;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,13 +97,13 @@ public class ParseClient {
     }
 
 
-    public static int getUserCountForResturant(String resturantId){
+    public static int getUserCountForResturant(String resturantId) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
         query.whereEqualTo(UserRestaurantsTable.RESTAURANT_ID, resturantId);
         try {
             List<ParseObject> results = query.find();
-            if (results != null && !results.isEmpty()){
-                return  results.size();
+            if (results != null && !results.isEmpty()) {
+                return results.size();
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -178,25 +174,6 @@ public class ParseClient {
         }
     }
 
-    public static void saveUserRestaurantMatch(String reqUserId, String matchedUserId, String getRestaurantId, String reqResponse) {
-        UserRestaurantMatchesTable urmt;
-        urmt = getUserRestaurantMatch(reqUserId, matchedUserId, getRestaurantId);
-        if (urmt == null) {
-            urmt = new UserRestaurantMatchesTable();
-        }
-        if (urmt.getRequesterId() == reqUserId) {
-            urmt.setRequesterStatus(reqResponse);
-        } else if (urmt.getMatchedUserId() == matchedUserId) {
-            urmt.setMatchedStatus(reqResponse);
-        }
-        try {
-            urmt.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static void deleteRestaurantMatches(String userId) throws ParseException {
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
@@ -219,6 +196,31 @@ public class ParseClient {
 
     }
 
+    private static void deleteInactiveRestaurantMatches(String userId) throws ParseException {
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+        List<ParseObject> results = null;
+        try {
+            results = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        for (ParseObject result : results) {
+            String status = (String) result.get(UserRestaurantMatchesTable.REQUESTER_STATUS);
+            String status2 = (String) result.get(UserRestaurantMatchesTable.MATCHED_STATUS);
+            if (status == null || status2 == null || !status.equals(UserRestaurantMatches.STATUS_ACCEPTED) || !status2.equals(UserRestaurantMatches.STATUS_ACCEPTED)) { //If either is not ACCEPTED, delete it.
+                result.delete();
+            }
+        }
+
+    }
+
     private static List<ParseObject> getUserRestaurantsMatches(String userId) {
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
         query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
@@ -237,6 +239,32 @@ public class ParseClient {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isActive(String userId, String matchedId, String restaurantId) {
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchedId);
+        query1.whereNotEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_DENIED);
+        query1.whereNotEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_DENIED);
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query1.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, matchedId);
+        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
+        query1.whereNotEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_DENIED);
+        query1.whereNotEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_DENIED);
+
+        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
+
+        try {
+            List<ParseObject> results = query.find();
+            return results.size() > 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static List<UserRestaurantMatches> getUserMatches(String userId) {
@@ -275,9 +303,10 @@ public class ParseClient {
 
     /**
      * Method to be called when the app exits.
+     *
      * @param userId
      */
-    public static void deleteUserSelections(String userId){
+    public static void deleteUserSelections(String userId) {
         try {
             deleteRestaurantMatches(userId);
             deleteUserRestaurantPairs(userId);
@@ -287,7 +316,17 @@ public class ParseClient {
 
     }
 
-    public static void saveChatMessage(String roomId, String userId, String message){
+    public static void deleteInactiveUserSelections(String userId) { //Won't delete RestaurantPairs where both are Active because the second device may still need to look at it.
+        try {
+            deleteInactiveRestaurantMatches(userId);
+            deleteUserRestaurantPairs(userId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void saveChatMessage(String roomId, String userId, String message) {
         ChatMessageTable chatMessage = new ChatMessageTable();
         chatMessage.setChatRoomId(roomId);
         chatMessage.setUserId(userId);
@@ -299,7 +338,7 @@ public class ParseClient {
         }
     }
 
-    public static List<ChatMessageTable> getChatMessages(String roomId){
+    public static List<ChatMessageTable> getChatMessages(String roomId) {
         ParseQuery<ChatMessageTable> query = ParseQuery.getQuery(ChatMessageTable.class);
         query.setLimit(ContactActivity.MAX_CHAT_MESSAGES_TO_SHOW);
         query.orderByAscending("createdAt");
