@@ -131,14 +131,14 @@ public class WaitActivity extends ActionBarActivity {
     void doAnimation() {
 
         ImageView fork = (ImageView) findViewById(R.id.ivFork);
-        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", screenWidth / 2);
+        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", screenWidth / 2 + screenWidth / 20);
         moveFork.setInterpolator(new BounceInterpolator());
         moveFork.setDuration(2000);
         moveFork.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
 
 
         ImageView spoon = (ImageView) findViewById(R.id.ivSpoon);
-        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -screenWidth / 2);
+        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -screenWidth / 2 + screenWidth / 20);
         moveSpoon.setInterpolator(new BounceInterpolator());
         moveSpoon.setDuration(2000);
         moveSpoon.setRepeatCount(ValueAnimator.INFINITE);
