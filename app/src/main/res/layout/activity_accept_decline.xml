@@ -13,7 +13,6 @@
         android:layout_height="200dp"
         android:id="@+id/ivProfileImage"
         android:layout_marginTop="45dp"
-        android:background="#ff447dfa"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -40,6 +39,7 @@
         android:gravity="center_horizontal" />
 
     <LinearLayout
+        android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
