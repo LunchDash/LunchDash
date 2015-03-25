@@ -1,13 +1,20 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lunchdash.lunchdash.APIs.OnSwipeTouchListener;
 import com.lunchdash.lunchdash.APIs.ParseClient;
@@ -24,6 +31,8 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     User matchedUser;
     Restaurant restaurant;
     UserRestaurantMatches match;
+    int screenWidth;
+    ObjectAnimator moveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +47,24 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(restaurantId);
 
+        //Get the screen width
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+
         ivProfileImg = (ImageView) findViewById(R.id.ivProfileImage);
         ivProfileImg.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
-            public void onSwipeDown() {
-//                Toast.makeText(MainActivity.this, "Down", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
             public void onSwipeLeft() {
-//                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
-                decline();
-            }
-
-            @Override
-            public void onSwipeUp() {
-//                Toast.makeText(MainActivity.this, "Up", Toast.LENGTH_SHORT).show();
+                hideButtons();
+                animateProfile("left");
             }
 
             @Override
             public void onSwipeRight() {
-                accept();
-                //Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                hideButtons();
+                animateProfile("right");
             }
         });
 
@@ -76,8 +81,40 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
+    private void animateProfile(String direction) {
+        ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        if (direction.equals("left")) {
+            moveProfile = ObjectAnimator.ofFloat(ivProfileImage, "translationX", -screenWidth);
+            moveProfile.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) { //Wait for animation to finish before continuing.
+                    super.onAnimationEnd(animation);
+                    decline();
+                }
+            });
+        } else {
+            moveProfile = ObjectAnimator.ofFloat(ivProfileImage, "translationX", screenWidth);
+            Log.d("APPDEBUG", "screen width is: " + screenWidth);
+            moveProfile.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    accept();
+                }
+            });
+        }
+        moveProfile.setInterpolator(new AccelerateInterpolator());
+        moveProfile.setDuration(500);
+        moveProfile.start();
+    }
 
-    private void accept(){
+    public void hideButtons() {
+        LinearLayout llButtons = (LinearLayout) findViewById(R.id.llButtons);
+        llButtons.setVisibility(View.INVISIBLE);
+    }
+
+
+    private void accept() {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
         if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
@@ -101,7 +138,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         accept();
     }
 
-    public void decline(){
+    public void decline() {
         String userMatchResponse = UserRestaurantMatches.STATUS_DENIED;
 
         if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
