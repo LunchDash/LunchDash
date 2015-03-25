@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.squareup.picasso.Picasso;
@@ -68,6 +67,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         }
 
         //Fill info
+        viewHolder.tvPeopleWaiting.setText(""); //Clear text field
         int numWaiting = restaurant.getUserCount();
         if (numWaiting == 1) { //Set text if there's anyone waiting for that restaurant.
             viewHolder.tvPeopleWaiting.setText("1 person waiting!");

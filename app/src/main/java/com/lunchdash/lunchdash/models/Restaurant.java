@@ -2,8 +2,6 @@ package com.lunchdash.lunchdash.models;
 
 import android.util.Log;
 
-import com.lunchdash.lunchdash.APIs.ParseClient;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +31,7 @@ public class Restaurant {
     private double distance;
     private double latitude;
     private double longitude;
-    private int userCount; //Number of users waiting for the restaurant.
+    private int userCount = 0; //Number of users waiting for the restaurant.
 
     public int getUserCount() {
         return userCount;
@@ -96,11 +94,6 @@ public class Restaurant {
                 restaurant.categories[i][0] = tempArray.getJSONArray(i).getString(0);
                 restaurant.categories[i][1] = tempArray.getJSONArray(i).getString(1);
             }
-
-            // Try to get the number of users interested in this restaurant.
-            restaurant.userCount = ParseClient.getUserCountForResturant(restaurant.id);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
