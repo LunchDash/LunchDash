@@ -76,13 +76,14 @@
     <!-- horizontal separator -->
     <View
         android:layout_width="fill_parent"
+        android:layout_above="@+id/llSend"
         android:id="@+id/separatorBottom"
         android:layout_height="1dp"
-        android:layout_above="@+id/llSend"
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/llSend"
+        android:background="#FFFFFF"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
