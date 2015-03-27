@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
@@ -24,9 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by chandra.vijayarenu on 3/21/15.
- */
 public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
     private String mUserId;
 
@@ -44,24 +42,29 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
             convertView = LayoutInflater.from(getContext()).
                     inflate(R.layout.chat_item, parent, false);
             final ViewHolder holder = new ViewHolder();
-            holder.imageLeft = (ImageView)convertView.findViewById(R.id.ivProfileLeft);
-            holder.imageRight = (ImageView)convertView.findViewById(R.id.ivProfileRight);
-            holder.body = (TextView)convertView.findViewById(R.id.tvBody);
+            holder.llChatMessage = (LinearLayout) convertView.findViewById(R.id.llChatMessage);
+            holder.imageLeft = (ImageView) convertView.findViewById(R.id.ivProfileLeft);
+            holder.imageRight = (ImageView) convertView.findViewById(R.id.ivProfileRight);
+            holder.body = (TextView) convertView.findViewById(R.id.tvBody);
             convertView.setTag(holder);
         }
-        final ChatMessageTable message = (ChatMessageTable)getItem(position);
-        final ViewHolder holder = (ViewHolder)convertView.getTag();
+        final ChatMessageTable message = (ChatMessageTable) getItem(position);
+        final ViewHolder holder = (ViewHolder) convertView.getTag();
         final boolean isMe = message.getUserId().equals(mUserId);
         // Show-hide image based on the logged-in user.
         // Display the profile image to the right for our user, left for other users.
         if (isMe) {
+            holder.llChatMessage.setGravity(Gravity.RIGHT);
             holder.imageRight.setVisibility(View.VISIBLE);
             holder.imageLeft.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+            holder.body.setBackgroundResource(R.drawable.bubble_green);
         } else {
+            holder.llChatMessage.setGravity(Gravity.LEFT);
             holder.imageLeft.setVisibility(View.VISIBLE);
             holder.imageRight.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+            holder.body.setBackgroundResource(R.drawable.bubble_yellow);
         }
         final ImageView profileView = isMe ? holder.imageRight : holder.imageLeft;
 
@@ -81,8 +84,8 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
     // Create a gravatar image based on the hash value obtained from userId
     private static String getProfileUrl(final String userId) {
         User u = usersCache.get(userId);
-        if(u != null){
-            return  u.getImageUrl();
+        if (u != null) {
+            return u.getImageUrl();
         } else {
             User user = ParseClient.getUser(userId);
             usersCache.put(user.getUserId(), user);
@@ -92,6 +95,7 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
     }
 
     final class ViewHolder {
+        public LinearLayout llChatMessage;
         public ImageView imageLeft;
         public ImageView imageRight;
         public TextView body;
