@@ -355,4 +355,15 @@ public class ParseClient {
         return null;
     }
 
+    public static boolean userHasProfile(String userId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserProfile");
+        query.whereEqualTo("userId", userId);
+        try {
+            return query.find().size() > 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

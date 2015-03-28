@@ -16,6 +16,7 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.User;
@@ -49,7 +50,7 @@ public class LoginActivity extends ActionBarActivity {
         final ImageButton ibLogin = (ImageButton) findViewById(R.id.ibLogin);
         ibLogin.setVisibility(View.INVISIBLE); //Hide the login button.
 
-        ParseFacebookUtils.logIn(Arrays.asList("email"), this, new LogInCallback() {
+        ParseFacebookUtils.logIn(Arrays.asList("email", "user_likes"), this, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
                 if (user == null) {
@@ -80,6 +81,7 @@ public class LoginActivity extends ActionBarActivity {
         LunchDashApplication.user.setCurrentLon(LunchDashApplication.longitude);
 
         populateUserModel();
+        populateProfile();
         Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -87,8 +89,29 @@ public class LoginActivity extends ActionBarActivity {
 
     }
 
+    public void populateProfile() {
+
+        //Check to see if the user is already in the UserProfile table.  If they are, do nothing.  Else grab their interests from facebook.
+        if (!ParseClient.userHasProfile(LunchDashApplication.user.getUserId())) {
+            final Session fbSession = ParseFacebookUtils.getSession();
+            new Request(fbSession, "/me/likes", null, HttpMethod.GET, new Request.Callback() { //Send a request to get the user's id, email, and name
+                @Override
+                public void onCompleted(Response response) {
+                    JSONObject userJSON = null;
+                    try {
+
+                        userJSON = new JSONObject(response.getRawResponse());
+                        Log.d("DEBUG", "");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).executeAsync();
+
+        }
+    }
+
     public void populateUserModel() {
-        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
         final Session fbSession = ParseFacebookUtils.getSession();
 
         new Request(fbSession, "/me", null, HttpMethod.GET, new Request.Callback() { //Send a request to get the user's id, email, and name

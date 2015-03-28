@@ -9,6 +9,7 @@ import com.lunchdash.lunchdash.datastore.UserTable;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class LunchDashApplication extends Application {
         ParseObject.registerSubclass(UserRestaurantMatchesTable.class);
         ParseObject.registerSubclass(ChatMessageTable.class);
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        ParseFacebookUtils.initialize("scdBFiBhXpbSgYm6ii3GyOTZhzW1z3OkplDeqhLD");
+
     }
 
     public static Restaurant getRestaurantById(String restaurantId) {
