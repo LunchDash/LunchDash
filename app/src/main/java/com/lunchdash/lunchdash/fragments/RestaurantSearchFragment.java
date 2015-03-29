@@ -44,6 +44,8 @@ public class RestaurantSearchFragment extends Fragment {
     public static List<Restaurant> restaurants;
     List<String> selectedRestaurants;
     public static FragmentManager fm;
+    GMapFragment gMapFragment;
+    RestaurantListFragment rListFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,9 +53,12 @@ public class RestaurantSearchFragment extends Fragment {
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
 
+        rListFragment = new RestaurantListFragment();
+        gMapFragment = new GMapFragment();
+
         fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+        ft.add(R.id.frameLayoutRestaurant, rListFragment, "RESTAURANT_LIST");
         ft.commit();
 
         setupViews(v);
@@ -93,22 +98,31 @@ public class RestaurantSearchFragment extends Fragment {
         ImageButton ibSwitcher = (ImageButton) v.findViewById(R.id.ibSwitcher);
         ibSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = fm.beginTransaction();
-
-                RestaurantListFragment rListFragment = (RestaurantListFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_LIST");
-
+            public void onClick(View v) { //Switch between the list and the map.
                 ImageButton ibSwitcher = (ImageButton) getView().findViewById(R.id.ibSwitcher);
 
-                if (rListFragment != null) { //We see the list.  Switch to the map.
-                    ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
-                    ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+                FragmentTransaction ft = fm.beginTransaction();
 
-                } else { //We're seeing the map.  Switch to the list.
-                    ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+                if (rListFragment.isVisible()) { //If we see the list, switch to the map.
+                    if (gMapFragment.isAdded()) {
+                        ft.show(gMapFragment);
+                        gMapFragment.updateMap(); //Refresh the map.
+                    } else { //Map has never been added before.
+                        ft.add(R.id.frameLayoutRestaurant, gMapFragment, "RESTAURANT_MAP");
+                    }
+                    ft.hide(rListFragment);
+                    ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+                } else if (gMapFragment.isVisible()) {
+                    ft.show(rListFragment);
+
+                    //Refresh the listview
+                    rListFragment.adapterRestaurants.clear();
+                    rListFragment.adapterRestaurants.addAll(restaurants);
+                    rListFragment.adapterRestaurants.notifyDataSetChanged();
+
+                    ft.hide(gMapFragment);
                     ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
                 }
-
                 ft.commit();
             }
         });
@@ -214,19 +228,15 @@ public class RestaurantSearchFragment extends Fragment {
                 restaurant.setUserCount(ParseClient.getUserCountForResturant(restaurant.getId()));
             }
 
-            //Get the current fragment
-            RestaurantListFragment rListFragment = (RestaurantListFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_LIST");
-            GMapFragment gMapFragment = (GMapFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_MAP");
-
-            //RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
-            if (rListFragment != null) {
+            if (rListFragment.isVisible()) {
                 rListFragment.adapterRestaurants.clear();
                 rListFragment.adapterRestaurants.addAll(restaurants);
                 rListFragment.adapterRestaurants.notifyDataSetChanged();
                 rListFragment.lvRestaurants.smoothScrollToPosition(0); //Scroll back to the top.
             }
-            if (gMapFragment != null) {
+            if (gMapFragment.isVisible()) {
                 gMapFragment.updateMap();
+                gMapFragment.centerCamera();
             }
 
             Button btnFinished = (Button) getView().findViewById(R.id.btnFinished);

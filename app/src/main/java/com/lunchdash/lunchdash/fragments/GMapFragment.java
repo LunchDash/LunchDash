@@ -58,10 +58,7 @@ public class GMapFragment extends Fragment {
         map.setInfoWindowAdapter(new RestaurantWindowAdapter(inflater));
         latitude = Double.parseDouble(LunchDashApplication.latitude);
         longitude = Double.parseDouble(LunchDashApplication.longitude);
-        LatLng latLng = new LatLng(latitude, longitude);
-        CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
-        map.moveCamera(center);
-        map.animateCamera(CameraUpdateFactory.zoomTo(14));
+        centerCamera();
         updateMap();
         return v;
 
@@ -106,6 +103,13 @@ public class GMapFragment extends Fragment {
             }
         });
 
+    }
+
+    public void centerCamera() { //Center the camera on your current location.
+        LatLng latLng = new LatLng(latitude, longitude);
+        CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
+        map.moveCamera(center);
+        map.animateCamera(CameraUpdateFactory.zoomTo(14));
     }
 
     public void dropPin(final Marker marker) {
