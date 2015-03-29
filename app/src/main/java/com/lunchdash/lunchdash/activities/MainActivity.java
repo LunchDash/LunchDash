@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
     RestaurantSearchFragment rSearchFragment;
     ProfileFragment profileFragment;
     SettingsFragment settingsFragment;
+    FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
         NavListAdapter adapterNavList = new NavListAdapter(this, navItems);
         lvDrawer.setAdapter(adapterNavList);
 
-        FragmentManager fm = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.flContent, rSearchFragment, "RESTAURANT_SEARCH");
         ft.commit();
@@ -65,45 +66,57 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String title = navItems.get(position).getTitle();
-                FragmentManager fm = getSupportFragmentManager();
+
                 FragmentTransaction ft = fm.beginTransaction();
+
                 switch (title) {
                     case "Search":
-                        if (rSearchFragment.isAdded()) {
-                            ft.show(rSearchFragment);
-                        } else {
-                            ft.add(R.id.flContent, rSearchFragment, "RESTAURANT_SEARCH");
-                        }
-                        if (profileFragment.isAdded()) ft.hide(profileFragment);
-                        if (settingsFragment.isAdded()) ft.hide(settingsFragment);
-                        //ft.replace(R.id.flContent, new RestaurantSearchFragment(), "RESTAURANT_SEARCH");
+                        showSearchFragment(ft);
                         break;
                     case "My Profile":
-                        if (profileFragment.isAdded()) {
-                            ft.show(profileFragment);
-                        } else {
-                            ft.add(R.id.flContent, profileFragment, "{PROFILE");
-                        }
-                        if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
-                        if (settingsFragment.isAdded()) ft.hide(settingsFragment);
+                        showProfileFragment(ft);
                         break;
                     case "Settings":
-                        if (settingsFragment.isAdded()) {
-                            ft.show(settingsFragment);
-                        } else {
-                            ft.add(R.id.flContent, settingsFragment, "SETTINGS");
-                        }
-                        if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
-                        if (profileFragment.isAdded()) ft.hide(profileFragment);
+                        showSettingsFragment(ft);
                         break;
                     case "Log Out":
                         break;
                 }
+                ft.addToBackStack(null);
                 ft.commit();
                 drawerLayout.closeDrawer(lvDrawer); //Close the drawer after you swap fragments.
             }
         });
+    }
 
+    public void showSearchFragment(FragmentTransaction ft) {
+        if (rSearchFragment.isAdded()) {
+            ft.show(rSearchFragment);
+        } else {
+            ft.add(R.id.flContent, rSearchFragment, "RESTAURANT_SEARCH");
+        }
+        if (profileFragment.isAdded()) ft.hide(profileFragment);
+        if (settingsFragment.isAdded()) ft.hide(settingsFragment);
+    }
+
+    public void showProfileFragment(FragmentTransaction ft) {
+        if (profileFragment.isAdded()) {
+            ft.show(profileFragment);
+        } else {
+            ft.add(R.id.flContent, profileFragment, "{PROFILE");
+        }
+        if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
+        if (settingsFragment.isAdded()) ft.hide(settingsFragment);
+    }
+
+    public void showSettingsFragment(FragmentTransaction ft) {
+        if (settingsFragment.isAdded()) {
+            ft.show(settingsFragment);
+        } else {
+            ft.add(R.id.flContent, settingsFragment, "SETTINGS");
+        }
+        if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
+        if (profileFragment.isAdded()) ft.hide(profileFragment);
     }
 
 
@@ -126,17 +139,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-
-        RestaurantSearchFragment rSearchFragment = (RestaurantSearchFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_SEARCH");
-
-        if (rSearchFragment == null) { //We're in another fragment, go back to the search fragment.
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.flContent, new RestaurantSearchFragment(), "RESTAURANT_SEARCH");
-            ft.commit();
-        } else { //Else quit the app.
+        View drawerView = findViewById(R.id.lvDrawer);
+        if (drawerLayout.isDrawerOpen(drawerView)) {
+            drawerLayout.closeDrawer(drawerView);
+            return;
+        }
+        if (fm.getBackStackEntryCount() == 0) {
             finish();
             overridePendingTransition(R.anim.left_in, R.anim.right_out);
+        } else {
+            fm.popBackStack();
         }
     }
 
