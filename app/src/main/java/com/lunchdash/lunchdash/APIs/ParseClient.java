@@ -9,6 +9,7 @@ import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import com.lunchdash.lunchdash.models.UserRestaurants;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -52,6 +53,10 @@ public class ParseClient {
         ut.setUserCurrentLon(user.getCurrentLon());
         try {
             ut.save();
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("userid", ut.getUserid());
+            installation.saveInBackground();
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
