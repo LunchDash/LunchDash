@@ -71,12 +71,21 @@ public class MainActivity extends ActionBarActivity {
 
                 switch (title) {
                     case "Search":
+                        if (rSearchFragment.isVisible()) { //Do nothing if we're already on that fragment.
+                            return;
+                        }
                         showSearchFragment(ft);
                         break;
                     case "My Profile":
+                        if (profileFragment.isVisible()) {
+                            return;
+                        }
                         showProfileFragment(ft);
                         break;
                     case "Settings":
+                        if (settingsFragment.isVisible()) {
+                            return;
+                        }
                         showSettingsFragment(ft);
                         break;
                     case "Log Out":
@@ -124,18 +133,22 @@ public class MainActivity extends ActionBarActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) { //Open the nav drawer if the menu button is pressed.
 
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-
-            View drawerView = findViewById(R.id.lvDrawer); // child drawer view
-
-            if (!drawerLayout.isDrawerOpen(drawerView)) {
-                drawerLayout.openDrawer(drawerView);
-            } else if (drawerLayout.isDrawerOpen(drawerView)) {
-                drawerLayout.closeDrawer(drawerView);
-            }
+            toggleDrawer();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    public void toggleDrawer() {
+        View drawerView = findViewById(R.id.lvDrawer); // child drawer view
+
+        if (!drawerLayout.isDrawerOpen(drawerView)) {
+            drawerLayout.openDrawer(drawerView);
+        } else if (drawerLayout.isDrawerOpen(drawerView)) {
+            drawerLayout.closeDrawer(drawerView);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

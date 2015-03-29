@@ -25,6 +25,7 @@ import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.activities.MainActivity;
 import com.lunchdash.lunchdash.activities.WaitActivity;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
@@ -85,7 +86,15 @@ public class RestaurantSearchFragment extends Fragment {
             }
         });
 
-        ImageButton ibFilter = (ImageButton) v.findViewById(R.id.ibFilter);
+        ImageButton ibDrawer = (ImageButton) v.findViewById(R.id.ibDrawer); //This button opens/closes the nav drawer
+        ibDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).toggleDrawer();
+            }
+        });
+
+        ImageButton ibFilter = (ImageButton) v.findViewById(R.id.ibFilter); //This button brings up the filter.
         ibFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +136,7 @@ public class RestaurantSearchFragment extends Fragment {
             }
         });
 
-        ImageButton ibSearch = (ImageButton) v.findViewById(R.id.ib_search);
+        ImageButton ibSearch = (ImageButton) v.findViewById(R.id.ibSearch);
         ibSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

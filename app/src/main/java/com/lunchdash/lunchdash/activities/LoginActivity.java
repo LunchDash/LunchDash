@@ -100,7 +100,15 @@ public class LoginActivity extends ActionBarActivity {
                     userJSON = new JSONObject(response.getRawResponse());
                     LunchDashApplication.user.setUserId(userJSON.getString("id"));
                     LunchDashApplication.user.setEmail(userJSON.getString("email"));
-                    LunchDashApplication.user.setName(userJSON.getString("first_name"));
+                    String firstName = userJSON.getString("first_name");
+                    String lastName = userJSON.getString("last_name");
+                    if (lastName != null && !lastName.equals("")) {
+                        lastName = lastName.substring(0, 1) + "."; //Get the first initial of their last name.
+                    } else {
+                        lastName = "";
+                    }
+
+                    LunchDashApplication.user.setName(firstName + " " + lastName);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
