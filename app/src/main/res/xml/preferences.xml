@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <PreferenceCategory android:title="Location">
+
+        <CheckBoxPreference
+            android:key="pref_shareLocation"
+            android:title="Share Location"
+            android:summary="Allow people you've matched with to see your current location"
+            android:defaultValue="true" />
+
+        <ListPreference
+            android:key="pref_locationUpdateFreq"
+            android:title="Location Update Frequency"
+            android:summary="%s"
+            android:dialogTitle="Select location update frequency"
+            android:entries="@array/pref_locationUpdateFreq_entries"
+            android:entryValues="@array/pref_locationUpdateFreq_values"
+            android:defaultValue="5 minutes" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
