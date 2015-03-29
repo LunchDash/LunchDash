@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.activities.RestaurantSearchActivity;
 import com.lunchdash.lunchdash.adapters.RestaurantsArrayAdapter;
 import com.lunchdash.lunchdash.models.Restaurant;
 
@@ -28,7 +27,7 @@ public class RestaurantListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
 
-        adapterRestaurants = new RestaurantsArrayAdapter(getActivity(), ((RestaurantSearchActivity) getActivity()).restaurants);
+        adapterRestaurants = new RestaurantsArrayAdapter(getActivity(), ((RestaurantSearchFragment) getParentFragment()).restaurants);
         View v = inflater.inflate(R.layout.fragment_list, parent, false);
         lvRestaurants = (ListView) v.findViewById(R.id.lvRestaurants);
         lvRestaurants.setAdapter(adapterRestaurants);

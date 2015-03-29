@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.activities.RestaurantSearchActivity;
 import com.lunchdash.lunchdash.adapters.RestaurantWindowAdapter;
 import com.lunchdash.lunchdash.models.Restaurant;
 
@@ -73,14 +72,14 @@ public class GMapFragment extends Fragment {
         map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                List<Restaurant> rList = RestaurantSearchActivity.restaurants;
+                List<Restaurant> rList = RestaurantSearchFragment.restaurants;
                 markerRestaurantPair = new HashMap<>();
                 for (int i = 0; i < rList.size(); i++) {
                     LatLng rLatLng = new LatLng(rList.get(i).getLatitude(), rList.get(i).getLongitude());
                     Marker marker = map.addMarker(new MarkerOptions().position(rLatLng));
                     markerRestaurantPair.put(marker.getId(), i);
 
-                    boolean selected = RestaurantSearchActivity.restaurants.get(i).isSelected();
+                    boolean selected = RestaurantSearchFragment.restaurants.get(i).isSelected();
                     if (selected) {
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
                         dropPin(marker);
@@ -95,7 +94,7 @@ public class GMapFragment extends Fragment {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 int position = markerRestaurantPair.get(marker.getId()); //The position of the restaurant in the restaurants array list.
-                Restaurant restaurant = RestaurantSearchActivity.restaurants.get(position);
+                Restaurant restaurant = RestaurantSearchFragment.restaurants.get(position);
                 restaurant.toggleSelected();
                 boolean selected = restaurant.isSelected();
                 if (selected) {

@@ -80,7 +80,7 @@ public class LoginActivity extends ActionBarActivity {
         LunchDashApplication.user.setCurrentLon(LunchDashApplication.longitude);
 
         populateUserModel();
-        Intent i = new Intent(LoginActivity.this, RestaurantSearchActivity.class);
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         finish();

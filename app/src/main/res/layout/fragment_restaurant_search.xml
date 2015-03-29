@@ -18,10 +18,9 @@
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/ib_filter"
+            android:id="@+id/ibFilter"
             android:src="@drawable/ic_filter"
             android:layout_weight="0.15"
-            android:onClick="onFilterClick"
             android:background="#3B5998"
             android:scaleType="fitXY" />
 
@@ -41,7 +40,6 @@
             android:id="@+id/ibSwitcher"
             android:src="@android:drawable/ic_dialog_map"
             android:layout_weight="0.15"
-            android:onClick="onSwitcherClick"
             android:background="#3B5998" />
 
         <ImageButton
@@ -72,7 +70,6 @@
             android:text="Finished Picking Restaurants >>>"
             android:textSize="18sp"
             android:id="@+id/btnFinished"
-            android:onClick="onFinishedClick"
             android:layout_alignTop="@+id/etSelected"
             android:layout_toRightOf="@+id/etSelected"
             android:layout_toEndOf="@+id/etSelected"

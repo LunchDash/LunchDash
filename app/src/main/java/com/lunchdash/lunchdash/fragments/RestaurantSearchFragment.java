@@ -1,4 +1,4 @@
-package com.lunchdash.lunchdash.activities;
+package com.lunchdash.lunchdash.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +25,7 @@ import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.fragments.FilterDialog;
-import com.lunchdash.lunchdash.fragments.GMapFragment;
-import com.lunchdash.lunchdash.fragments.RestaurantListFragment;
+import com.lunchdash.lunchdash.activities.WaitActivity;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurants;
@@ -38,33 +39,35 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class RestaurantSearchActivity extends ActionBarActivity {
+public class RestaurantSearchFragment extends Fragment {
     public YelpAPI yapi;
     public static List<Restaurant> restaurants;
     List<String> selectedRestaurants;
     public static FragmentManager fm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_search);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_restaurant_search, container, false);
         yapi = new YelpAPI(Keys.yelpConsumerKey, Keys.yelpConsumerSecret, Keys.yelpToken, Keys.yelpTokenSecret);
         restaurants = new ArrayList<>();
-        setupViews();
 
-        //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
-        new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
-    }
-
-    public void setupViews() {
-        //Show the restaurant list by default.
-        fm = getSupportFragmentManager();
+        fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
         ft.commit();
 
-        final EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
+        setupViews(v);
+
+
+        //We don't want an empty list when we start the activity, so we'll search for restaurants nearby with Sort  By and Max Distance both set to "Best Match"
+        new ConnectToYelp().execute("Restaurants", LunchDashApplication.latitude, LunchDashApplication.longitude, "Best Match", "Best Match");
+
+        return v;
+    }
+
+    private void setupViews(View v) {
+
+        final EditText etRestaurantSearch = (EditText) v.findViewById(R.id.etRestaurantSearch);
 
         etRestaurantSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -76,20 +79,80 @@ public class RestaurantSearchActivity extends ActionBarActivity {
                 return false;
             }
         });
-    }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+        ImageButton ibFilter = (ImageButton) v.findViewById(R.id.ibFilter);
+        ibFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getChildFragmentManager();
+                FilterDialog fd = FilterDialog.newInstance();
+                fd.show(fm, "fragment_filter_options");
+            }
+        });
+
+        ImageButton ibSwitcher = (ImageButton) v.findViewById(R.id.ibSwitcher);
+        ibSwitcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = fm.beginTransaction();
+
+                RestaurantListFragment rListFragment = (RestaurantListFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+
+                ImageButton ibSwitcher = (ImageButton) getView().findViewById(R.id.ibSwitcher);
+
+                if (rListFragment != null) { //We see the list.  Switch to the map.
+                    ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
+                    ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+
+                } else { //We're seeing the map.  Switch to the list.
+                    ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
+                    ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
+                }
+
+                ft.commit();
+            }
+        });
+
+        ImageButton ibSearch = (ImageButton) v.findViewById(R.id.ib_search);
+        ibSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRestaurantSearch(v);
+            }
+        });
+
+        Button ibFinished = (Button) v.findViewById(R.id.btnFinished);
+        ibFinished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedRestaurants = new LinkedList<>();
+
+                LunchDashApplication.restaurantList = new ArrayList<>();
+
+                for (int i = 0; i < restaurants.size(); i++) {
+                    Restaurant restaurant = restaurants.get(i);
+                    if (restaurant.isSelected()) {
+                        selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
+                        LunchDashApplication.restaurantList.add(restaurant);
+                    }
+                }
+
+                if (selectedRestaurants.size() > 0) {
+                    new FinishTask().execute(null, null, null); //Run the parse tasks in the background.
+                } else { //We're going to take no action if they didn't select at least 1 restaurant.
+                    Toast.makeText(getActivity(), "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     public void onRestaurantSearch(View v) {
-        EditText etRestaurantSearch = (EditText) findViewById(R.id.etRestaurantSearch);
+        EditText etRestaurantSearch = (EditText) getView().findViewById(R.id.etRestaurantSearch);
         String searchTerm = etRestaurantSearch.getText().toString();
 
         //Get filter settings
-        SharedPreferences filters = getSharedPreferences("settings", 0);
+        SharedPreferences filters = getActivity().getSharedPreferences("settings", 0);
         String sortBy = filters.getString("sortBy", "Best Match");
         String maxDistance = filters.getString("maxDistance", "Best Match");
 
@@ -97,55 +160,9 @@ public class RestaurantSearchActivity extends ActionBarActivity {
 
         new ConnectToYelp().execute(searchTerm, LunchDashApplication.latitude, LunchDashApplication.longitude, sortBy, maxDistance);
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etRestaurantSearch.getWindowToken(), 0);
     }
-
-    public void onFilterClick(View v) {
-        FragmentManager fm = getSupportFragmentManager();
-        FilterDialog fd = FilterDialog.newInstance();
-        fd.show(fm, "fragment_filter_options");
-    }
-
-    public void onSwitcherClick(View v) {
-        FragmentTransaction ft = fm.beginTransaction();
-
-        RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
-
-        ImageButton ibSwitcher = (ImageButton) findViewById(R.id.ibSwitcher);
-
-        if (rListFragment != null) { //We see the list.  Switch to the map.
-            ft.replace(R.id.frameLayoutRestaurant, new GMapFragment(), "RESTAURANT_MAP");
-            ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
-
-        } else { //We're seeing the map.  Switch to the list.
-            ft.replace(R.id.frameLayoutRestaurant, new RestaurantListFragment(), "RESTAURANT_LIST");
-            ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
-        }
-
-        ft.commit();
-    }
-
-    public void onFinishedClick(View v) throws ParseException {
-        selectedRestaurants = new LinkedList<>();
-
-        LunchDashApplication.restaurantList = new ArrayList<>();
-
-        for (int i = 0; i < restaurants.size(); i++) {
-            Restaurant restaurant = restaurants.get(i);
-            if (restaurant.isSelected()) {
-                selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                LunchDashApplication.restaurantList.add(restaurant);
-            }
-        }
-
-        if (selectedRestaurants.size() > 0) {
-            new FinishTask().execute(null, null, null); //Run the parse tasks in the background.
-        } else { //We're going to take no action if they didn't select at least 1 restaurant.
-            Toast.makeText(this, "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     public void onFinished() throws ParseException {
         User user = LunchDashApplication.user;
@@ -168,7 +185,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(RestaurantSearchActivity.this, "Searching Restaurants", "Please wait...", true);
+            dialog = ProgressDialog.show(getActivity(), "Searching Restaurants", "Please wait...", true);
         }
 
         @Override
@@ -198,8 +215,8 @@ public class RestaurantSearchActivity extends ActionBarActivity {
             }
 
             //Get the current fragment
-            RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_LIST");
-            GMapFragment gMapFragment = (GMapFragment) getSupportFragmentManager().findFragmentByTag("RESTAURANT_MAP");
+            RestaurantListFragment rListFragment = (RestaurantListFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_LIST");
+            GMapFragment gMapFragment = (GMapFragment) getChildFragmentManager().findFragmentByTag("RESTAURANT_MAP");
 
             //RestaurantListFragment rListFragment = (RestaurantListFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayoutRestaurant);
             if (rListFragment != null) {
@@ -212,7 +229,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
                 gMapFragment.updateMap();
             }
 
-            Button btnFinished = (Button) findViewById(R.id.btnFinished);
+            Button btnFinished = (Button) getView().findViewById(R.id.btnFinished);
             btnFinished.setVisibility(View.VISIBLE);
             dialog.dismiss();
         }
@@ -225,7 +242,7 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = ProgressDialog.show(RestaurantSearchActivity.this, "Getting Ready", "Please wait...", true);
+            dialog = ProgressDialog.show(getActivity(), "Getting Ready", "Please wait...", true);
         }
 
         @Override
@@ -241,9 +258,9 @@ public class RestaurantSearchActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void v) {
             dialog.dismiss();
-            Intent i = new Intent(RestaurantSearchActivity.this, WaitActivity.class); //Start waiting for restaurants.
+            Intent i = new Intent(getActivity(), WaitActivity.class); //Start waiting for restaurants.
             startActivity(i);
-            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
     }
 
