@@ -13,9 +13,8 @@ import com.parse.ParsePushBroadcastReceiver;
 public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
 
     @Override
-    protected Activity getActivity(Context context, Intent intent) {
-        Activity wait = new WaitActivity();
-        return wait; // the activity that shows up
+    protected Class<? extends android.app.Activity> getActivity(Context context, Intent intent) {
+       return WaitActivity.class;
     }
 
 }
