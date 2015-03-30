@@ -18,7 +18,7 @@
             android:dialogTitle="Select location update frequency"
             android:entries="@array/pref_locationUpdateFreq_entries"
             android:entryValues="@array/pref_locationUpdateFreq_values"
-            android:defaultValue="5 minutes" />
+            android:defaultValue="5" />
 
     </PreferenceCategory>
 
