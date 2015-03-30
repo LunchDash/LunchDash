@@ -5,7 +5,7 @@
     tools:context=".MainActivity">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -16,44 +16,65 @@
         android:background="#3B5998">
 
         <ImageButton
-            android:layout_width="0dp"
+            android:layout_width="35dp"
             android:layout_height="match_parent"
-            android:id="@+id/ib_filter"
-            android:src="@drawable/ic_filter"
-            android:layout_weight="0.15"
-            android:onClick="onFilterClick"
+            android:id="@+id/ibDrawer"
+            android:src="@drawable/nav_drawer_icon"
             android:background="#3B5998"
-            android:scaleType="fitXY" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:scaleType="fitCenter" />
 
         <EditText
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/etRestaurantSearch"
             android:hint="@string/hint_restaurant_search"
-            android:layout_weight="0.7"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
-            android:inputType="text" />
+            android:inputType="text"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ibDrawer"
+            android:layout_toLeftOf="@+id/ibSearch"
+            android:paddingLeft="10dp" />
 
         <ImageButton
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="35dp"
+            android:id="@+id/ibFilter"
+            android:src="@drawable/ic_filter"
+            android:background="#3B5998"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ibSearch"
+            android:layout_toStartOf="@+id/ibSearch" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/ibSearch"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_toLeftOf="@+id/ibSwitcher"
+            android:background="#3B5998"
+            android:layout_alignParentTop="true"
+            android:paddingRight="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/ibSwitcher"
             android:src="@android:drawable/ic_dialog_map"
-            android:layout_weight="0.15"
-            android:onClick="onSwitcherClick"
-            android:background="#3B5998" />
+            android:background="#3B5998"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/ib_search"
-            android:src="@android:drawable/ic_menu_search"
-            android:layout_weight="0.15"
-            android:onClick="onRestaurantSearch"
-            android:background="#3B5998" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll"
@@ -72,7 +93,6 @@
             android:text="Finished Picking Restaurants >>>"
             android:textSize="18sp"
             android:id="@+id/btnFinished"
-            android:onClick="onFinishedClick"
             android:layout_alignTop="@+id/etSelected"
             android:layout_toRightOf="@+id/etSelected"
             android:layout_toEndOf="@+id/etSelected"

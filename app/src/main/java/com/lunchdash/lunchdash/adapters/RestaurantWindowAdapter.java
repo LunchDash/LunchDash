@@ -9,8 +9,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.R;
-import com.lunchdash.lunchdash.activities.RestaurantSearchActivity;
 import com.lunchdash.lunchdash.fragments.GMapFragment;
+import com.lunchdash.lunchdash.fragments.RestaurantSearchFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
 
 public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -31,7 +31,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
-        Restaurant restaurant = RestaurantSearchActivity.restaurants.get(listPos);
+        Restaurant restaurant = RestaurantSearchFragment.restaurants.get(listPos);
 
         //Fill info
         int numWaiting = ParseClient.getUserCountForResturant(restaurant.getId());

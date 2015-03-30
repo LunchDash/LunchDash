@@ -38,23 +38,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.facebook.LoginActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.RestaurantSearchActivity"
-            android:label="@string/title_activity_restaurant_search"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:label="@string/title_facebook_login"></activity>
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.MainActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_main" />
+        <activity
             android:name=".activities.WaitActivity"
             android:label="@string/title_activity_wait"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ContactActivity"
+            android:label="@string/title_activity_contact"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AcceptDeclineActivity"
+            android:label="@string/title_activity_accept_decline"
+            android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -68,20 +77,11 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />
 
-        <activity
-            android:name=".activities.ContactActivity"
-            android:label="@string/title_activity_contact" />
-        <activity
-            android:name=".activities.AcceptDeclineActivity"
-            android:label="@string/title_activity_accept_decline" />
 
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver" android:exported="false">

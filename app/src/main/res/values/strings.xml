@@ -27,8 +27,7 @@
     <string name="profile_me">My Profile Pic</string>
     <string name="profile_other">Other profile pic</string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chatEmptyListMessage">Send them a message!</string>
-
+    <string name="title_activity_main">MainActivity</string>
 </resources>

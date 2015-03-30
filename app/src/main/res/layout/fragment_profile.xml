@@ -1,0 +1,55 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lunchdash.lunchdash.fragments.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|top"
+        android:background="#FFFFFF">
+
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/ivProfileImage"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvName"
+            tools:text="Elon Musk"
+            android:textSize="30sp"
+            android:layout_below="@+id/ivProfileImage"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="I'm a South African-born, Canadian-American entrepreneur, engineer, inventor and investor.  Currently the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors, and chairman of SolarCity."
+            android:id="@+id/tvBio"
+            android:layout_below="@+id/tvSnippet"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="48dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Accelerating the advent of electric cars!"
+            android:id="@+id/tvSnippet"
+            android:layout_marginTop="24dp"
+            android:layout_below="@+id/tvName"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</FrameLayout>
