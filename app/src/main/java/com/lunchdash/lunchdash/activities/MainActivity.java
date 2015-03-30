@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import com.lunchdash.lunchdash.fragments.ProfileFragment;
 import com.lunchdash.lunchdash.fragments.RestaurantSearchFragment;
 import com.lunchdash.lunchdash.fragments.SettingsFragment;
 import com.lunchdash.lunchdash.models.NavItem;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +91,9 @@ public class MainActivity extends ActionBarActivity {
                         showSettingsFragment(ft);
                         break;
                     case "Log Out":
+                        ParseUser.logOut();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
                         break;
                 }
                 ft.addToBackStack(null);
