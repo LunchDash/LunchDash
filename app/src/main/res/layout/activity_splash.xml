@@ -15,7 +15,7 @@
     android:text="Lunch Dash"
     android:id="@+id/textView"
     android:textSize="50dp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/text"
         android:layout_marginTop="142dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />

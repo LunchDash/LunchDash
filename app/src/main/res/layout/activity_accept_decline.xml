@@ -50,7 +50,7 @@
         <Button
             android:id="@+id/btnAccept"
             android:text="√ Accept"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text"
             android:textSize="20sp"
 
             android:layout_width="125dp"
@@ -68,7 +68,7 @@
         <Button
             android:id="@+id/btnDecline"
             android:text="X Decline"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text"
             android:textSize="20sp"
 
             android:layout_width="125dp"

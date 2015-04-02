@@ -15,7 +15,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#3B5998">
+        android:background="@color/primaryColor.Dark">
 
         <ImageView
             android:id="@+id/ivUserImage"
@@ -30,7 +30,7 @@
             android:gravity="center_horizontal"
             android:textIsSelectable="true"
             android:textSize="15sp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text"
             tools:text="'Name' is ready for an awesome lunch!\nGet in touch with him/her!" />
     </LinearLayout>
 
@@ -83,7 +83,7 @@
 
     <LinearLayout
         android:id="@+id/llSend"
-        android:background="#FFFFFF"
+        android:background="@color/neutralBackground"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -38,7 +38,7 @@ public class RestaurantListFragment extends Fragment {
                 Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
                 restaurant.toggleSelected();
                 if (restaurant.isSelected()) {
-                    view.setBackgroundColor(Color.parseColor("#E8F3FF"));
+                    view.setBackgroundColor(getResources().getColor(R.color.listItemSelected));
                 } else {
                     view.setBackgroundColor(Color.WHITE);
                 }

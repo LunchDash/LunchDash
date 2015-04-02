@@ -32,9 +32,7 @@ public class NavListAdapter extends ArrayAdapter<NavItem> {
         }
 
         final ViewHolder holder = (ViewHolder) convertView.getTag();
-        Log.d("APPDEBUG", "bp");
         NavItem navItem = getItem(position);
-        Log.d("APPDEBUG", "bp");
         holder.title.setText(navItem.getTitle());
         holder.ivIcon.setImageResource(navItem.getImageResource());
         return convertView;

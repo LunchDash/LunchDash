@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor.Dark">#3B5998</color>
+    <color name="primaryColor.Light">#FF5722</color>
+    <color name="text">#FFFFFF</color>
+    <color name="textOnWhite">#000000</color>
+    <color name="peopleWaiting">#FFA500</color>
+    <color name="listItemSelected">#E8F3FF</color>
+    <color name="neutralBackground">#FFFFFF</color>
+    <color name="drawerBackgroundSelected">#03A9F4</color>
+    <color name="drawerBackground">#212121</color>
+    <color name="rectangleButtonNormal">#FF5722</color>
+    <color name="rectangleButtonPressed">#D13A0A</color>
+
+    +
+</resources>

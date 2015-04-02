@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="horizontal"
-    android:background="#FFFFFF">
+    android:background="@color/neutralBackground">
 
     <ImageView
         android:layout_width="75dp"
@@ -32,7 +32,7 @@
                 tools:text="2 people waiting!"
                 android:id="@+id/tvPeopleWaiting"
                 android:textSize="15sp"
-                android:textColor="#FFA500" />
+                android:textColor="@color/peopleWaiting" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:id="@+id/tvDistance"
                 android:textSize="15sp"
                 android:layout_gravity="right"
-                android:textColor="#ff0013ff"
+                android:textColor="@color/primaryColor.Dark"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />

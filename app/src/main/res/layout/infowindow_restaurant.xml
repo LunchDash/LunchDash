@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:background="@color/neutralBackground"
     android:id="@+id/llInfoWindow">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             tools:text="2 people waiting!"
             android:id="@+id/tvPeopleWaiting"
             android:textSize="15sp"
-            android:textColor="#FFA500" />
+            android:textColor="@color/peopleWaiting" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:id="@+id/tvDistance"
             android:textSize="15sp"
             android:paddingLeft="8dp"
-            android:textColor="#ff0013ff" />
+            android:textColor="@color/primaryColor.Dark" />
 
     </LinearLayout>
 

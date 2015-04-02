@@ -18,9 +18,11 @@ import java.util.List;
 
 public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
     int position = 0;
+    Context context;
 
     public RestaurantsArrayAdapter(Context context, List<Restaurant> restaurants) {
         super(context, android.R.layout.simple_list_item_1, restaurants);
+        this.context = context;
     }
 
     private static class ViewHolder {
@@ -61,7 +63,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         }
 
         if (restaurant.isSelected()) {
-            convertView.setBackgroundColor(Color.parseColor("#E8F3FF"));
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.listItemSelected));
         } else {
             convertView.setBackgroundColor(Color.WHITE);
         }
