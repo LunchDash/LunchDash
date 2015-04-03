@@ -44,13 +44,6 @@ public class SettingsFragment extends Fragment {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
         }
-
-        /*@Override
-        public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-            View view = super.onCreateView(layoutInflater, viewGroup, savedInstanceState);
-            view.setBackgroundColor(Color.WHITE);
-            return view;
-        }*/
     }
 
 }

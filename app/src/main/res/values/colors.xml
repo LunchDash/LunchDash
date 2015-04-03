@@ -7,8 +7,10 @@
     <color name="peopleWaiting">#FFA500</color>
     <color name="listItemSelected">#E8F3FF</color>
     <color name="neutralBackground">#FFFFFF</color>
+    <color name="drawerBackground">#FFFFFF</color>
     <color name="drawerBackgroundSelected">#03A9F4</color>
-    <color name="drawerBackground">#212121</color>
+    <color name="drawerText">#000000</color>
+    <color name="drawerTextSelected">#FFFFFF</color>
     <color name="rectangleButtonNormal">#FF5722</color>
     <color name="rectangleButtonPressed">#D13A0A</color>
 

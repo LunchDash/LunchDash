@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
     ProfileFragment profileFragment;
     SettingsFragment settingsFragment;
     FragmentManager fm;
+    NavListAdapter adapterNavList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +46,28 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         lvDrawer = (ListView) findViewById(R.id.lvDrawer);
         navItems = new ArrayList<>();
-        navItems.add(new NavItem("Search", R.drawable.search_icon));
-        navItems.add(new NavItem("My Profile", R.drawable.profile_icon));
+
+        NavItem searchNavItem = new NavItem("Search", R.drawable.search_icon);
+        searchNavItem.setSelected(true);
+
+        navItems.add(searchNavItem);
+        navItems.add(new NavItem("Profile", R.drawable.profile_icon));
         navItems.add(new NavItem("Settings", R.drawable.settings_icon));
         navItems.add(new NavItem("Log Out", R.drawable.logout_icon));
 
-        NavListAdapter adapterNavList = new NavListAdapter(this, navItems);
+        adapterNavList = new NavListAdapter(this, navItems);
         lvDrawer.setAdapter(adapterNavList);
 
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.flContent, rSearchFragment, "RESTAURANT_SEARCH");
+        ft.addToBackStack("Search");
         ft.commit();
 
-        setupNavDrawerListener(lvDrawer);
-
-
+        setupDrawerListeners(lvDrawer);
     }
 
-    private void setupNavDrawerListener(final ListView lvDrawer) { //This sets up swapping fragments when a navbar item is clicked.
+    private void setupDrawerListeners(final ListView lvDrawer) { //This sets up swapping fragments when a navbar item is clicked.
         lvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,18 +81,21 @@ public class MainActivity extends ActionBarActivity {
                             return;
                         }
                         showSearchFragment(ft);
+                        ft.addToBackStack("Search");
                         break;
-                    case "My Profile":
+                    case "Profile":
                         if (profileFragment.isVisible()) {
                             return;
                         }
                         showProfileFragment(ft);
+                        ft.addToBackStack("Profile");
                         break;
                     case "Settings":
                         if (settingsFragment.isVisible()) {
                             return;
                         }
                         showSettingsFragment(ft);
+                        ft.addToBackStack("Settings");
                         break;
                     case "Log Out":
                         ParseUser.logOut();
@@ -96,11 +103,39 @@ public class MainActivity extends ActionBarActivity {
                         finish();
                         break;
                 }
-                ft.addToBackStack(null);
+
+                //Reset the colors for all the items, then highlight the selected item.
+                for (int i = 0; i < navItems.size(); i++) {
+                    navItems.get(i).setSelected(false);
+                }
+                navItems.get(position).setSelected(true);
+                adapterNavList.notifyDataSetChanged();
+
+
                 ft.commit();
                 drawerLayout.closeDrawer(lvDrawer); //Close the drawer after you swap fragments.
             }
         });
+    }
+
+    //We'll call this when we hit the back button.
+    public void selectNavItem(String title) {
+
+        //Unselect all the nav items.
+        for (int i = 0; i < navItems.size(); i++) {
+            navItems.get(i).setSelected(false);
+        }
+        getNavItemWithTitle(title).setSelected(true);
+        adapterNavList.notifyDataSetChanged();
+    }
+
+    public NavItem getNavItemWithTitle(String title) {
+        for (NavItem item : navItems) {
+            if (item.getTitle().equals(title)) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public void showSearchFragment(FragmentTransaction ft) {
@@ -117,7 +152,7 @@ public class MainActivity extends ActionBarActivity {
         if (profileFragment.isAdded()) {
             ft.show(profileFragment);
         } else {
-            ft.add(R.id.flContent, profileFragment, "{PROFILE");
+            ft.add(R.id.flContent, profileFragment, "PROFILE");
         }
         if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
         if (settingsFragment.isAdded()) ft.hide(settingsFragment);
@@ -162,11 +197,13 @@ public class MainActivity extends ActionBarActivity {
             drawerLayout.closeDrawer(drawerView);
             return;
         }
-        if (fm.getBackStackEntryCount() == 0) {
+        if (fm.getBackStackEntryCount() < 2) { //There's only 1 entry left so we're going to exit out of the app.
             finish();
             overridePendingTransition(R.anim.left_in, R.anim.right_out);
         } else {
-            fm.popBackStack();
+            fm.popBackStackImmediate();
+            String title = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName(); //Get the name of the fragment on top of the stack.
+            selectNavItem(title);
         }
     }
 

@@ -36,7 +36,6 @@ public class ProfileFragment extends Fragment {
                 ((MainActivity) getActivity()).toggleDrawer();
             }
         });
-
         return v;
     }
 
