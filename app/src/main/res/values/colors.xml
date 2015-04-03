@@ -13,6 +13,4 @@
     <color name="drawerTextSelected">#FFFFFF</color>
     <color name="rectangleButtonNormal">#FF5722</color>
     <color name="rectangleButtonPressed">#D13A0A</color>
-
-    +
 </resources>
