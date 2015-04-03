@@ -1,7 +1,9 @@
 package com.lunchdash.lunchdash.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
@@ -131,20 +133,47 @@ public class WaitActivity extends ActionBarActivity {
     void doAnimation() {
 
         ImageView fork = (ImageView) findViewById(R.id.ivFork);
-        ObjectAnimator moveFork = ObjectAnimator.ofFloat(fork, "translationX", screenWidth / 2 + screenWidth / 20);
-        moveFork.setInterpolator(new BounceInterpolator());
-        moveFork.setDuration(2000);
-        moveFork.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
+        ObjectAnimator moveForkIn = ObjectAnimator.ofFloat(fork, "translationX", screenWidth / 2 + screenWidth / 20);
+        moveForkIn.setInterpolator(new BounceInterpolator());
+        moveForkIn.setDuration(2000);
+        //moveForkIn.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
 
+        ObjectAnimator moveForkBack = ObjectAnimator.ofFloat(fork, "translationX", -(screenWidth / 2 + screenWidth / 20));
+        moveForkBack.setDuration(2000);
+        //moveForkIn.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
 
         ImageView spoon = (ImageView) findViewById(R.id.ivSpoon);
-        ObjectAnimator moveSpoon = ObjectAnimator.ofFloat(spoon, "translationX", -screenWidth / 2 + screenWidth / 20);
-        moveSpoon.setInterpolator(new BounceInterpolator());
-        moveSpoon.setDuration(2000);
-        moveSpoon.setRepeatCount(ValueAnimator.INFINITE);
+        ObjectAnimator moveSpoonIn = ObjectAnimator.ofFloat(spoon, "translationX", -screenWidth / 2 + screenWidth / 20);
+        moveSpoonIn.setInterpolator(new BounceInterpolator());
+        moveSpoonIn.setDuration(2000);
+        //moveSpoon.setRepeatCount(ValueAnimator.INFINITE);
 
-        moveFork.start();
-        moveSpoon.start();
+        ObjectAnimator moveSpoonBack = ObjectAnimator.ofFloat(spoon, "translationX", -(screenWidth / 2 + screenWidth / 20));
+        moveSpoonBack.setDuration(2000);
+        //moveForkIn.setRepeatCount(ValueAnimator.INFINITE); //Loop forever
+
+        final AnimatorSet asFork = new AnimatorSet();
+        asFork.playSequentially(moveForkIn, moveForkBack);
+        asFork.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                asFork.start();
+            }
+        });
+
+        final AnimatorSet asSpoon = new AnimatorSet();
+        asSpoon.playSequentially(moveSpoonIn, moveSpoonBack);
+        asSpoon.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                asSpoon.start();
+            }
+        });
+
+        asFork.start();
+        asSpoon.start();
 
     }
 
