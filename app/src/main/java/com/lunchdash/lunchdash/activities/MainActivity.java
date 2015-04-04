@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -73,29 +74,25 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String title = navItems.get(position).getTitle();
 
-                FragmentTransaction ft = fm.beginTransaction();
-
                 switch (title) {
                     case "Search":
                         if (rSearchFragment.isVisible()) { //Do nothing if we're already on that fragment.
                             return;
                         }
-                        showSearchFragment(ft);
-                        ft.addToBackStack("Search");
+                        showSearchFragment(true);
                         break;
                     case "Profile":
                         if (profileFragment.isVisible()) {
                             return;
                         }
-                        showProfileFragment(ft);
-                        ft.addToBackStack("Profile");
+                        showProfileFragment(true);
+
                         break;
                     case "Settings":
                         if (settingsFragment.isVisible()) {
                             return;
                         }
-                        showSettingsFragment(ft);
-                        ft.addToBackStack("Settings");
+                        showSettingsFragment(true);
                         break;
                     case "Log Out":
                         ParseUser.logOut();
@@ -111,9 +108,11 @@ public class MainActivity extends ActionBarActivity {
                 navItems.get(position).setSelected(true);
                 adapterNavList.notifyDataSetChanged();
 
-
-                ft.commit();
                 drawerLayout.closeDrawer(lvDrawer); //Close the drawer after you swap fragments.
+                for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+                    Log.d("backstackdebug", fm.getBackStackEntryAt(i).getName());
+                }
+                Log.d("backstackdebug", "-------------------");
             }
         });
     }
@@ -138,7 +137,8 @@ public class MainActivity extends ActionBarActivity {
         return null;
     }
 
-    public void showSearchFragment(FragmentTransaction ft) {
+    public void showSearchFragment(boolean addToBackstack) {
+        FragmentTransaction ft = fm.beginTransaction();
         if (rSearchFragment.isAdded()) {
             ft.show(rSearchFragment);
         } else {
@@ -146,9 +146,12 @@ public class MainActivity extends ActionBarActivity {
         }
         if (profileFragment.isAdded()) ft.hide(profileFragment);
         if (settingsFragment.isAdded()) ft.hide(settingsFragment);
+        if (addToBackstack) ft.addToBackStack("Search");
+        ft.commit();
     }
 
-    public void showProfileFragment(FragmentTransaction ft) {
+    public void showProfileFragment(boolean addToBackstack) {
+        FragmentTransaction ft = fm.beginTransaction();
         if (profileFragment.isAdded()) {
             ft.show(profileFragment);
         } else {
@@ -156,9 +159,12 @@ public class MainActivity extends ActionBarActivity {
         }
         if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
         if (settingsFragment.isAdded()) ft.hide(settingsFragment);
+        if (addToBackstack) ft.addToBackStack("Profile");
+        ft.commit();
     }
 
-    public void showSettingsFragment(FragmentTransaction ft) {
+    public void showSettingsFragment(boolean addToBackstack) {
+        FragmentTransaction ft = fm.beginTransaction();
         if (settingsFragment.isAdded()) {
             ft.show(settingsFragment);
         } else {
@@ -166,6 +172,8 @@ public class MainActivity extends ActionBarActivity {
         }
         if (rSearchFragment.isAdded()) ft.hide(rSearchFragment);
         if (profileFragment.isAdded()) ft.hide(profileFragment);
+        if (addToBackstack) ft.addToBackStack("Settings");
+        ft.commit();
     }
 
 
@@ -201,9 +209,25 @@ public class MainActivity extends ActionBarActivity {
             finish();
             overridePendingTransition(R.anim.left_in, R.anim.right_out);
         } else {
+            Log.d("backstackdebug", "BACK PRESSED");
+            for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+                Log.d("backstackdebug", fm.getBackStackEntryAt(i).getName());
+            }
+
             fm.popBackStackImmediate();
-            String title = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName(); //Get the name of the fragment on top of the stack.
-            selectNavItem(title);
+            String lastFragment = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName(); //Get the name of the fragment on top of the stack.
+            switch (lastFragment) {
+                case "Search":
+                    showSearchFragment(false);
+                    break;
+                case "Settings":
+                    showSettingsFragment(false);
+                    break;
+                case "Profile":
+                    showProfileFragment(false);
+                    break;
+            }
+            selectNavItem(lastFragment);
         }
     }
 
