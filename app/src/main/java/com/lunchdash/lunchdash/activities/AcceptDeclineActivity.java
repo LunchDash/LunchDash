@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +24,9 @@ import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.Restaurant;
 import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class AcceptDeclineActivity extends ActionBarActivity {
     ImageView ivProfileImg;
@@ -72,7 +75,8 @@ public class AcceptDeclineActivity extends ActionBarActivity {
 
         tvMessage.setText(matchedUser.getName() + " would like to go to lunch with you at " + restaurant.getName());
         ivProfileImg.setImageResource(android.R.color.transparent);
-        Picasso.with(this).load(matchedUser.getImageUrl()).into((ivProfileImg));
+        Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(1).oval(true).scaleType(ImageView.ScaleType.CENTER_CROP).build();
+        Picasso.with(this).load(matchedUser.getImageUrl()).transform(transformation).into((ivProfileImg));
     }
 
     @Override

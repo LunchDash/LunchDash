@@ -34,17 +34,52 @@
                 android:scaleType="fitCenter"
                 android:layout_marginLeft="5dp" />
 
+
+            <ImageButton
+                android:visibility="gone"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ibCancel"
+                android:src="@drawable/x_icon"
+                android:background="@color/primaryColor.Dark"
+                android:scaleType="fitCenter"
+                android:layout_toLeftOf="@+id/ibOk" />
+
+            <ImageButton
+                android:visibility="gone"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ibOk"
+                android:src="@drawable/checkmark_icon"
+                android:background="@color/primaryColor.Dark"
+                android:scaleType="fitCenter"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ibEdit"
+                android:src="@drawable/edit_icon"
+                android:background="@color/primaryColor.Dark"
+                android:scaleType="fitCenter"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
         </RelativeLayout>
 
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:id="@+id/ivProfileImage"
-            android:layout_marginTop="53dp"
+            android:scaleType="fitCenter"
             android:layout_below="@+id/rlNavBar"
-            android:layout_alignLeft="@+id/tvName"
-            android:layout_alignStart="@+id/tvName" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="29dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,29 +87,46 @@
             android:id="@+id/tvName"
             tools:text="Elon Musk"
             android:textSize="30sp"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/ivProfileImage"
             android:layout_centerHorizontal="true" />
 
-        <TextView
+        <EditText
+            android:inputType="textMultiLine"
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="I'm a South African-born, Canadian-American entrepreneur, engineer, inventor and investor.  Currently the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors, and chairman of SolarCity."
-            android:id="@+id/tvBio"
-            android:layout_below="@+id/tvSnippet"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="48dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:text="Accelerating the advent of electric cars!"
-            android:id="@+id/tvSnippet"
+            android:id="@+id/etSnippet"
             android:layout_marginTop="24dp"
             android:layout_below="@+id/tvName"
+            android:layout_centerHorizontal="true"
+            android:hint="Write a tagline about yourself!"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:maxLines="2"
+            android:maxLength="65"
+            android:textColorHint="@color/hintTextColor"
+            android:gravity="center" />
+
+        <EditText
+            android:inputType="textMultiLine"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="I'm a South African-born, Canadian-American entrepreneur, engineer, inventor and investor. Currently the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors."
+            android:id="@+id/etBio"
+            android:layout_marginTop="25dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:gravity="center_horizontal"
+            android:hint="Write a short bio about yourself!"
+            android:maxLength="200"
+            android:maxLines="6"
+            android:textColorHint="@color/hintTextColor"
+            android:textIsSelectable="false"
+            android:layout_below="@+id/etSnippet"
             android:layout_centerHorizontal="true" />
+
+
     </RelativeLayout>
 </FrameLayout>

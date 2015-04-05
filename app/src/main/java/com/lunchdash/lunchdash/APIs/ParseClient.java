@@ -15,6 +15,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ParseClient {
@@ -75,6 +76,52 @@ public class ParseClient {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static HashMap<String, String> getUserProfile(String userId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserProfile");
+        query.whereEqualTo("userId", userId);
+        ParseObject po = null;
+        try {
+            po = query.getFirst();
+        } catch (ParseException e) {
+        }
+
+        if (po != null) {
+            String snippet = po.getString("snippet");
+            String bio = po.getString("bio");
+            HashMap<String, String> hm = new HashMap<>();
+            hm.put("snippet", snippet);
+            hm.put("bio", bio);
+            return hm;
+        } else {
+            return null;
+        }
+    }
+
+    public static void saveUserProfile(String userId, String snippet, String bio) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserProfile");
+        query.whereEqualTo("userId", userId);
+        ParseObject po = null;
+        try {
+            po = query.getFirst();
+        } catch (ParseException e) {
+        }
+
+        if (po == null) { //There's no previous entry, create a new one.
+            ParseObject poProfile = new ParseObject("UserProfile");
+            poProfile.put("userId", userId);
+            poProfile.put("snippet", snippet);
+            poProfile.put("bio", bio);
+            poProfile.saveInBackground();
+        } else { //Update previous entry.
+            po.put("snippet", snippet);
+            po.put("bio", bio);
+            po.saveInBackground();
+        }
+
 
     }
 
