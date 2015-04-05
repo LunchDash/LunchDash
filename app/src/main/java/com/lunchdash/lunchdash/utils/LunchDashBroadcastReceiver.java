@@ -1,35 +1,30 @@
 package com.lunchdash.lunchdash.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.activities.AcceptDeclineActivity;
-import com.lunchdash.lunchdash.activities.WaitActivity;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import com.parse.ParsePushBroadcastReceiver;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by chandra.vijayarenu on 3/28/15.
- */
 public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
 
-    public static final String PARSE_EXTRA_DATA_KEY         =   "com.parse.Data";
+    public static final String PARSE_EXTRA_DATA_KEY = "com.parse.Data";
     public static final int ACTION_ACCEPT_DECLINE = 1;
     public static final int ACTION_MATCH = 2;
 
     @Override
-    protected Class<? extends android.app.Activity> getActivity(Context context, Intent intent) {
+    protected void onPushOpen(Context context, Intent intent) {
+        super.onPushOpen(context, intent);
 
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString(PARSE_EXTRA_DATA_KEY));
             int action = json.getInt("action");
-            switch (action){
+            switch (action) {
                 case ACTION_ACCEPT_DECLINE:
                     String userid = json.getString("userid");
                     String matchid = json.getString("matchid");
@@ -57,7 +52,5 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
             e.printStackTrace();
         }
 
-        return WaitActivity.class;
     }
-
 }
