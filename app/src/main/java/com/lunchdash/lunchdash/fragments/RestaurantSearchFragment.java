@@ -203,7 +203,7 @@ public class RestaurantSearchFragment extends Fragment {
 
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
-            String resurantName = "Resturant";
+            String resurantName = "Restaurant";
             for(Restaurant restaurant: restaurants){
                 if (restaurant.getId().equals(restaurantId)){
                     resurantName = restaurant.getName();
@@ -248,7 +248,7 @@ public class RestaurantSearchFragment extends Fragment {
             for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants
                 Restaurant restaurant = restaurants.get(i);
                 restaurant.setSelected(false);
-                restaurant.setUserCount(ParseClient.getUserCountForResturant(restaurant.getId()));
+                restaurant.setUserCount(ParseClient.getUserCountForRestaurant(restaurant.getId()));
             }
 
             if (rListFragment.isVisible()) {

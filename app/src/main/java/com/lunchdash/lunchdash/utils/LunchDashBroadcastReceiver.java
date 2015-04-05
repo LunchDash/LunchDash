@@ -27,7 +27,7 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
             String userid = json.getString("userid");
             String matchid = json.getString("matchid");
             UserRestaurantMatches match = ParseClient.getMatch(matchid);
-            String resturantid = match.getRestaurantId();
+            String restaurantid = match.getRestaurantId();
 
             String matchedUserid = userid;
             if (match.getReqUserId().equals(userid)) {
@@ -40,7 +40,7 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
             switch (action) {
                 case ACTION_ACCEPT_DECLINE:
                     Intent acceptDeclineActivityIntent = new Intent(context, AcceptDeclineActivity.class);
-                    acceptDeclineActivityIntent.putExtra("restaurantId", resturantid);
+                    acceptDeclineActivityIntent.putExtra("restaurantId", restaurantid);
                     acceptDeclineActivityIntent.putExtra("match", match);
                     acceptDeclineActivityIntent.putExtra("userId", matchedUserid);
                     acceptDeclineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -50,7 +50,7 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
                 case ACTION_MATCH:
                     Intent contact = new Intent(context, ContactActivity.class);
                     contact.putExtra("userId",matchedUserid);
-                    contact.putExtra("restaurantId", resturantid);
+                    contact.putExtra("restaurantId", restaurantid);
                     contact.putExtra("match", match);
                     contact.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     contact.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

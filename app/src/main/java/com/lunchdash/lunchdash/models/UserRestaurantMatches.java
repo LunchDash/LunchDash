@@ -24,7 +24,7 @@ public class UserRestaurantMatches implements Serializable {
         setMatchedStatus(urmt.getMatchedStatus());
         setReqStatus(urmt.getRequesterStatus());
         setMatchedName(urmt.getMatchedUserName());
-        setResturantName(urmt.getRestaurantName());
+        setRestaurantName(urmt.getRestaurantName());
     }
 
     public String getMatchedName() {
@@ -35,12 +35,12 @@ public class UserRestaurantMatches implements Serializable {
         this.matchedName = matchedName;
     }
 
-    public String getResturantName() {
-        return resturantName;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setResturantName(String resturantName) {
-        this.resturantName = resturantName;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
 
@@ -101,6 +101,6 @@ public class UserRestaurantMatches implements Serializable {
 
 
     private String matchedName;
-    private String resturantName;
+    private String restaurantName;
 
 }

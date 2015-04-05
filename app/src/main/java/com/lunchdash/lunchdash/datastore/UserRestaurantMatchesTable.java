@@ -12,7 +12,7 @@ public class UserRestaurantMatchesTable extends ParseObject {
     public final static String REQUESTER_STATUS = "reqStatus";
     public final static String MATCHED_STATUS = "matchedStatus";
     public final static String MATCHED_USER_NAME = "matchedUsername";
-    public final static String RESTAURANT_NAME = "resturantName";
+    public final static String RESTAURANT_NAME = "restaurantName";
 
     public  String getMatchedUserName() {
         return getString(MATCHED_USER_NAME);

@@ -4,19 +4,19 @@ public class UserRestaurants {
 
     private String userId;
     private String restaurantId;
-    private String resturantName;
+    private String restaurantName;
 
-    public UserRestaurants(String userId, String resturantId, String resturantName) {
+    public UserRestaurants(String userId, String restaurantId, String restaurantName) {
         this.userId = userId;
-        this.restaurantId = resturantId;
-        this.resturantName = resturantName;
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
     }
-    public String getResturantName() {
-        return resturantName;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setResturantName(String resturantName) {
-        this.resturantName = resturantName;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
 
