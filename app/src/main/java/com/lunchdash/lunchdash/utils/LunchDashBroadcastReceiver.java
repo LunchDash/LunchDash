@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.activities.AcceptDeclineActivity;
+import com.lunchdash.lunchdash.activities.ContactActivity;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 import com.parse.ParsePushBroadcastReceiver;
 
@@ -23,27 +24,37 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString(PARSE_EXTRA_DATA_KEY));
             int action = json.getInt("action");
+            String userid = json.getString("userid");
+            String matchid = json.getString("matchid");
+            UserRestaurantMatches match = ParseClient.getMatch(matchid);
+            String restaurantid = match.getRestaurantId();
+
+            String matchedUserid = userid;
+            if (match.getReqUserId().equals(userid)) {
+                matchedUserid = match.getMatchedUserID();
+            } else {
+                matchedUserid = match.getReqUserId();
+            }
+
+
             switch (action) {
                 case ACTION_ACCEPT_DECLINE:
-                    String userid = json.getString("userid");
-                    String matchid = json.getString("matchid");
-                    UserRestaurantMatches match = ParseClient.getMatch(matchid);
-
                     Intent acceptDeclineActivityIntent = new Intent(context, AcceptDeclineActivity.class);
-                    if (match.getReqUserId().equals(userid)) {
-                        acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
-                    } else {
-                        acceptDeclineActivityIntent.putExtra("userId", match.getReqUserId());
-                    }
-                    acceptDeclineActivityIntent.putExtra("restaurantId", match.getRestaurantId());
+                    acceptDeclineActivityIntent.putExtra("restaurantId", restaurantid);
                     acceptDeclineActivityIntent.putExtra("match", match);
+                    acceptDeclineActivityIntent.putExtra("userId", matchedUserid);
                     acceptDeclineActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     acceptDeclineActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(acceptDeclineActivityIntent);
                     break;
                 case ACTION_MATCH:
-
-
+                    Intent contact = new Intent(context, ContactActivity.class);
+                    contact.putExtra("userId",matchedUserid);
+                    contact.putExtra("restaurantId", restaurantid);
+                    contact.putExtra("match", match);
+                    contact.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    contact.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(contact);
                     break;
             }
 

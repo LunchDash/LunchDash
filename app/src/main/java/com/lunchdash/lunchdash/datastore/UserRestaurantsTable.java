@@ -7,6 +7,15 @@ import com.parse.ParseObject;
 public class UserRestaurantsTable extends ParseObject {
     public final static String USER_ID = "userId";
     public final static String RESTAURANT_ID = "restaurantId";
+    public final static String RESTAURANT_NAME = "restaurantName";
+
+    public String getRestaurantName() {
+        return getString(RESTAURANT_NAME);
+    }
+
+    public void setRestaurantName(String restaurantName){
+        put (RESTAURANT_NAME, restaurantName);
+    }
 
     public String getUserId() {
         return getString(USER_ID);

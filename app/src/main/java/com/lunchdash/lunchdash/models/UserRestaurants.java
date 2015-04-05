@@ -4,11 +4,21 @@ public class UserRestaurants {
 
     private String userId;
     private String restaurantId;
+    private String restaurantName;
 
-    public UserRestaurants(String userId, String resturantId) {
+    public UserRestaurants(String userId, String restaurantId, String restaurantName) {
         this.userId = userId;
-        this.restaurantId = resturantId;
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
     }
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
 
     public String getUserId() {
         return userId;

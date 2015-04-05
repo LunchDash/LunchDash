@@ -34,7 +34,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         Restaurant restaurant = RestaurantSearchFragment.restaurants.get(listPos);
 
         //Fill info
-        int numWaiting = ParseClient.getUserCountForResturant(restaurant.getId());
+        int numWaiting = ParseClient.getUserCountForRestaurant(restaurant.getId());
         if (numWaiting == 1) { //Set text if there's anyone waiting for that restaurant.
             tvPeopleWaiting.setText("1 person waiting!");
         } else if (numWaiting >= 2) {
