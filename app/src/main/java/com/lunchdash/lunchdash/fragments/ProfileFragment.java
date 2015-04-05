@@ -27,6 +27,9 @@ public class ProfileFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_profile, parent, false);
         User user = LunchDashApplication.user;
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(getActivity());
+        }
         setupViews(v, user);
 
         ImageButton ibDrawer = (ImageButton) v.findViewById(R.id.ibDrawer); //This button opens/closes the nav drawer

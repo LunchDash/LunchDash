@@ -33,6 +33,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     UserRestaurantMatches match;
     int screenWidth;
     ObjectAnimator moveProfile;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,13 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         match = (UserRestaurantMatches) i.getSerializableExtra("match");
 
         matchedUser = ParseClient.getUser(userId);
-        restaurant = LunchDashApplication.getRestaurantById(restaurantId);
+        restaurant = LunchDashApplication.getRestaurantById(this, restaurantId);
+
+        user = LunchDashApplication.user;
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(this);
+        }
+
 
         //Get the screen width
         Display display = getWindowManager().getDefaultDisplay();
@@ -117,7 +124,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     private void accept() {
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
-        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
+        if (user.getUserId().equals(match.getReqUserId())) {
             match.setReqStatus(UserRestaurantMatches.STATUS_ACCEPTED);
             match.setMatchedStatus(UserRestaurantMatches.STATUS_UNCHANGED);
         } else {
@@ -141,7 +148,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void decline() {
         String userMatchResponse = UserRestaurantMatches.STATUS_DENIED;
 
-        if (LunchDashApplication.user.getUserId().equals(match.getReqUserId())) {
+        if (user.getUserId().equals(match.getReqUserId())) {
             match.setReqStatus(UserRestaurantMatches.STATUS_DENIED);
         } else {
             match.setMatchedStatus(UserRestaurantMatches.STATUS_DENIED);
@@ -159,4 +166,6 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     public void onDecline(View v) {
         decline();
     }
+
+
 }
