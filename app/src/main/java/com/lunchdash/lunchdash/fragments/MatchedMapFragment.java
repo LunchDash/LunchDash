@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.fragments;
 
+import android.content.Context;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
@@ -185,8 +186,11 @@ public class MatchedMapFragment extends Fragment implements
         //Also save the current location update to parse.
         user.setCurrentLat(Double.toString(location.getLatitude()));
         user.setCurrentLon(Double.toString(location.getLongitude()));
-        LunchDashApplication.saveUserToSharedPref(getActivity());
-        ParseClient.saveUser(user);
+        Context context = getActivity();
+        if (context != null) {
+            LunchDashApplication.saveUserToSharedPref(context);
+        }
+        ParseClient.saveLocation();
     }
 
     @Override

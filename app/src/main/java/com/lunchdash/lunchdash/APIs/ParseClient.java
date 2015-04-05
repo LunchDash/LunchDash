@@ -1,5 +1,8 @@
 package com.lunchdash.lunchdash.APIs;
 
+import android.util.Log;
+
+import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.activities.ContactActivity;
 import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.datastore.UserRestaurantMatchesTable;
@@ -61,6 +64,19 @@ public class ParseClient {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveLocation() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
+        query.whereEqualTo("userId", LunchDashApplication.user.getUserId());
+        ParseObject po = null;
+        try {
+            po = query.getFirst();
+        } catch (ParseException e) {
+        }
+        po.put("currentLat", LunchDashApplication.user.getCurrentLat());
+        po.put("currentLon", LunchDashApplication.user.getCurrentLon());
+        po.saveInBackground();
     }
 
     public static void saveUserRestaurantPair(UserRestaurants ur) {
@@ -244,6 +260,24 @@ public class ParseClient {
 
         for (ParseObject result : results) {
             result.delete();
+        }
+
+    }
+
+    public static void setUserStatus(String status) {
+        if (status.equals("Waiting") || status.equals("Matching") || status.equals("Finished")) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
+            query.whereEqualTo("userId", LunchDashApplication.user.getUserId());
+            ParseObject po = null;
+            try {
+                po = query.getFirst();
+            } catch (ParseException e) {
+                Log.d("APPDEBUG", "setting status failed due to " + e);
+            }
+            po.put("status", status);
+            po.saveInBackground();
+        } else {
+            Log.e("APPDEBUG", "Trying to set an invalid user status!");
         }
 
     }
