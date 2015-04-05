@@ -19,7 +19,6 @@ public class LunchDashBroadcastReceiver extends ParsePushBroadcastReceiver {
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
-        super.onPushOpen(context, intent);
 
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString(PARSE_EXTRA_DATA_KEY));
