@@ -203,7 +203,14 @@ public class RestaurantSearchFragment extends Fragment {
 
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
-            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);
+            String resurantName = "Resturant";
+            for(Restaurant restaurant: restaurants){
+                if (restaurant.getId().equals(restaurantId)){
+                    resurantName = restaurant.getName();
+                    break;
+                }
+            }
+            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId,resurantName);
             ParseClient.saveUserRestaurantPair(userRestaurantPair);
             ParseClient.populateUsersResutaurantMatches(userRestaurantPair);
         }

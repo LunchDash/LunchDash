@@ -71,6 +71,7 @@ public class ParseClient {
         }
         urt.setUserId(ur.getUserId());
         urt.setRestaurantId(ur.getRestaurantId());
+        urt.setResturantName(ur.getResturantName());
         try {
             urt.save();
         } catch (ParseException e) {
@@ -170,11 +171,13 @@ public class ParseClient {
         query.whereNotEqualTo("userId", userRestaurant.getUserId());
         List<ParseObject> results = query.find();
         for (ParseObject restaurant : results) {
-
+            User matchedUser = ParseClient.getUser(((UserRestaurantsTable) restaurant).getUserId());
             UserRestaurantMatches match = new UserRestaurantMatches();
             match.setReqUserId(userRestaurant.getUserId());
-            match.setMatchedUserID(((UserRestaurantsTable) restaurant).getUserId());
+            match.setMatchedUserID(matchedUser.getUserId());
             match.setRestaurantId(userRestaurant.getRestaurantId());
+            match.setResturantName(userRestaurant.getResturantName());
+            match.setMatchedName(matchedUser.getName());
             saveUserRestaurantMatch(match);
         }
 
@@ -219,6 +222,10 @@ public class ParseClient {
         if (!urm.getMatchedStatus().equals(UserRestaurantMatches.STATUS_UNCHANGED)) {
             urmt.setMatchedStatus(urm.getMatchedStatus());
         }
+
+        urmt.setMatchedUserName(urm.getMatchedName());
+        urmt.setRestaurantName(urm.getResturantName());
+
         try {
             urmt.save();
         } catch (ParseException e) {
