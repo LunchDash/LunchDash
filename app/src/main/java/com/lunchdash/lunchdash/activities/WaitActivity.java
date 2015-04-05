@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
+import com.lunchdash.lunchdash.models.User;
 import com.lunchdash.lunchdash.models.UserRestaurantMatches;
 
 import java.util.List;
@@ -30,14 +31,18 @@ public class WaitActivity extends ActionBarActivity {
     private static final String TAG = "WaitActivity";
     public final int REQUEST_CODE = 100;
     FindMatchTask matchTask;
-    //int loopCount = 0;
-    //  boolean keepAlive = false;
+    User user;
     int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
+
+        user = LunchDashApplication.user;
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(this);
+        }
 
         //Get the screen width
         Display display = getWindowManager().getDefaultDisplay();
@@ -59,7 +64,7 @@ public class WaitActivity extends ActionBarActivity {
         super.onStop();
         /*if (!keepAlive) {
             Log.d("APPDEBUG", "Calling this when it's not supposed to...");
-            ParseClient.deleteInactiveUserSelections(LunchDashApplication.user.getUserId());
+            ParseClient.deleteInactiveUserSelections(user.getUserId());
         }*/
     }
 
@@ -67,7 +72,7 @@ public class WaitActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         matchTask.cancel(true); //Stop the task.
-        ParseClient.deleteInactiveUserSelections(LunchDashApplication.user.getUserId());
+        ParseClient.deleteInactiveUserSelections(user.getUserId());
 
     }
 
@@ -90,24 +95,19 @@ public class WaitActivity extends ActionBarActivity {
     }
 
     void handleRequests() {
-        //loopCount++;
-        //Log.d("APPDEBUG", "loop count is: " + loopCount);
-        List<UserRestaurantMatches> matches = ParseClient.getUserMatches(LunchDashApplication.user.getUserId());
-
-        //Toast.makeText(this, "Found #" + matches.size(), Toast.LENGTH_SHORT).show();
-        // Log.i(TAG, "handleRequests:: Found #" + matches.size());
+        List<UserRestaurantMatches> matches = ParseClient.getUserMatches(user.getUserId());
 
         onGetConfirmationRequest();
 
         for (UserRestaurantMatches match : matches) {
-            Log.d("APPDEBUG", "Found a match on" + LunchDashApplication.user.getUserId());
+            Log.d("APPDEBUG", "Found a match on" + user.getUserId());
             boolean isActive = ParseClient.isActive(match.getReqUserId(), match.getMatchedUserID(), match.getRestaurantId());
             if (!isActive) { //Make sure the other side hasn't already declined while we were waiting.
                 continue;
             }
 
             Intent acceptDeclineActivityIntent = new Intent(WaitActivity.this, AcceptDeclineActivity.class);
-            if (match.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
+            if (match.getReqUserId().equals(user.getUserId())) {
                 acceptDeclineActivityIntent.putExtra("userId", match.getMatchedUserID());
             } else {
                 acceptDeclineActivityIntent.putExtra("userId", match.getReqUserId());
@@ -184,13 +184,13 @@ public class WaitActivity extends ActionBarActivity {
     void onGetConfirmationRequest() {
 
         UserRestaurantMatches usersMatchConfirmation =
-                ParseClient.getUserRestaurantMatchAccepted(LunchDashApplication.user.getUserId());
+                ParseClient.getUserRestaurantMatchAccepted(user.getUserId());
 
         if (usersMatchConfirmation != null) {
             matchTask.cancel(true);
 
             Intent contactActivityIntent = new Intent(WaitActivity.this, ContactActivity.class);
-            if (usersMatchConfirmation.getReqUserId().equals(LunchDashApplication.user.getUserId())) {
+            if (usersMatchConfirmation.getReqUserId().equals(user.getUserId())) {
                 contactActivityIntent.putExtra("userId", usersMatchConfirmation.getMatchedUserID());
             } else {
                 contactActivityIntent.putExtra("userId", usersMatchConfirmation.getReqUserId());

@@ -46,6 +46,7 @@ public class MatchedMapFragment extends Fragment implements
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    User user;
 
     Marker restaurantMarker;
     Marker otherUserMarker;
@@ -54,6 +55,10 @@ public class MatchedMapFragment extends Fragment implements
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        user = LunchDashApplication.user;
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(getActivity());
+        }
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
         MapView mapView = (MapView) v.findViewById(R.id.restaurantMap);
@@ -84,7 +89,7 @@ public class MatchedMapFragment extends Fragment implements
             builder.include(restaurantMarker.getPosition());
 
             UserRestaurantMatches match = ContactActivity.match;
-            String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
+            String otherUserId = match.getReqUserId().equals(user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
             User otherUser = ParseClient.getUser(otherUserId);
 
             otherUserMarker = map.addMarker(new MarkerOptions()
@@ -167,12 +172,10 @@ public class MatchedMapFragment extends Fragment implements
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
 
         //query other users location and udpate the marker too.
         UserRestaurantMatches match = ContactActivity.match;
-        String otherUserId = match.getReqUserId().equals(LunchDashApplication.user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
+        String otherUserId = match.getReqUserId().equals(user.getUserId()) ? match.getMatchedUserID() : match.getReqUserId();
         User otherUser = ParseClient.getUser(otherUserId);
         otherUserMarker.setPosition(new LatLng(
                 Double.parseDouble(otherUser.getCurrentLat()),
@@ -180,9 +183,10 @@ public class MatchedMapFragment extends Fragment implements
         ));
 
         //Also save the current location update to parse.
-        LunchDashApplication.user.setCurrentLat(Double.toString(location.getLatitude()));
-        LunchDashApplication.user.setCurrentLon(Double.toString(location.getLongitude()));
-        ParseClient.saveUser(LunchDashApplication.user);
+        user.setCurrentLat(Double.toString(location.getLatitude()));
+        user.setCurrentLon(Double.toString(location.getLongitude()));
+        LunchDashApplication.saveUserToSharedPref(getActivity());
+        ParseClient.saveUser(user);
     }
 
     @Override

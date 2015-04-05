@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lunchdash.lunchdash.APIs.Keys;
 import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.APIs.YelpAPI;
@@ -150,13 +151,10 @@ public class RestaurantSearchFragment extends Fragment {
             public void onClick(View v) {
                 selectedRestaurants = new LinkedList<>();
 
-                LunchDashApplication.restaurantList = new ArrayList<>();
-
                 for (int i = 0; i < restaurants.size(); i++) {
                     Restaurant restaurant = restaurants.get(i);
                     if (restaurant.isSelected()) {
                         selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                        LunchDashApplication.restaurantList.add(restaurant);
                     }
                 }
 
@@ -189,11 +187,20 @@ public class RestaurantSearchFragment extends Fragment {
 
     public void onFinished() throws ParseException {
         User user = LunchDashApplication.user;
-        user.setPhoneNumber("1234567890"); //Uncomment on Emulator
 
         ParseClient.saveUser(user); //Create or update user info.
         ParseClient.deleteUserRestaurantPairs(user.getUserId()); //Delete any existing user/restaurant pairs in the UserRestaurantsTable
         ParseClient.deleteRestaurantMatches(user.getUserId());
+
+        //Store restaurant info in shared preferences.
+        SharedPreferences spData = getActivity().getSharedPreferences("data", 0);
+        SharedPreferences.Editor editor = spData.edit();
+        Gson gson = new Gson();
+        editor.putString("restaurants", gson.toJson(restaurants));
+        editor.commit();
+
+        LunchDashApplication.saveUserToSharedPref(getActivity());
+
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
             UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId);

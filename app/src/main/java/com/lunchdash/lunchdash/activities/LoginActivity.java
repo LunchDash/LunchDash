@@ -78,6 +78,7 @@ public class LoginActivity extends ActionBarActivity {
         LunchDashApplication.user.setPhoneNumber(tMgr.getLine1Number());
         LunchDashApplication.user.setCurrentLat(LunchDashApplication.latitude);
         LunchDashApplication.user.setCurrentLon(LunchDashApplication.longitude);
+        LunchDashApplication.user.setPhoneNumber("1234567890"); //Uncomment on Emulator
 
         populateUserModel();
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -96,7 +97,6 @@ public class LoginActivity extends ActionBarActivity {
             public void onCompleted(Response response) {
                 JSONObject userJSON = null;
                 try {
-
                     userJSON = new JSONObject(response.getRawResponse());
                     LunchDashApplication.user.setUserId(userJSON.getString("id"));
                     LunchDashApplication.user.setEmail(userJSON.getString("email"));
@@ -131,7 +131,9 @@ public class LoginActivity extends ActionBarActivity {
                 }
             }
         }).executeAsync();
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

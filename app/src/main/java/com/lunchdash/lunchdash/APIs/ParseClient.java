@@ -407,4 +407,17 @@ public class ParseClient {
         return null;
     }
 
+    public static UserRestaurantMatches getMatch(String matchid) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantMatchesTable");
+        query.whereEqualTo("objectId", matchid);
+
+        try {
+            UserRestaurantMatchesTable matchRow = (UserRestaurantMatchesTable) query.getFirst();
+            UserRestaurantMatches match = new UserRestaurantMatches(matchRow);
+            return match;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -46,10 +46,15 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profile, parent, false);
         User user = LunchDashApplication.user;
 
+
         HashMap<String, String> profileHm = ParseClient.getUserProfile(LunchDashApplication.user.getUserId());
         if (profileHm != null) {
             snippet = profileHm.get("snippet");
             bio = profileHm.get("bio");
+        }
+
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(getActivity());
         }
 
         setupViews(v, user);

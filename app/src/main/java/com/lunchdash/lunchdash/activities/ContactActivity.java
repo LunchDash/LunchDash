@@ -40,6 +40,7 @@ public class ContactActivity extends ActionBarActivity {
     public static UserRestaurantMatches match;
     public static Restaurant restaurant;
     List<ChatMessageTable> messagesPrevious = new ArrayList<>();
+    User user;
 
     public static int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
@@ -72,11 +73,15 @@ public class ContactActivity extends ActionBarActivity {
         String userId = i.getStringExtra("userId");
         String restaurantId = i.getStringExtra("restaurantId");
         match = (UserRestaurantMatches) i.getSerializableExtra("match");
+        user = LunchDashApplication.user;
+        if (user == null) {
+            user = LunchDashApplication.getUserFromSharedPref(this);
+        }
 
         ImageView ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
         tvContactText = (TextView) findViewById(R.id.tvContactText);
         matchedUser = ParseClient.getUser(userId);
-        restaurant = LunchDashApplication.getRestaurantById(restaurantId);
+        restaurant = LunchDashApplication.getRestaurantById(this, restaurantId);
 
         tvContactText.setText(Html.fromHtml(matchedUser.getName() + " is ready for an awesome lunch at<br> <b>" + restaurant.getName() + "!</b><br>Get in touch!"));
         ivUserImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
@@ -109,7 +114,7 @@ public class ContactActivity extends ActionBarActivity {
         TextView tvEmptyList = (TextView) findViewById(R.id.tvEmptyList);
         lvChat.setEmptyView(tvEmptyList);
         mMessages = new ArrayList<>();
-        mAdapter = new ChatListAdapter(this, LunchDashApplication.user.getUserId(), mMessages);
+        mAdapter = new ChatListAdapter(this, user.getUserId(), mMessages);
         lvChat.setAdapter(mAdapter);
 
         btSend.setOnClickListener(new View.OnClickListener() { //Submit when the send button is clicked
@@ -138,7 +143,7 @@ public class ContactActivity extends ActionBarActivity {
         if (data.equals("")) {
             return;
         }
-        ParseClient.saveChatMessage(match.getId(), LunchDashApplication.user.getUserId(), data);
+        ParseClient.saveChatMessage(match.getId(), user.getUserId(), data);
         etMessage.setText("");
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //Hide the soft keyboard after you've sent the message.
         imm.hideSoftInputFromWindow(etMessage.getWindowToken(), 0);
@@ -165,6 +170,6 @@ public class ContactActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        ParseClient.deleteUserSelections(LunchDashApplication.user.getUserId());
+        ParseClient.deleteUserSelections(user.getUserId());
     }
 }
