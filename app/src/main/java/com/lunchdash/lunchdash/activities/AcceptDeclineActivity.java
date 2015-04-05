@@ -57,7 +57,8 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         screenWidth = size.x;
 
         ivProfileImg = (ImageView) findViewById(R.id.ivProfileImage);
-        ivProfileImg.setOnTouchListener(new OnSwipeTouchListener(this) {
+        View swipeHitbox = findViewById(R.id.swipeHitbox);
+        swipeHitbox.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
                 hideButtons();
