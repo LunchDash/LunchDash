@@ -204,13 +204,13 @@ public class RestaurantSearchFragment extends Fragment {
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
             String resurantName = "Restaurant";
-            for(Restaurant restaurant: restaurants){
-                if (restaurant.getId().equals(restaurantId)){
+            for (Restaurant restaurant : restaurants) {
+                if (restaurant.getId().equals(restaurantId)) {
                     resurantName = restaurant.getName();
                     break;
                 }
             }
-            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId,resurantName);
+            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId, resurantName);
             ParseClient.saveUserRestaurantPair(userRestaurantPair);
             ParseClient.populateUsersResutaurantMatches(userRestaurantPair);
         }
@@ -240,17 +240,18 @@ public class RestaurantSearchFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return restaurants;
-        }
 
-        @Override
-        protected void onPostExecute(List<Restaurant> restaurants) {
             for (int i = 0; i < restaurants.size(); i++) { //Unselect all the restaurants
                 Restaurant restaurant = restaurants.get(i);
                 restaurant.setSelected(false);
                 restaurant.setUserCount(ParseClient.getUserCountForRestaurant(restaurant.getId()));
             }
 
+            return restaurants;
+        }
+
+        @Override
+        protected void onPostExecute(List<Restaurant> restaurants) {
             if (rListFragment.isVisible()) {
                 rListFragment.adapterRestaurants.clear();
                 rListFragment.adapterRestaurants.addAll(restaurants);
