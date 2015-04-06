@@ -46,27 +46,25 @@
 
     <ImageButton
         android:background="@null"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ibLeftArrow"
-        android:src="@drawable/dotted_left_arrow"
-        android:layout_alignTop="@+id/ibRightArrow"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/ivProfileImage"
-        android:layout_toStartOf="@+id/ivProfileImage" />
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/ibDecline"
+        android:src="@drawable/decline_button"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="26dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/ivProfileImage"
+        android:layout_alignStart="@+id/ivProfileImage" />
 
     <ImageButton
         android:background="@null"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ibRightArrow"
-        android:src="@drawable/dotted_right_arrow"
-        android:layout_alignTop="@+id/ivProfileImage"
-        android:layout_alignRight="@+id/swipeHitbox"
-        android:layout_alignEnd="@+id/swipeHitbox"
-        android:layout_marginTop="61dp"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/ibAccept"
+        android:src="@drawable/accept_button"
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/ibDecline"
+        android:layout_alignRight="@+id/ivProfileImage"
+        android:layout_alignEnd="@+id/ivProfileImage" />
 
 </RelativeLayout>

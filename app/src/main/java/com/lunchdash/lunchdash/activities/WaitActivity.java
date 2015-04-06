@@ -20,6 +20,7 @@ import com.lunchdash.lunchdash.models.User;
 public class WaitActivity extends ActionBarActivity {
     User user;
     int screenWidth;
+    boolean animationStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,16 @@ public class WaitActivity extends ActionBarActivity {
         display.getSize(size);
         screenWidth = size.x;
 
-        doAnimation();
+        // doAnimation();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (!animationStarted) {
+            doAnimation();
+            animationStarted = true;
+        }
     }
 
     @Override
@@ -52,7 +62,9 @@ public class WaitActivity extends ActionBarActivity {
     void doAnimation() {
 
         ImageView fork = (ImageView) findViewById(R.id.ivFork);
-        float forkTranslationDistance = screenWidth / 2 + screenWidth / 25;
+
+        int forkWidth = fork.getWidth();
+        float forkTranslationDistance = screenWidth / 2 + 2 * forkWidth;
         ObjectAnimator moveForkIn = ObjectAnimator.ofFloat(fork, "translationX", 0, forkTranslationDistance);
         moveForkIn.setInterpolator(new BounceInterpolator());
         moveForkIn.setDuration(2000);
@@ -62,7 +74,7 @@ public class WaitActivity extends ActionBarActivity {
         moveForkBack.setDuration(1000);
 
         ImageView spoon = (ImageView) findViewById(R.id.ivSpoon);
-        float spoonTranslationDistance = -screenWidth / 2 - screenWidth / 25;
+        float spoonTranslationDistance = -screenWidth / 2 - forkWidth;
         ObjectAnimator moveSpoonIn = ObjectAnimator.ofFloat(spoon, "translationX", 0, spoonTranslationDistance);
         moveSpoonIn.setInterpolator(new BounceInterpolator());
         moveSpoonIn.setDuration(2000);

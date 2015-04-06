@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +63,11 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         display.getSize(size);
         screenWidth = size.x;
 
+        setupViews();
+
+    }
+
+    private void setupViews() {
         ivProfileImg = (ImageView) findViewById(R.id.ivProfileImage);
         View swipeHitbox = findViewById(R.id.swipeHitbox);
         swipeHitbox.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -82,6 +88,25 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         ivProfileImg.setImageResource(android.R.color.transparent);
         Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(1).oval(true).scaleType(ImageView.ScaleType.CENTER_CROP).build();
         Picasso.with(this).load(matchedUser.getImageUrl()).transform(transformation).into((ivProfileImg));
+
+        ImageButton ibAccept = (ImageButton) findViewById(R.id.ibAccept);
+        ImageButton ibDecline = (ImageButton) findViewById(R.id.ibDecline);
+
+        ibAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateProfile("right");
+            }
+        });
+
+        ibDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateProfile("left");
+            }
+        });
+
+
     }
 
     @Override
