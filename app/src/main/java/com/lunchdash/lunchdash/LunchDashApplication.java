@@ -62,6 +62,9 @@ public class LunchDashApplication extends Application {
         SharedPreferences spData = context.getSharedPreferences("data", 0);
         Gson gson = new Gson();
         String json = spData.getString("user", null);
+        if (json == null) {
+            return null;
+        }
         LunchDashApplication.user = gson.fromJson(json, User.class);
         return LunchDashApplication.user;
     }

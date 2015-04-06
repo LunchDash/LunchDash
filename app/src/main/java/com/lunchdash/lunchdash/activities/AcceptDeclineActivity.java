@@ -14,7 +14,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lunchdash.lunchdash.APIs.OnSwipeTouchListener;
@@ -68,13 +67,11 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         swipeHitbox.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-                hideButtons();
                 animateProfile("left");
             }
 
             @Override
             public void onSwipeRight() {
-                hideButtons();
                 animateProfile("right");
             }
         });
@@ -120,13 +117,8 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         moveProfile.start();
     }
 
-    public void hideButtons() {
-        LinearLayout llButtons = (LinearLayout) findViewById(R.id.llButtons);
-        llButtons.setVisibility(View.INVISIBLE);
-    }
-
-
     private void accept() {
+        ParseClient.setUserStatus("Waiting"); //Set their status back to Waiting
         String userMatchResponse = UserRestaurantMatches.STATUS_ACCEPTED;
 
         if (user.getUserId().equals(match.getReqUserId())) {
@@ -143,14 +135,10 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         i.putExtra("userMatchResponse", userMatchResponse);
         setResult(Activity.RESULT_OK, i);
         finish();
-
-    }
-
-    public void onAccept(View v) {
-        accept();
     }
 
     public void decline() {
+        ParseClient.setUserStatus("Waiting"); //Set their status back to Waiting
         String userMatchResponse = UserRestaurantMatches.STATUS_DENIED;
 
         if (user.getUserId().equals(match.getReqUserId())) {
@@ -165,12 +153,6 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         i.putExtra("userMatchResponse", userMatchResponse);
         setResult(Activity.RESULT_OK, i);
         finish();
-
     }
-
-    public void onDecline(View v) {
-        decline();
-    }
-
 
 }

@@ -44,47 +44,29 @@
         android:textSize="20sp"
         android:gravity="center_horizontal" />
 
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:background="@null"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/ibLeftArrow"
+        android:src="@drawable/dotted_left_arrow"
+        android:layout_alignTop="@+id/ibRightArrow"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:gravity="center_horizontal">
+        android:layout_toLeftOf="@+id/ivProfileImage"
+        android:layout_toStartOf="@+id/ivProfileImage" />
 
-        <Button
-            android:id="@+id/btnAccept"
-            android:text="√ Accept"
-            android:textColor="@color/text"
-            android:textSize="20sp"
+    <ImageButton
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibRightArrow"
+        android:src="@drawable/dotted_right_arrow"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_alignRight="@+id/swipeHitbox"
+        android:layout_alignEnd="@+id/swipeHitbox"
+        android:layout_marginTop="61dp"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/ivProfileImage" />
 
-            android:layout_width="125dp"
-            android:layout_height="60dp"
-            android:background="@drawable/buttonshape_accept"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
-            android:layout_marginRight="50dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:onClick="onAccept"
-            android:nestedScrollingEnabled="false" />
-
-        <Button
-            android:id="@+id/btnDecline"
-            android:text="X Decline"
-            android:textColor="@color/text"
-            android:textSize="20sp"
-
-            android:layout_width="125dp"
-            android:layout_height="60dp"
-            android:background="@drawable/buttonshape_decline"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
-            style="?android:attr/borderlessButtonStyle"
-            android:onClick="onDecline" />
-    </LinearLayout>
 </RelativeLayout>

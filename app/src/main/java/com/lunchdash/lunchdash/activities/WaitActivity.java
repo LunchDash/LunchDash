@@ -41,15 +41,12 @@ public class WaitActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ParseClient.deleteInactiveUserSelections(user.getUserId());
-    }
-
-    @Override
     public void onBackPressed() {
+        ParseClient.clearUserRestaurantSelections(user.getUserId()); //Get rid of all their restaurant selections.
+        ParseClient.setUserStatus("None"); //Set their status to "None".  This indicates that when the app is started, it shouldn't go straight to WaitActivity.
         finish();
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
+
     }
 
     void doAnimation() {

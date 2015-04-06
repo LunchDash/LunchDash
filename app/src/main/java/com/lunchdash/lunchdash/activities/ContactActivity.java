@@ -170,6 +170,7 @@ public class ContactActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        ParseClient.setUserStatus("None");
         ParseClient.deleteUserSelections(user.getUserId());
     }
 }

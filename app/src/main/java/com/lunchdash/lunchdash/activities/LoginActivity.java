@@ -16,6 +16,7 @@ import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.lunchdash.lunchdash.APIs.ParseClient;
 import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.models.User;
@@ -81,7 +82,21 @@ public class LoginActivity extends ActionBarActivity {
         LunchDashApplication.user.setPhoneNumber("1234567890"); //Uncomment on Emulator
 
         populateUserModel();
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        Intent i;
+
+        User savedUser = LunchDashApplication.getUserFromSharedPref(LoginActivity.this); //We're using this so we don't have to wait for the facebook call to finish.
+        String userStatus;
+        if (savedUser == null) { //This is their first time using the app or they've cleared their data.
+            userStatus = "None";
+        } else {
+            userStatus = ParseClient.getUserStatus(savedUser.getUserId());
+        }
+
+        if (userStatus.equals("None")) {
+            i = new Intent(LoginActivity.this, MainActivity.class);
+        } else {
+            i = new Intent(LoginActivity.this, WaitActivity.class);
+        }
         startActivity(i);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         finish();

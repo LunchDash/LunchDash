@@ -16,7 +16,6 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -271,8 +270,24 @@ public class ParseClient {
 
     }
 
+    public static String getUserStatus(String userId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
+        query.whereEqualTo("userId", userId);
+        ParseObject po = null;
+        try {
+            po = query.getFirst();
+        } catch (ParseException e) {
+        }
+
+        if (po != null) {
+            return po.getString("status");
+        } else {
+            return "";
+        }
+    }
+
     public static void setUserStatus(String status) {
-        if (status.equals("Waiting") || status.equals("Matching") || status.equals("Finished")) {
+        if (status.equals("Waiting") || status.equals("Matching") || status.equals("Finished") || status.equals("None")) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("UserTable");
             query.whereEqualTo("userId", LunchDashApplication.user.getUserId());
             ParseObject po = null;
@@ -289,116 +304,7 @@ public class ParseClient {
 
     }
 
-    private static void deleteInactiveRestaurantMatches(String userId) throws ParseException {
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
 
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
-
-        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
-        List<ParseObject> results = null;
-        try {
-            results = query.find();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        for (ParseObject result : results) {
-            String status = (String) result.get(UserRestaurantMatchesTable.REQUESTER_STATUS);
-            String status2 = (String) result.get(UserRestaurantMatchesTable.MATCHED_STATUS);
-            if (status == null || status2 == null || !status.equals(UserRestaurantMatches.STATUS_ACCEPTED) || !status2.equals(UserRestaurantMatches.STATUS_ACCEPTED)) { //If either is not ACCEPTED, delete it.
-                result.delete();
-            }
-        }
-
-    }
-
-    private static List<ParseObject> getUserRestaurantsMatches(String userId) {
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_WAITING);
-
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
-        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_WAITING);
-
-        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
-
-        try {
-            List<ParseObject> results = query.find();
-            return results;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static boolean isActive(String userId, String matchedId, String restaurantId) {
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, matchedId);
-        query1.whereNotEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_DENIED);
-        query1.whereNotEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_DENIED);
-
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo(UserRestaurantMatchesTable.RESTAURANT_ID, restaurantId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, matchedId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
-        query1.whereNotEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_DENIED);
-        query1.whereNotEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_DENIED);
-
-        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
-
-        try {
-            List<ParseObject> results = query.find();
-            return results.size() > 0;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static List<UserRestaurantMatches> getUserMatches(String userId) {
-        List<UserRestaurantMatches> matches = new ArrayList<UserRestaurantMatches>();
-        List<ParseObject> results = getUserRestaurantsMatches(userId);
-        for (ParseObject match : results) {
-            UserRestaurantMatches matchObject = new UserRestaurantMatches(((UserRestaurantMatchesTable) match));
-            matches.add(matchObject);
-        }
-
-        return matches;
-    }
-
-    public static UserRestaurantMatches getUserRestaurantMatchAccepted(String userId) {
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_USER_ID, userId);
-        query1.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
-        query1.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
-
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("UserRestaurantMatchesTable");
-        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_USER_ID, userId);
-        query2.whereEqualTo(UserRestaurantMatchesTable.REQUESTER_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
-        query2.whereEqualTo(UserRestaurantMatchesTable.MATCHED_STATUS, UserRestaurantMatches.STATUS_ACCEPTED);
-
-
-        ParseQuery<ParseObject> query = ParseQuery.or(Arrays.asList(query1, query2));
-
-        try {
-            UserRestaurantMatchesTable match = (UserRestaurantMatchesTable) query.getFirst();
-            return new UserRestaurantMatches(match);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Method to be called when the app exits.
-     *
-     * @param userId
-     */
     public static void deleteUserSelections(String userId) {
         try {
             deleteRestaurantMatches(userId);
@@ -409,13 +315,15 @@ public class ParseClient {
 
     }
 
-    public static void deleteInactiveUserSelections(String userId) { //Won't delete RestaurantPairs where both are Active because the second device may still need to look at it.
+    public static void clearUserRestaurantSelections(String userId) { //Removes all their entries from  UserRestaurantsTable
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
+        query.whereEqualTo(UserRestaurantsTable.USER_ID, userId);
         try {
-            deleteInactiveRestaurantMatches(userId);
-            deleteUserRestaurantPairs(userId);
+            List<ParseObject> matches = query.find();
+            ParseObject.deleteAll(matches);
         } catch (ParseException e) {
-            e.printStackTrace();
         }
+
 
     }
 
