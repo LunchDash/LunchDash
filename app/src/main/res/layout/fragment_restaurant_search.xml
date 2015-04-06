@@ -1,17 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/rlNavBar"
         android:background="@color/primaryColor.Dark">
 
@@ -78,36 +76,21 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-
-        <Button
-            android:layout_height="50dp"
-            android:layout_width="match_parent"
-            style="@style/RectangleButton"
-            android:text="Finished Picking Restaurants >>>"
-            android:textSize="18sp"
-            android:id="@+id/btnFinished"
-            android:layout_alignTop="@+id/etSelected"
-            android:layout_toRightOf="@+id/etSelected"
-            android:layout_toEndOf="@+id/etSelected"
-            android:visibility="invisible" />
-
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/frameLayoutRestaurant"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/rlNavBar"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/ll" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true" />
 
-</RelativeLayout>
+    <Button
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        style="@style/RectangleButton"
+        android:text="Finished Picking Restaurants >>>"
+        android:textSize="18sp"
+        android:id="@+id/btnFinished"
+        android:visibility="invisible" />
+
+
+</LinearLayout>

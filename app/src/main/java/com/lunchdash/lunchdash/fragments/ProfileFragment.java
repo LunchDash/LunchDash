@@ -1,5 +1,6 @@
 package com.lunchdash.lunchdash.fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -133,6 +135,11 @@ public class ProfileFragment extends Fragment {
             etBio.setBackground(bioBackground);
             etBio.setFocusableInTouchMode(true);
         } else {
+            //Hide keyboard
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etSnippet.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(etBio.getWindowToken(), 0);
+
             ibOk.setVisibility(View.GONE);
             ibCancel.setVisibility(View.GONE);
             ibEdit.setVisibility(View.VISIBLE);
