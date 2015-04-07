@@ -20,62 +20,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                tools:text="2 people waiting!"
-                android:id="@+id/tvPeopleWaiting"
-                android:textSize="15sp"
-                android:textColor="@color/peopleWaiting" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                tools:text="0.5 miles"
-                android:id="@+id/tvDistance"
-                android:textSize="15sp"
-                android:layout_gravity="right"
-                android:textColor="@color/primaryColor.Dark"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:textStyle="bold"
             tools:text="In-n-Out"
             android:id="@+id/tvRestName"
             android:textSize="15sp" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="84dp"
-                android:layout_height="17dp"
-                android:id="@+id/ivRating"
-                android:scaleType="fitXY"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/tvReviews"
-                tools:text="140 reviews"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="5dp" />
-        </LinearLayout>
+            android:id="@+id/tvCategories"
+            tools:text="Burgers, Fast Food"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,12 +44,115 @@
             android:id="@+id/tvAddress"
             android:singleLine="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="84dp"-->
+                <!--android:layout_height="17dp"-->
+                <!--android:id="@+id/ivRating"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_gravity="center_vertical" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/tvReviews"-->
+                <!--tools:text="140 reviews"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:paddingLeft="5dp" />-->
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvCategories"
-            tools:text="Burgers, Fast Food"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/rvdistance"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingRight="10px">
+
+                <ImageView
+                    android:id="@+id/ivdistance"
+                    android:layout_width="25dp"
+                    android:layout_height="fill_parent"
+                    android:src="@mipmap/ic_distance"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    tools:text="0.5 miles"
+                    android:id="@+id/tvDistance"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textColor="@color/primaryColor.Dark"
+                    android:layout_toRightOf="@+id/ivdistance"
+                     />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rvrating"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingRight="10px">
+
+                <ImageView
+                    android:id="@+id/ivrate"
+                    android:layout_width="25dp"
+                    android:layout_height="fill_parent"
+                    android:src="@mipmap/ic_rating"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    tools:text="0.5 miles"
+                    android:id="@+id/tvrate"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:textColor="@color/primaryColor.Dark"
+                    android:layout_toRightOf="@+id/ivrate"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rvPeopleWaiting"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivuserswaiting"
+                    android:layout_width="25dp"
+                    android:layout_height="fill_parent"
+                    android:src="@mipmap/ic_users_waiting"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/ivuserswaiting"
+                    tools:text="2 people waiting!"
+                    android:id="@+id/tvPeopleWaiting"
+                    android:textSize="15sp"
+                    android:textColor="@color/peopleWaiting" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
 
     </LinearLayout>

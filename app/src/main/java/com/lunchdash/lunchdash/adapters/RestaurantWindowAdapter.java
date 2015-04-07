@@ -3,6 +3,7 @@ package com.lunchdash.lunchdash.adapters;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -29,16 +30,18 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvDistance = (TextView) v.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
+        RelativeLayout rvPeopleWaiting = (RelativeLayout) v.findViewById(R.id.rvPeopleWaiting);
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
         Restaurant restaurant = RestaurantSearchFragment.restaurants.get(listPos);
 
         //Fill info
         int numWaiting = ParseClient.getUserCountForRestaurant(restaurant.getId());
-        if (numWaiting == 1) { //Set text if there's anyone waiting for that restaurant.
-            tvPeopleWaiting.setText("1 person waiting!");
-        } else if (numWaiting >= 2) {
-            tvPeopleWaiting.setText(numWaiting + " people waiting!");
+        if (numWaiting > 0) { //Set text if there's anyone waiting for that restaurant.
+            rvPeopleWaiting.setVisibility(View.VISIBLE);
+            tvPeopleWaiting.setText(numWaiting + "waiting");
+        } else if (numWaiting == 0){
+            rvPeopleWaiting.setVisibility(View.GONE);
         }
 
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
