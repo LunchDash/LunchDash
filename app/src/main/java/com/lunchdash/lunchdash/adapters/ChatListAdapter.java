@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lunchdash.lunchdash.APIs.ParseClient;
-import com.lunchdash.lunchdash.LunchDashApplication;
 import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.datastore.ChatMessageTable;
 import com.lunchdash.lunchdash.models.User;
@@ -19,9 +18,6 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

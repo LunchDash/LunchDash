@@ -7,7 +7,7 @@ import com.parse.ParseObject;
 public class UserTable extends ParseObject {
 
     /**
-     * Coloums
+     * Columns
      */
     public final static String USER_ID = "userId";
     public final static String USER_NAME = "userName";

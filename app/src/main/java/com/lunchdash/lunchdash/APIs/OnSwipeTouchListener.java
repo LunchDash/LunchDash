@@ -6,9 +6,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by chandra.vijayarenu on 3/21/15.
- */
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;

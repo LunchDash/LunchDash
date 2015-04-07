@@ -30,14 +30,12 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         TextView tvPeopleWaiting;
         TextView tvDistance;
         TextView tvRestName;
-        TextView tvReviews;
         TextView tvCategories;
         TextView tvAddress;
         TextView tvRate;
         RelativeLayout rvPeopleWaiting;
-
         ImageView ivImage;
-        ImageView ivRating;
+
     }
 
     @Override
@@ -53,14 +51,12 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
             viewHolder.tvPeopleWaiting = (TextView) convertView.findViewById(R.id.tvPeopleWaiting);
             viewHolder.tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
             viewHolder.tvRestName = (TextView) convertView.findViewById(R.id.tvRestName);
-           // viewHolder.tvReviews = (TextView) convertView.findViewById(R.id.tvReviews);
             viewHolder.tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
             viewHolder.tvAddress = (TextView) convertView.findViewById(R.id.tvAddress);
             viewHolder.tvRate = (TextView) convertView.findViewById(R.id.tvrate);
             viewHolder.rvPeopleWaiting = (RelativeLayout) convertView.findViewById(R.id.rvPeopleWaiting);
 
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
-//            viewHolder.ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
 
             convertView.setTag(viewHolder);
         } else {
@@ -86,7 +82,6 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
         viewHolder.tvDistance.setText(distanceString);
         viewHolder.tvRestName.setText(restaurant.getName());
-        //viewHolder.tvReviews.setText(restaurant.getReviewCount() + " reviews");
 
         //Concat all the Categories
         try {
@@ -120,8 +115,6 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
 
         viewHolder.ivImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         Picasso.with(getContext()).load(restaurant.getImageURL()).into(viewHolder.ivImage);
-//        viewHolder.ivRating.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-//        Picasso.with(getContext()).load(restaurant.getRatingImgUrl()).into(viewHolder.ivRating);
 
         viewHolder.tvRate.setText(Double.toString(restaurant.getRating()));
 

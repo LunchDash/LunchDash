@@ -3,9 +3,6 @@ package com.lunchdash.lunchdash.datastore;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-/**
- * Created by chandra.vijayarenu on 3/21/15.
- */
 @ParseClassName("ChatMessageTable")
 public class ChatMessageTable extends ParseObject{
     public final static String CHAT_ROOM_ID = "chatRoomId";
