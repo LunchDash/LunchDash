@@ -28,6 +28,8 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.HashMap;
+
 public class AcceptDeclineActivity extends ActionBarActivity {
     ImageView ivProfileImg;
     TextView tvMessage;
@@ -37,6 +39,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
     int screenWidth;
     ObjectAnimator moveProfile;
     User user;
+    String snippet = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,11 @@ public class AcceptDeclineActivity extends ActionBarActivity {
 
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(this, restaurantId);
+
+        HashMap<String, String> profile = ParseClient.getUserProfile(LunchDashApplication.user.getUserId());
+        if (profile != null) {
+            snippet = profile.get("snippet");
+        }
 
         user = LunchDashApplication.user;
         if (user == null) {
@@ -88,6 +96,12 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         ivProfileImg.setImageResource(android.R.color.transparent);
         Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(1).oval(true).scaleType(ImageView.ScaleType.CENTER_CROP).build();
         Picasso.with(this).load(matchedUser.getImageUrl()).transform(transformation).into((ivProfileImg));
+
+        if (!snippet.equals("")) {
+            TextView tvSnippet = (TextView) findViewById(R.id.tvSnippet);
+            tvSnippet.setText('"' + snippet + '"');
+            tvSnippet.setVisibility(View.VISIBLE);
+        }
 
         ImageButton ibAccept = (ImageButton) findViewById(R.id.ibAccept);
         ImageButton ibDecline = (ImageButton) findViewById(R.id.ibDecline);
