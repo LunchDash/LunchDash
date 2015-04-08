@@ -36,13 +36,15 @@
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        tools:text="Interests: Space Travel, Electric Cars, Iron Man"
-        android:id="@+id/tvInfo"
+        tools:text="&quot;Accelerating the advent of electric cars&quot;"
+        android:id="@+id/tvSnippet"
         android:layout_marginTop="32dp"
         android:layout_below="@+id/tvMessage"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:textStyle="bold|italic"
+        android:visibility="invisible" />
 
     <ImageButton
         android:background="@null"
