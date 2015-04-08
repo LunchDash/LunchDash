@@ -137,7 +137,7 @@ public class WaitActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Object... params) {
-            while (true) {
+            while (!triggerTask.isCancelled()) {
                 ParseCloud.callFunctionInBackground("triggerMatchPushNotify", new HashMap<String, Object>(), new FunctionCallback<Object>() {
                     @Override
                     public void done(Object o, ParseException e) {
@@ -157,7 +157,7 @@ public class WaitActivity extends ActionBarActivity {
                 }
 
             }
-            //return null;
+            return null;
         }
 
         @Override
