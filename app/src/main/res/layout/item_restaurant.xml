@@ -23,6 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"
             android:ellipsize="end"
             android:textStyle="bold"
             tools:text="In-n-Out"
@@ -33,12 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvCategories"
+            android:textColor="@color/primaryText"
             tools:text="Burgers, Fast Food"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/secondaryText"
             android:ellipsize="end"
             tools:text="445 Industrial Rd San Carlos, CA 94070"
             android:id="@+id/tvAddress"
@@ -70,7 +73,7 @@
                     android:id="@+id/tvDistance"
                     android:textSize="15sp"
                     android:gravity="center"
-                    android:textColor="@color/primaryColor.Dark"
+                    android:textColor="@color/secondaryText"
                     android:layout_toRightOf="@+id/ivdistance"
                      />
             </RelativeLayout>
@@ -97,7 +100,7 @@
                     android:id="@+id/tvrate"
                     android:textSize="15sp"
                     android:gravity="center"
-                    android:textColor="@color/primaryColor.Dark"
+                    android:textColor="@color/secondaryText"
                     android:layout_toRightOf="@+id/ivrate"
                     />
             </RelativeLayout>
@@ -123,7 +126,7 @@
                     tools:text="2 people waiting!"
                     android:id="@+id/tvPeopleWaiting"
                     android:textSize="15sp"
-                    android:textColor="@color/peopleWaiting" />
+                    android:textColor="@color/accent" />
 
             </RelativeLayout>
 

@@ -22,7 +22,7 @@
         tools:text="Settings"
         android:id="@+id/tvDrawerItemTitle"
         android:textSize="20sp"
-        android:textColor="@color/drawerText"
+        android:textColor="@color/primaryText"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp" />
 

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor.Dark">#3B5998</color>
-    <color name="primaryColor.Light">#7187b4</color>
+    <color name="primaryColor.Dark">#0288D1</color>
+    <color name="primaryColor">#03A9F4</color>
+    <color name="primaryColor.Light">#B3E5FC</color>
     <color name="text">#FFFFFF</color>
-    <color name="textOnWhite">#000000</color>
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#727272</color>
+    <color name="dividerColor">#B6B6B6</color>
+    <color name="accent">#448AFF</color>
+
     <color name="hintTextColor">#9DACCB</color>
     <color name="peopleWaiting">#FFA500</color>
     <color name="listItemSelected">#E8F3FF</color>
