@@ -11,6 +11,17 @@ public class UserRestaurantMatches implements Serializable {
     public static final String STATUS_DENIED = "denied";
     public static final String STATUS_UNCHANGED = "noaction";
 
+    private String id;
+    private String reqUserId;
+    private String matchedUserID;
+    private String restaurantId;
+    private String reqStatus;
+    private String matchedStatus;
+    private String matchedName;
+    private String restaurantName;
+    private String reqUserName;
+
+
     public UserRestaurantMatches() {
         setMatchedStatus(STATUS_WAITING);
         setReqStatus(STATUS_WAITING);
@@ -25,7 +36,19 @@ public class UserRestaurantMatches implements Serializable {
         setReqStatus(urmt.getRequesterStatus());
         setMatchedName(urmt.getMatchedUserName());
         setRestaurantName(urmt.getRestaurantName());
+        setReqUserName(urmt.getRequesterUserName());
+
     }
+
+    public String getReqUserName() {
+        return reqUserName;
+    }
+
+    public void setReqUserName(String reqUserName) {
+        this.reqUserName = reqUserName;
+    }
+
+
 
     public String getMatchedName() {
         return matchedName;
@@ -92,15 +115,5 @@ public class UserRestaurantMatches implements Serializable {
         this.id = id;
     }
 
-    private String id;
-    private String reqUserId;
-    private String matchedUserID;
-    private String restaurantId;
-    private String reqStatus;
-    private String matchedStatus;
-
-
-    private String matchedName;
-    private String restaurantName;
 
 }
