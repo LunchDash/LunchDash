@@ -121,7 +121,7 @@ public class RestaurantSearchFragment extends Fragment {
                         ft.add(R.id.frameLayoutRestaurant, gMapFragment, "RESTAURANT_MAP");
                     }
                     ft.hide(rListFragment);
-                    ibSwitcher.setImageResource(R.drawable.ic_list); //Show the list button.
+                    ibSwitcher.setImageResource(R.drawable.list_icon); //Show the list button.
                 } else if (gMapFragment.isVisible()) {
                     ft.show(rListFragment);
 
