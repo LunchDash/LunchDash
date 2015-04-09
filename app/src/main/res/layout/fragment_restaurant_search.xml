@@ -87,7 +87,7 @@
         android:layout_height="50dp"
         android:layout_width="match_parent"
         style="@style/RectangleButton"
-        android:text="Finished Picking Restaurants >>>"
+        android:text="@string/submit_selection"
         android:textSize="18sp"
         android:id="@+id/btnFinished"
         android:visibility="invisible" />

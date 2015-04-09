@@ -1,8 +1,10 @@
 package com.lunchdash.lunchdash.adapters;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.fragments.GMapFragment;
 import com.lunchdash.lunchdash.fragments.RestaurantSearchFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
+import com.squareup.picasso.Picasso;
 
 public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
     LayoutInflater mInflater;
@@ -31,6 +34,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
         RelativeLayout rvPeopleWaiting = (RelativeLayout) v.findViewById(R.id.rvPeopleWaiting);
+        ImageView ivSave = (ImageView) v.findViewById(R.id.ivSave);
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
         Restaurant restaurant = RestaurantSearchFragment.restaurants.get(listPos);
@@ -43,6 +47,14 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         } else if (numWaiting == 0){
             rvPeopleWaiting.setVisibility(View.GONE);
         }
+
+        ivSave.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
+        if (restaurant.isSelected()) {
+            ivSave.setImageResource(R.mipmap.ic_saved);
+        } else {
+            ivSave.setImageResource(R.mipmap.ic_save);
+        }
+
 
         String distanceString = metersToMiles(restaurant.getDistance()) + " mi";
         tvDistance.setText(distanceString);
