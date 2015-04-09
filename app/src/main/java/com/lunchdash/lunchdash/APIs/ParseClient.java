@@ -179,7 +179,7 @@ public class ParseClient {
         return 0;
     }
 
-    public static void populateUsersResutaurantMatches(UserRestaurants userRestaurant) throws ParseException {
+    public static void populateUsersResutaurantMatches(UserRestaurants userRestaurant, String reqUserName) throws ParseException {
         //query users who also are interested in this restaurant.
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserRestaurantsTable");
         query.whereEqualTo("restaurantId", userRestaurant.getRestaurantId());
@@ -189,6 +189,7 @@ public class ParseClient {
             User matchedUser = ParseClient.getUser(((UserRestaurantsTable) restaurant).getUserId());
             UserRestaurantMatches match = new UserRestaurantMatches();
             match.setReqUserId(userRestaurant.getUserId());
+            match.setReqUserName(reqUserName);
             match.setMatchedUserID(matchedUser.getUserId());
             match.setRestaurantId(userRestaurant.getRestaurantId());
             match.setRestaurantName(userRestaurant.getRestaurantName());
@@ -240,6 +241,7 @@ public class ParseClient {
 
         urmt.setMatchedUserName(urm.getMatchedName());
         urmt.setRestaurantName(urm.getRestaurantName());
+        urmt.setRequesterUserName(urm.getReqUserName());
 
         try {
             urmt.save();

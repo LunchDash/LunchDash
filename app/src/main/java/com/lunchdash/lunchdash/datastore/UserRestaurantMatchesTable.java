@@ -10,9 +10,19 @@ public class UserRestaurantMatchesTable extends ParseObject {
     public final static String MATCHED_USER_ID = "matchedUserID";
     public final static String RESTAURANT_ID = "restaurantId";
     public final static String REQUESTER_STATUS = "reqStatus";
+    public final static String REQUESTER_USER_NAME = "reqUserName";
     public final static String MATCHED_STATUS = "matchedStatus";
     public final static String MATCHED_USER_NAME = "matchedUsername";
     public final static String RESTAURANT_NAME = "restaurantName";
+
+    public String getRequesterUserName() {
+        return getString(REQUESTER_USER_NAME);
+    }
+
+    public void setRequesterUserName(String requesterUserName)
+    {
+        put(REQUESTER_USER_NAME, requesterUserName);
+    }
 
     public  String getMatchedUserName() {
         return getString(MATCHED_USER_NAME);

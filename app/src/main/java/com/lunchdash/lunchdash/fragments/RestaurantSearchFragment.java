@@ -212,7 +212,7 @@ public class RestaurantSearchFragment extends Fragment {
             }
             UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId, resurantName);
             ParseClient.saveUserRestaurantPair(userRestaurantPair);
-            ParseClient.populateUsersResutaurantMatches(userRestaurantPair);
+            ParseClient.populateUsersResutaurantMatches(userRestaurantPair, user.getName());
         }
     }
 
