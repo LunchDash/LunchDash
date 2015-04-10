@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minWidth="150dp"
     android:padding="15px"
     android:orientation="vertical"
     android:background="@drawable/rounded_rectangle"
@@ -10,12 +11,12 @@
 
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:ellipsize="end"
         tools:text="In-n-Out"
         android:id="@+id/tvRestName"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/primaryText" />
 
@@ -27,73 +28,63 @@
         android:textColor="@color/secondaryText"
         android:textSize="14sp" />
 
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:id="@+id/llPeopleWaiting"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/ivPeopleWaiting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_users_waiting"
+            android:scaleType="fitStart" />
+
+        <TextView
+            android:id="@+id/tvPeopleWaiting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5px"
+            android:maxLines="1"
+            tools:text="2 people waiting!"
+            android:textColor="@color/accent"
+            android:layout_toRightOf="@+id/ivPeopleWaiting" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/ivdistance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_distance"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitStart" />
 
 
-        <RelativeLayout
-            android:id="@+id/rvPeopleWaiting"
-            android:layout_width="fill_parent"
-            android:layout_height="25dp">
-
-            <ImageView
-                android:id="@+id/ivuserswaiting"
-                android:layout_width="25dp"
-                android:layout_height="fill_parent"
-                android:src="@mipmap/ic_users_waiting" />
-
-            <TextView
-                android:id="@+id/tvPeopleWaiting"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingLeft="5px"
-                tools:text="2 people waiting!"
-                android:textColor="@color/accent"
-                android:layout_toRightOf="@+id/ivuserswaiting" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="25dp">
-
-            <ImageView
-                android:id="@+id/ivdistance"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_distance"
-                android:layout_alignParentLeft="true" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingLeft="5px"
-                tools:text="0.5 miles"
-                android:id="@+id/tvDistance"
-                android:layout_toRightOf="@+id/ivdistance"
-                android:textColor="@color/secondaryText" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="25dp">
-
-            <ImageView
-                android:id="@+id/ivinfowidowsave"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_save" />
-
-        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:maxLines="1"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5px"
+            tools:text="0.5 miles"
+            android:id="@+id/tvDistance"
+            android:layout_toRightOf="@+id/ivdistance"
+            android:textColor="@color/secondaryText" />
 
     </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/ivinfowidowsave"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_save" />
 
 
 </LinearLayout>

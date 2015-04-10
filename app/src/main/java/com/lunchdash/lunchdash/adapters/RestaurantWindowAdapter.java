@@ -1,11 +1,10 @@
 package com.lunchdash.lunchdash.adapters;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +14,6 @@ import com.lunchdash.lunchdash.R;
 import com.lunchdash.lunchdash.fragments.GMapFragment;
 import com.lunchdash.lunchdash.fragments.RestaurantSearchFragment;
 import com.lunchdash.lunchdash.models.Restaurant;
-import com.squareup.picasso.Picasso;
 
 public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
     LayoutInflater mInflater;
@@ -33,7 +31,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvDistance = (TextView) v.findViewById(R.id.tvDistance);
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
-        RelativeLayout rvPeopleWaiting = (RelativeLayout) v.findViewById(R.id.rvPeopleWaiting);
+        LinearLayout llPeopleWaiting = (LinearLayout) v.findViewById(R.id.llPeopleWaiting);
         ImageView ivSave = (ImageView) v.findViewById(R.id.ivinfowidowsave);
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
@@ -42,10 +40,10 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         //Fill info
         int numWaiting = ParseClient.getUserCountForRestaurant(restaurant.getId());
         if (numWaiting > 0) { //Set text if there's anyone waiting for that restaurant.
-            rvPeopleWaiting.setVisibility(View.VISIBLE);
+            llPeopleWaiting.setVisibility(View.VISIBLE);
             tvPeopleWaiting.setText(numWaiting + " waiting");
-        } else if (numWaiting == 0){
-            rvPeopleWaiting.setVisibility(View.GONE);
+        } else if (numWaiting == 0) {
+            llPeopleWaiting.setVisibility(View.GONE);
         }
 
         ivSave.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view

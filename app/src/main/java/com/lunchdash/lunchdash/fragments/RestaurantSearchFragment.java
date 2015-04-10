@@ -131,7 +131,7 @@ public class RestaurantSearchFragment extends Fragment {
                     rListFragment.adapterRestaurants.notifyDataSetChanged();
 
                     ft.hide(gMapFragment);
-                    ibSwitcher.setImageResource(android.R.drawable.ic_dialog_map); //Show the map button.
+                    ibSwitcher.setImageResource(R.drawable.map_icon); //Show the map button.
                 }
                 ft.commit();
             }
