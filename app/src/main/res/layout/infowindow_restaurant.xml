@@ -17,8 +17,7 @@
         android:id="@+id/tvRestName"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:textColor="@color/primaryText"
-        />
+        android:textColor="@color/primaryText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,8 +25,7 @@
         android:id="@+id/tvCategories"
         tools:text="Burgers, Fast Food"
         android:textColor="@color/secondaryText"
-        android:textSize="14sp"
-        />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -45,8 +43,7 @@
                 android:id="@+id/ivuserswaiting"
                 android:layout_width="25dp"
                 android:layout_height="fill_parent"
-                android:src="@mipmap/ic_users_waiting"
-                />
+                android:src="@mipmap/ic_users_waiting" />
 
             <TextView
                 android:id="@+id/tvPeopleWaiting"
@@ -56,9 +53,10 @@
                 android:paddingLeft="5px"
                 tools:text="2 people waiting!"
                 android:textColor="@color/accent"
-                android:layout_toRightOf="@+id/ivuserswaiting"/>
+                android:layout_toRightOf="@+id/ivuserswaiting" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="25dp">
@@ -68,18 +66,18 @@
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_distance"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true" />
 
 
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingLeft="5px"
-            tools:text="0.5 miles"
-            android:id="@+id/tvDistance"
-            android:layout_toRightOf="@+id/ivdistance"
-            android:textColor="@color/secondaryText" />
+                tools:text="0.5 miles"
+                android:id="@+id/tvDistance"
+                android:layout_toRightOf="@+id/ivdistance"
+                android:textColor="@color/secondaryText" />
 
         </RelativeLayout>
 
@@ -91,8 +89,7 @@
                 android:id="@+id/ivinfowidowsave"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_save"
-                />
+                android:src="@mipmap/ic_save" />
 
         </RelativeLayout>
 
