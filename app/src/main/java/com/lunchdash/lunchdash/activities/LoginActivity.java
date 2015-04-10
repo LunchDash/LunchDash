@@ -114,7 +114,6 @@ public class LoginActivity extends ActionBarActivity {
                 try {
                     userJSON = new JSONObject(response.getRawResponse());
                     LunchDashApplication.user.setUserId(userJSON.getString("id"));
-                    LunchDashApplication.user.setEmail(userJSON.getString("email"));
                     String firstName = userJSON.getString("first_name");
                     String lastName = userJSON.getString("last_name");
                     if (lastName != null && !lastName.equals("")) {
@@ -124,6 +123,7 @@ public class LoginActivity extends ActionBarActivity {
                     }
 
                     LunchDashApplication.user.setName(firstName + " " + lastName);
+                    LunchDashApplication.user.setEmail(userJSON.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
