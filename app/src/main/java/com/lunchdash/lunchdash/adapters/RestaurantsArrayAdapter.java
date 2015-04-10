@@ -68,10 +68,10 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         viewHolder.ivSave.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         if (restaurant.isSelected()) {
             convertView.setBackgroundColor(context.getResources().getColor(R.color.listItemSelected));
-            Picasso.with(getContext()).load(R.mipmap.ic_save).into(viewHolder.ivSave);
+            viewHolder.ivSave.setImageResource(R.mipmap.ic_saved);
         } else {
             convertView.setBackgroundColor(Color.WHITE);
-            Picasso.with(getContext()).load(R.mipmap.ic_saved).into(viewHolder.ivSave);
+            viewHolder.ivSave.setImageResource(R.mipmap.ic_save);
         }
 
         //Fill info

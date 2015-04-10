@@ -34,7 +34,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView tvRestName = (TextView) v.findViewById(R.id.tvRestName);
         TextView tvCategories = (TextView) v.findViewById(R.id.tvCategories);
         RelativeLayout rvPeopleWaiting = (RelativeLayout) v.findViewById(R.id.rvPeopleWaiting);
-        ImageView ivSave = (ImageView) v.findViewById(R.id.ivSave);
+        ImageView ivSave = (ImageView) v.findViewById(R.id.ivinfowidowsave);
 
         int listPos = GMapFragment.markerRestaurantPair.get(marker.getId());
         Restaurant restaurant = RestaurantSearchFragment.restaurants.get(listPos);

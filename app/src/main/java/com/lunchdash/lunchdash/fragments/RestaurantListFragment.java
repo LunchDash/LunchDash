@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.lunchdash.lunchdash.R;
@@ -37,10 +38,14 @@ public class RestaurantListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Restaurant restaurant = (Restaurant) lvRestaurants.getItemAtPosition(position);
                 restaurant.toggleSelected();
+                ImageView iv = (ImageView)view.findViewById(R.id.ivSave);
+                iv.setImageResource(android.R.color.transparent);
                 if (restaurant.isSelected()) {
                     view.setBackgroundColor(getResources().getColor(R.color.listItemSelected));
+                    iv.setImageResource(R.mipmap.ic_saved);
                 } else {
                     view.setBackgroundColor(Color.WHITE);
+                    iv.setImageResource(R.mipmap.ic_save);
                 }
             }
         });

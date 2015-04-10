@@ -88,7 +88,7 @@
             android:layout_height="25dp">
 
             <ImageView
-                android:id="@+id/ivsave"
+                android:id="@+id/ivinfowidowsave"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_save"
