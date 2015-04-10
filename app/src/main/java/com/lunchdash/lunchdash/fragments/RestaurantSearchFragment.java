@@ -295,6 +295,7 @@ public class RestaurantSearchFragment extends Fragment {
             Intent i = new Intent(getActivity(), WaitActivity.class); //Start waiting for restaurants.
             startActivity(i);
             getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            getActivity().finish();
         }
     }
 

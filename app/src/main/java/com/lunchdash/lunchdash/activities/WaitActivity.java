@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class WaitActivity extends ActionBarActivity {
     public void onBackPressed() {
         ParseClient.clearUserRestaurantSelections(user.getUserId()); //Get rid of all their restaurant selections.
         ParseClient.setUserStatus("None"); //Set their status to "None".  This indicates that when the app is started, it shouldn't go straight to WaitActivity.
+        startActivity(new Intent(WaitActivity.this, MainActivity.class));
         finish();
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
 

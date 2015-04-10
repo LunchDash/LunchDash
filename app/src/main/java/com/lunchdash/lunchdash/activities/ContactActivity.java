@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -101,6 +100,7 @@ public class ContactActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
+        startActivity(new Intent(ContactActivity.this, MainActivity.class));
         finish();
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
