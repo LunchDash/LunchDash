@@ -54,13 +54,13 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
             holder.imageRight.setVisibility(View.VISIBLE);
             holder.imageLeft.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-            holder.body.setBackgroundResource(R.drawable.bubble_green);
+            holder.body.setBackgroundResource(R.drawable.bubble_right);
         } else {
             holder.llChatMessage.setGravity(Gravity.LEFT);
             holder.imageLeft.setVisibility(View.VISIBLE);
             holder.imageRight.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-            holder.body.setBackgroundResource(R.drawable.bubble_yellow);
+            holder.body.setBackgroundResource(R.drawable.bubble_left);
         }
         final ImageView profileView = isMe ? holder.imageRight : holder.imageLeft;
 
