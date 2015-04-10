@@ -92,7 +92,7 @@ public class LoginActivity extends ActionBarActivity {
             userStatus = ParseClient.getUserStatus(savedUser.getUserId());
         }
 
-        if (userStatus.equals("None")) {
+        if (userStatus.equals("None") || userStatus.equals("")) { //It's an empty string if the user still doesn't have an entry in the UserTable
             i = new Intent(LoginActivity.this, MainActivity.class);
         } else {
             i = new Intent(LoginActivity.this, WaitActivity.class);
