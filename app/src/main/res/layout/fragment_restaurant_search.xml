@@ -36,7 +36,9 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ibDrawer"
             android:layout_toLeftOf="@+id/ibSearch"
-            android:paddingLeft="10dp" />
+            android:paddingLeft="10dp"
+            android:textCursorDrawable="@null"
+            android:background="@drawable/ettheme_edit_text_holo_light"/>
 
         <ImageButton
             android:layout_width="25dp"
