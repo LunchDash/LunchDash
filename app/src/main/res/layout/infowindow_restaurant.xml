@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="15px"
     android:orientation="vertical"
-    android:background="@color/neutralBackground"
+    android:background="@drawable/rounded_rectangle"
     android:id="@+id/llInfoWindow">
 
 

@@ -43,7 +43,7 @@ public class RestaurantWindowAdapter implements GoogleMap.InfoWindowAdapter {
         int numWaiting = ParseClient.getUserCountForRestaurant(restaurant.getId());
         if (numWaiting > 0) { //Set text if there's anyone waiting for that restaurant.
             rvPeopleWaiting.setVisibility(View.VISIBLE);
-            tvPeopleWaiting.setText(numWaiting + "waiting");
+            tvPeopleWaiting.setText(numWaiting + " waiting");
         } else if (numWaiting == 0){
             rvPeopleWaiting.setVisibility(View.GONE);
         }
