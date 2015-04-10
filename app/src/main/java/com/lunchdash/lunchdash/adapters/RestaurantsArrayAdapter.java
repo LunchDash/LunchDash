@@ -35,6 +35,7 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
         TextView tvRate;
         RelativeLayout rvPeopleWaiting;
         ImageView ivImage;
+        ImageView ivSave;
 
     }
 
@@ -57,16 +58,20 @@ public class RestaurantsArrayAdapter extends ArrayAdapter<Restaurant> {
             viewHolder.rvPeopleWaiting = (RelativeLayout) convertView.findViewById(R.id.rvPeopleWaiting);
 
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
+            viewHolder.ivSave = (ImageView) convertView.findViewById(R.id.ivSave);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.ivSave.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
         if (restaurant.isSelected()) {
             convertView.setBackgroundColor(context.getResources().getColor(R.color.listItemSelected));
+            viewHolder.ivSave.setImageResource(R.mipmap.ic_saved);
         } else {
             convertView.setBackgroundColor(Color.WHITE);
+            viewHolder.ivSave.setImageResource(R.mipmap.ic_save);
         }
 
         //Fill info

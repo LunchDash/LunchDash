@@ -43,8 +43,8 @@ public class NavListAdapter extends ArrayAdapter<NavItem> {
             holder.ivIcon.setColorFilter(getContext().getResources().getColor(R.color.drawerTextSelected), PorterDuff.Mode.SRC_ATOP); //Set the selected color of the drawable.
         } else {
             convertView.setBackgroundColor(getContext().getResources().getColor(R.color.drawerBackground));
-            holder.title.setTextColor(getContext().getResources().getColor(R.color.drawerText));
-            holder.ivIcon.setColorFilter(getContext().getResources().getColor(R.color.drawerText), PorterDuff.Mode.SRC_ATOP); //Set the unselected color of the drawable.
+            holder.title.setTextColor(getContext().getResources().getColor(R.color.primaryText));
+            holder.ivIcon.setColorFilter(getContext().getResources().getColor(R.color.primaryText), PorterDuff.Mode.SRC_ATOP); //Set the unselected color of the drawable.
         }
         return convertView;
     }

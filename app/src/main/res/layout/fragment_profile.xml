@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal|top"
-        android:background="@color/neutralBackground">
+        >
 
         <RelativeLayout
             android:orientation="horizontal"
@@ -73,7 +73,7 @@
 
         <LinearLayout
             android:id="@+id/llTop"
-            android:background="@color/primaryColor.Light"
+            android:background="@color/primaryColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -81,9 +81,7 @@
             android:layout_below="@+id/rlNavBar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
+            >
 
             <ImageView
                 android:layout_width="150dp"
@@ -103,45 +101,8 @@
                 android:layout_marginBottom="5dp" />
         </LinearLayout>
 
-        <EditText
-            android:inputType="textMultiLine"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Accelerating the advent of electric cars!"
-            android:id="@+id/etSnippet"
-            android:hint="Write a tagline about yourself!"
-            android:maxLines="2"
-            android:maxLength="65"
-            android:textColorHint="@color/hintTextColor"
-            android:gravity="center"
-            android:layout_below="@+id/tvTagline"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
-
-        <EditText
-            android:inputType="textMultiLine"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="I'm a South African-born, Canadian-American entrepreneur, engineer, inventor and investor. Currently the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors."
-            android:id="@+id/etBio"
-            android:gravity="center_horizontal"
-            android:hint="Write a short bio about yourself!"
-            android:maxLength="200"
-            android:maxLines="6"
-            android:textColorHint="@color/hintTextColor"
-            android:textIsSelectable="false"
-            android:layout_below="@+id/tvBio"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
-
         <TextView
-            android:textColor="@color/text"
-            android:background="#A9A9A9"
+            android:textColor="@color/primaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Summary"
@@ -158,9 +119,29 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp" />
 
+
+
+        <EditText
+            android:inputType="textMultiLine"
+            android:focusable="false"
+            android:textColor="@color/secondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Accelerating the advent of electric cars!"
+            android:id="@+id/etSnippet"
+            android:hint="Write a tagline about yourself!"
+            android:maxLines="2"
+            android:maxLength="65"
+            android:textColorHint="@color/secondaryText"
+            android:gravity="center"
+            android:layout_below="@+id/tvTagline"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+
         <TextView
-            android:textColor="@color/text"
-            android:background="#A9A9A9"
+            android:textColor="@color/primaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="About Me"
@@ -171,6 +152,25 @@
             android:layout_below="@+id/etSnippet"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <EditText
+            android:inputType="textMultiLine"
+            android:focusable="false"
+            android:textColorHint="@color/secondaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="I'm a South African-born, Canadian-American entrepreneur, engineer, inventor and investor. Currently the CEO and CTO of SpaceX, CEO and chief product architect of Tesla Motors."
+            android:id="@+id/etBio"
+            android:gravity="center_horizontal"
+            android:hint="Write a short bio about yourself!"
+            android:maxLength="200"
+            android:maxLines="6"
+            android:textIsSelectable="false"
+            android:layout_below="@+id/tvBio"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="10dp"
