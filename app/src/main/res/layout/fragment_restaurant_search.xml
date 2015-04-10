@@ -41,7 +41,7 @@
             android:background="@drawable/ettheme_edit_text_holo_light"/>
 
         <ImageButton
-            android:layout_width="25dp"
+            android:layout_width="23dp"
             android:layout_height="30dp"
             android:id="@+id/ibFilter"
             android:src="@drawable/filter_icon"
@@ -65,10 +65,10 @@
             android:scaleType="fitCenter" />
 
         <ImageButton
-            android:layout_width="35dp"
+            android:layout_width="32dp"
             android:layout_height="match_parent"
             android:id="@+id/ibSwitcher"
-            android:src="@android:drawable/ic_dialog_map"
+            android:src="@drawable/map_icon"
             android:background="@color/primaryColor"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
