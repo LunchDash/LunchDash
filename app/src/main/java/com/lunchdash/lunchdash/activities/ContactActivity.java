@@ -56,7 +56,7 @@ public class ContactActivity extends ActionBarActivity {
         @Override
         public void run() {
             refreshMessages();
-            handler.postDelayed(this, 500);
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -163,7 +163,7 @@ public class ContactActivity extends ActionBarActivity {
             mAdapter.notifyDataSetChanged();
             lvChat.invalidate();
         } else {
-            Log.d("message", "Error: Could not get messages ");
+            //Log.d("message", "Error: Could not get messages ");
         }
     }
 
