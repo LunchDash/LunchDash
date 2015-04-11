@@ -1,6 +1,7 @@
 package com.lunchdash.lunchdash.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
             holder.body.setBackgroundResource(R.drawable.bubble_right);
         } else {
             holder.llChatMessage.setGravity(Gravity.LEFT);
+
             holder.imageLeft.setVisibility(View.VISIBLE);
             holder.imageRight.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
@@ -74,6 +76,7 @@ public class ChatListAdapter extends ArrayAdapter<ChatMessageTable> {
                 .transform(transformation)
                 .into(profileView);
         holder.body.setText(message.getMessageBody());
+        //holder.body.setTextColor(Color.BLACK);
         return convertView;
     }
 
