@@ -116,6 +116,8 @@ public class ContactActivity extends ActionBarActivity {
         mMessages = new ArrayList<>();
         mAdapter = new ChatListAdapter(this, user.getUserId(), mMessages);
         lvChat.setAdapter(mAdapter);
+        lvChat.setDividerHeight(0);
+        lvChat.setDivider(null);
 
         btSend.setOnClickListener(new View.OnClickListener() { //Submit when the send button is clicked
             @Override
