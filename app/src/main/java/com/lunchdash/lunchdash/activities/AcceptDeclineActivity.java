@@ -54,7 +54,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
         matchedUser = ParseClient.getUser(userId);
         restaurant = LunchDashApplication.getRestaurantById(this, restaurantId);
 
-        HashMap<String, String> profile = ParseClient.getUserProfile(LunchDashApplication.user.getUserId());
+        HashMap<String, String> profile = ParseClient.getUserProfile(matchedUser.getUserId());
         if (profile != null) {
             snippet = profile.get("snippet");
         }
