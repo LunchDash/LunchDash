@@ -18,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lunchdash.lunchdash.APIs.Keys;
@@ -149,20 +148,8 @@ public class RestaurantSearchFragment extends Fragment {
         ibFinished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedRestaurants = new LinkedList<>();
 
-                for (int i = 0; i < restaurants.size(); i++) {
-                    Restaurant restaurant = restaurants.get(i);
-                    if (restaurant.isSelected()) {
-                        selectedRestaurants.add(restaurant.getId()); //If the restaurant is selected, add the restaurant id to the list.
-                    }
-                }
-
-                if (selectedRestaurants.size() > 0) {
-                    new FinishTask().execute(null, null, null); //Run the parse tasks in the background.
-                } else { //We're going to take no action if they didn't select at least 1 restaurant.
-                    Toast.makeText(getActivity(), "Please select at least 1 restaurant!", Toast.LENGTH_SHORT).show();
-                }
+                new FinishTask().execute(null, null, null); //Run the parse tasks in the background.
             }
         });
 
@@ -201,16 +188,24 @@ public class RestaurantSearchFragment extends Fragment {
 
         LunchDashApplication.saveUserToSharedPref(getActivity());
 
+        selectedRestaurants = new LinkedList<>();
+
+        for (int i = 0; i < RestaurantSearchFragment.restaurants.size(); i++) {
+            Restaurant r = RestaurantSearchFragment.restaurants.get(i);
+            if (r.isSelected()) {
+                selectedRestaurants.add(r.getId()); //If the restaurant is selected, add the restaurant id to the list.
+            }
+        }
 
         for (String restaurantId : selectedRestaurants) { //Insert restaurants into the UserRestaurantsTable
-            String resurantName = "Restaurant";
+            String restaurantName = "Restaurant";
             for (Restaurant restaurant : restaurants) {
                 if (restaurant.getId().equals(restaurantId)) {
-                    resurantName = restaurant.getName();
+                    restaurantName = restaurant.getName();
                     break;
                 }
             }
-            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId, resurantName);
+            UserRestaurants userRestaurantPair = new UserRestaurants(user.getUserId(), restaurantId, restaurantName);
             ParseClient.saveUserRestaurantPair(userRestaurantPair);
             ParseClient.populateUsersResutaurantMatches(userRestaurantPair, user.getName());
         }
@@ -263,8 +258,8 @@ public class RestaurantSearchFragment extends Fragment {
                 gMapFragment.centerCamera();
             }
 
-            Button btnFinished = (Button) getView().findViewById(R.id.btnFinished);
-            btnFinished.setVisibility(View.VISIBLE);
+          /*  Button btnFinished = (Button) getView().findViewById(R.id.btnFinished);
+            btnFinished.setVisibility(View.VISIBLE);*/
             dialog.dismiss();
         }
     }

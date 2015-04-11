@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +26,7 @@ import com.lunchdash.lunchdash.adapters.RestaurantWindowAdapter;
 import com.lunchdash.lunchdash.models.Restaurant;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -54,6 +56,7 @@ public class GMapFragment extends Fragment {
         MapsInitializer.initialize(getActivity().getApplicationContext());
 
         map = mapView.getMap();
+        map.getUiSettings().setMapToolbarEnabled(false);
         map.setMyLocationEnabled(true);
         map.setInfoWindowAdapter(new RestaurantWindowAdapter(inflater));
         latitude = Double.parseDouble(LunchDashApplication.latitude);
@@ -100,6 +103,23 @@ public class GMapFragment extends Fragment {
                 } else {
                     marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_unselected));
                 }
+
+                //If any restaurants are selected, show the start matching button.
+                List<String> selectedRestaurants = new LinkedList<>();
+
+                for (int i = 0; i < RestaurantSearchFragment.restaurants.size(); i++) {
+                    Restaurant r = RestaurantSearchFragment.restaurants.get(i);
+                    if (r.isSelected()) {
+                        selectedRestaurants.add(r.getId()); //If the restaurant is selected, add the restaurant id to the list.
+                    }
+                }
+                Button btnFinished = (Button) getParentFragment().getView().findViewById(R.id.btnFinished);
+                if (selectedRestaurants.size() > 0) {
+                    btnFinished.setVisibility(View.VISIBLE);
+                } else {
+                    btnFinished.setVisibility(View.GONE);
+                }
+
             }
         });
 

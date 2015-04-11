@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:layout_width="match_parent"
@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/rlNavBar"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryColor"
+        android:layout_alignParentTop="true">
 
         <ImageButton
             android:layout_width="35dp"
@@ -38,7 +39,7 @@
             android:layout_toLeftOf="@+id/ibSearch"
             android:paddingLeft="10dp"
             android:textCursorDrawable="@null"
-            android:background="@drawable/ettheme_edit_text_holo_light"/>
+            android:background="@drawable/ettheme_edit_text_holo_light" />
 
         <ImageButton
             android:layout_width="23dp"
@@ -82,9 +83,10 @@
     <FrameLayout
         android:id="@+id/frameLayoutRestaurant"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlNavBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_height="50dp"
@@ -93,7 +95,9 @@
         android:text="@string/submit_selection"
         android:textSize="18sp"
         android:id="@+id/btnFinished"
-        android:visibility="invisible" />
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
-</LinearLayout>
+</RelativeLayout>
