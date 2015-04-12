@@ -11,8 +11,8 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,7 +35,7 @@ public class ContactActivity extends ActionBarActivity {
     public static User matchedUser;
     TextView tvContactText;
     EditText etMessage;
-    ImageButton btSend;
+    Button btSend;
     public static UserRestaurantMatches match;
     public static Restaurant restaurant;
     List<ChatMessageTable> messagesPrevious = new ArrayList<>();
@@ -108,7 +108,7 @@ public class ContactActivity extends ActionBarActivity {
     private void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend = (ImageButton) findViewById(R.id.btSend);
+        btSend = (Button) findViewById(R.id.btSend);
 
         lvChat = (ListView) findViewById(R.id.lvChat);
         TextView tvEmptyList = (TextView) findViewById(R.id.tvEmptyList);
