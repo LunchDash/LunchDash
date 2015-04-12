@@ -166,6 +166,10 @@ public class RestaurantSearchFragment extends Fragment {
 
         if (searchTerm.equals("")) return;
 
+        //Hide the finished button.
+        Button btnFinished = (Button) getView().findViewById(R.id.btnFinished);
+        btnFinished.setVisibility(View.GONE);
+
         new ConnectToYelp().execute(searchTerm, LunchDashApplication.latitude, LunchDashApplication.longitude, sortBy, maxDistance);
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
