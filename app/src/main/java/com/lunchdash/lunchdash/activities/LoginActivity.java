@@ -132,7 +132,8 @@ public class LoginActivity extends ActionBarActivity {
 
         Bundle params = new Bundle();
         params.putBoolean("redirect", false);
-        params.putString("type", "large");
+        //params.putString("type", "large");
+        params.putInt("height", 400);
 
         new Request(fbSession, "/me/picture", params, HttpMethod.GET, new Request.Callback() {
 

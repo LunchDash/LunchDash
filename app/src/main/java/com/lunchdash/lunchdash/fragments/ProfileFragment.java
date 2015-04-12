@@ -60,7 +60,6 @@ public class ProfileFragment extends Fragment {
         }
 
         setupViews(v, user);
-
         return v;
     }
 

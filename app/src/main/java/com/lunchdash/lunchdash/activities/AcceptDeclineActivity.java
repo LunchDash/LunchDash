@@ -94,7 +94,7 @@ public class AcceptDeclineActivity extends ActionBarActivity {
 
         tvMessage.setText(matchedUser.getName() + " would like to go to lunch with you at " + restaurant.getName());
         ivProfileImg.setImageResource(android.R.color.transparent);
-        Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLUE).borderWidthDp(0).oval(true).scaleType(ImageView.ScaleType.CENTER_CROP).build();
+        Transformation transformation = new RoundedTransformationBuilder().borderColor(Color.BLACK).borderWidthDp(1).oval(true).scaleType(ImageView.ScaleType.CENTER_CROP).build();
         Picasso.with(this).load(matchedUser.getImageUrl()).transform(transformation).into((ivProfileImg));
 
         if (!snippet.equals("")) {

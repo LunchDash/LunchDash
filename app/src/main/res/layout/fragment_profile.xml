@@ -1,24 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    tools:context="com.lunchdash.lunchdash.fragments.ProfileFragment"
     android:layout_height="match_parent"
-    tools:context="com.lunchdash.lunchdash.fragments.ProfileFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_width="match_parent">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center_horizontal|top"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/rlNavBar"
             android:background="@color/primaryColor.Dark">
 
@@ -33,7 +27,6 @@
                 android:layout_alignParentStart="true"
                 android:scaleType="fitCenter"
                 android:layout_marginLeft="5dp" />
-
 
             <ImageButton
                 android:visibility="gone"
@@ -78,17 +71,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_below="@+id/rlNavBar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            >
+            android:paddingTop="0dp"
+            android:layout_below="@+id/rlNavBar">
 
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:id="@+id/ivProfileImage"
                 android:scaleType="fitCenter"
-
                 android:layout_marginTop="10dp" />
 
             <TextView
@@ -118,7 +110,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp" />
-
 
 
         <EditText
@@ -178,4 +169,4 @@
 
 
     </RelativeLayout>
-</FrameLayout>
+</ScrollView>
