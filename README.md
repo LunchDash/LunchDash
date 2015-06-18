@@ -14,11 +14,4 @@ Video walkthrough (Youtube):
 <a href="https://www.youtube.com/watch?v=BCS9vc2rnd0">https://www.youtube.com/watch?v=BCS9vc2rnd0</a>  
 [![Lunch Dash Video](http://img.youtube.com/vi/BCS9vc2rnd0/0.jpg)](https://www.youtube.com/watch?v=BCS9vc2rnd0)
 
-Sprint 2 walkthrough
-![Video Walkthrough](walkthrough3.gif)
-
-
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
 	
